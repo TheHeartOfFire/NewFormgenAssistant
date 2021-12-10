@@ -70,7 +70,7 @@ namespace FormgenAssistant.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://github.com/TheHeartOfFire/FormgenAssistant.
+        ///   Looks up a localized string similar to https://github.com/TheHeartOfFire/NewFormgenAssistant.
         /// </summary>
         internal static string GitHub {
             get {
