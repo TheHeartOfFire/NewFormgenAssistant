@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="FormgenAssistant.Controls.NiceRadioButotn"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FormgenAssistant.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="50">
+    <Viewbox Stretch="Fill">
+        <Grid>
+            <Ellipse x:Name="outerCircle" HorizontalAlignment="Stretch" Stroke="MediumSlateBlue" VerticalAlignment="Stretch" MouseLeftButtonDown="outterCircle_MouseLeftButtonDown" StrokeThickness="3" Width="50" Height="50"/>
+            <Ellipse x:Name="innerCircle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseLeftButtonDown="Ellipse_MouseLeftButtonDown" Margin="5,5,5,5"/>
+        </Grid>
+    </Viewbox>
+</UserControl>

@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="FormgenAssistant.Controls.NewTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FormgenAssistant.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" Width="514"
+             Name="Base">
+
+    <Grid>
+        <Line
+        X1="0" Y1="{Binding Path=ActualHeight, ElementName=Base}"
+        X2="{Binding Path=ActualWidth, ElementName=Base}" Y2="{Binding Path=ActualHeight, ElementName=Base}"
+        Stroke="MediumSlateBlue"
+        StrokeThickness="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="textBox" TextWrapping="NoWrap" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="MediumSlateBlue" VerticalAlignment="Bottom" Margin="0,0,0,6" FontSize="22" TextChanged="textBox_TextChanged"/>
+    </Grid>
+
+
+
+</UserControl>

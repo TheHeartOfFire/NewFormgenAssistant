@@ -1,0 +1,36 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FormgenAssistant.Pages"
+             xmlns:Controls="clr-namespace:FormgenAssistant.Controls" x:Class="FormgenAssistant.Pages.ClientInfoReport"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="748">
+    <Grid Background="#FF0F0B1E" Margin="0,-1,0,1">
+        <Label Content="Server" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="20"/>
+        <Controls:NewTextBox x:Name="txtCoBank" HorizontalAlignment="Left" Height="41" Margin="10,47,0,0" VerticalAlignment="Top" Width="198" Text=""/>
+        <Label Content="Company" HorizontalAlignment="Left" Margin="213,10,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="20"/>
+        <Controls:NewTextBox x:Name="txtCoBank_Copy" HorizontalAlignment="Left" Height="41" Margin="213,47,0,0" VerticalAlignment="Top" Width="94" Text=""/>
+        <Label Content="Dealership" HorizontalAlignment="Left" Margin="10,122,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="20"/>
+        <Controls:NewTextBox x:Name="txtCoBank_Copy1" HorizontalAlignment="Center" Height="41" Margin="0,159,0,0" VerticalAlignment="Top" Width="728" Text=""/>
+        <Label Content="DAC" HorizontalAlignment="Left" Margin="312,10,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="20"/>
+        <Controls:NewTextBox x:Name="txtCoBank_Copy2" HorizontalAlignment="Left" Height="41" Margin="312,47,0,0" VerticalAlignment="Top" Width="198" Text=""/>
+        <Label Content="HAC/LOC" HorizontalAlignment="Left" Margin="515,10,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="20"/>
+        <Controls:NewTextBox x:Name="txtCoBank_Copy3" HorizontalAlignment="Left" Height="41" Margin="515,47,0,0" VerticalAlignment="Top" Width="198" Text=""/>
+        <Label Content="AMPS Version" HorizontalAlignment="Left" Margin="10,204,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="20"/>
+        <Controls:NewTextBox x:Name="txtCoBank_Copy4" HorizontalAlignment="Left" Height="41" Margin="10,241,0,0" VerticalAlignment="Top" Width="198" Text=""/>
+        <Grid HorizontalAlignment="Left" Height="115" Margin="223,275,0,0" VerticalAlignment="Top" Width="525">
+            <Rectangle Margin="0,10,0,0" Stroke="MediumSlateBlue" StrokeThickness="2"/>
+            <Label Content="COBOL" HorizontalAlignment="Left" Margin="10,-9,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="20" Background="#FF0F0B1E"/>
+            <Label Content="Version" HorizontalAlignment="Left" Margin="10,27,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="20"/>
+            <Controls:NewTextBox x:Name="txtCoBank_Copy5" HorizontalAlignment="Left" Height="41" Margin="10,64,0,0" VerticalAlignment="Top" Width="198" Text=""/>
+            <Label Content="License" HorizontalAlignment="Left" Margin="213,27,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="20"/>
+            <Controls:NewTextBox x:Name="txtCoBank_Copy6" HorizontalAlignment="Left" Height="41" Margin="213,64,0,0" VerticalAlignment="Top" Width="198" Text=""/>
+            <Label Content="License" HorizontalAlignment="Left" Margin="213,27,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="20"/>
+            <Controls:NewTextBox x:Name="txtCoBank_Copy7" HorizontalAlignment="Left" Height="41" Margin="416,64,0,0" VerticalAlignment="Top" Width="99" Text=""/>
+            <Label Content="Users" HorizontalAlignment="Left" Margin="416,27,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="20"/>
+        </Grid>
+        <Button x:Name="btnLookup" BorderThickness="2" Content="Lookup" HorizontalAlignment="Left" Height="35" Margin="26,315,0,0" VerticalAlignment="Top" Width="101" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" FontSize="18"/>
+    </Grid>
+</UserControl>

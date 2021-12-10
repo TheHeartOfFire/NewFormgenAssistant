@@ -1,0 +1,125 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Pages="clr-namespace:FormgenAssistant.Pages" xmlns:local="clr-namespace:FormgenAssistant" x:Name="Background" x:Class="FormgenAssistant.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Background="{x:Null}" Icon="/AMLogo.ico" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="50" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
+    </WindowChrome.WindowChrome>
+    <Border Style="{StaticResource WindowMainPanelStyle}" BorderBrush="MediumSlateBlue" CornerRadius="10" x:Name="Border" Background="Black">
+        <Grid>
+            <Border x:Name ="bdrMask" Background="White" CornerRadius="9"/>
+            <Grid>
+                <Grid.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=bdrMask}"/>
+                </Grid.OpacityMask>
+                <Grid Background="#FF0F0B1E">
+
+                    <DockPanel HorizontalAlignment="Left" LastChildFill="False" Width="50">
+                        <DockPanel.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <LinearGradientBrush.RelativeTransform>
+                                    <RotateTransform CenterX="0.5" CenterY="0.5" Angle="-90"/>
+                                </LinearGradientBrush.RelativeTransform>
+                                <GradientStop Color="MediumSlateBlue" Offset="0"/>
+                                <GradientStop Color="#001E1844" Offset="1"/>
+                            </LinearGradientBrush>
+                        </DockPanel.Background>
+                        <StackPanel x:Name="stackPanel">
+                            <StackPanel Width="50" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" Height="398">
+
+
+                                <Button Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,55,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click">
+                                    <Image Height="45" Source="/home.png" Width="45" OpacityMask="Black"/>
+                                </Button>
+                                <Button Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_1">
+                                    <Image Height="45" Width="45" Source="/file.png" />
+                                </Button>
+                                <Button Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_2">
+                                    <Image Height="45" Width="45" Source="/database.png" />
+                                </Button>
+                            </StackPanel>
+                            <Button DockPanel.Dock="Bottom" Style="{DynamicResource ButtonStyle1}" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Height="49" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="Button_Click_3">
+                                <Image Height="45" Source="/settings_gear.png" Width="45" OpacityMask="Black"/>
+                            </Button>
+                        </StackPanel>
+                    </DockPanel>
+                    <Pages:HomePage Margin="50,50,0,0" Visibility="Visible" x:Name="Home" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <Pages:FileNameGenerator HorizontalAlignment="Stretch" Margin="50,50,0,0" VerticalAlignment="Stretch" Visibility="Hidden" x:Name="FileNameGen"/>
+                    <Pages:ClientInfoReport Margin="50,50,0,0" Visibility="Hidden" x:Name="CIR"/>
+                    <local:SettingsPage x:Name="Settings" HorizontalAlignment="Stretch" Margin="50,50,0,0" VerticalAlignment="Stretch" Visibility="Hidden"/>
+                    <Grid Height="50" VerticalAlignment="Top" x:Name="grdTitle">
+                        <Grid.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="MediumSlateBlue"/>
+                                <GradientStop Color="#001E1844" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.Background>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Image
+		Grid.Column="0"
+		Margin="15,0,473,-3"
+		Source="/logo-white.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
+                        <Button
+		Grid.Column="2"
+		Click="OnMinimizeButtonClick"
+		RenderOptions.EdgeMode="Aliased"
+		Style="{StaticResource TitleBarButtonStyle}" Foreground="MediumSlateBlue" Background="{x:Null}">
+                            <Path
+			Width="46"
+			Height="32"
+			Data="M 18,15 H 28"
+			Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			StrokeThickness="1" />
+                        </Button>
+                        <Button
+		x:Name="maximizeButton"
+		Grid.Column="3"
+		Click="OnMaximizeRestoreButtonClick"
+		Style="{StaticResource TitleBarButtonStyle}">
+                            <Path
+			Width="46"
+			Height="32"
+			Data="M 18.5,10.5 H 27.5 V 19.5 H 18.5 Z"
+			Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			StrokeThickness="1" />
+                        </Button>
+                        <Button
+		x:Name="restoreButton"
+		Grid.Column="3"
+		Click="OnMaximizeRestoreButtonClick"
+		Style="{StaticResource TitleBarButtonStyle}" Foreground="MediumSlateBlue">
+                            <Path
+			Width="46"
+			Height="32"
+			Data="M 18.5,12.5 H 25.5 V 19.5 H 18.5 Z M 20.5,12.5 V 10.5 H 27.5 V 17.5 H 25.5"
+			Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			StrokeThickness="1" />
+                        </Button>
+                        <Button
+		Grid.Column="4"
+		Click="OnCloseButtonClick"
+		Style="{StaticResource TitleBarCloseButtonStyle}" Foreground="MediumSlateBlue">
+                            <Path
+			Width="46"
+			Height="32"
+			Data="M 18,11 27,20 M 18,20 27,11"
+			Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+			StrokeThickness="1" />
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
