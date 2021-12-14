@@ -7,6 +7,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PackageIcon>AMLogo.ico</PackageIcon>
+    <ApplicationIcon>AMLogo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,6 +24,10 @@
     <None Remove="settings_gear.png" />
     <None Remove="web.png" />
     <None Remove="workday.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="AMLogo.ico" />
   </ItemGroup>
 
   <ItemGroup>
