@@ -1,16 +1,44 @@
-﻿<UserControl x:Class="FormgenAssistant.Pages.HomePage"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FormgenAssistant.Pages"
+             xmlns:Controls="clr-namespace:FormgenAssistant.Controls" x:Class="FormgenAssistant.Pages.HomePage"
              mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
     <Grid Background="#FF0F0B1E" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-        
-        <TextBlock TextWrapping="Wrap" Text="Dakota Jordan 2021" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#FFD2D2D2" FontSize="16"/>
-        <Button Width="75" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Margin="643,319,30,31" Style="{DynamicResource ButtonStyle1}" Click="Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+
+        <TextBlock TextWrapping="Wrap" Text="Dakota Jordan 2021" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#FFD2D2D2" FontSize="16" Margin="0,0,5,5"/>
+        <Button Width="75" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Margin="643,319,35,36" Style="{DynamicResource ButtonStyle1}" Click="Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <Image HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="70" Source="/GitHub-logo-White.png" Stretch="Fill"/>
+        </Button>
+        <Button x:Name="btnADP" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="111" BorderBrush="MediumSlateBlue" Foreground="{x:Null}" BorderThickness="3" Margin="10,10,0,0" Background="{x:Null}" Click="btnADP_Click" d:IsHidden="True">
+            <Image Source="/ADP.png" Stretch="Uniform"/>
+        </Button>
+        <Button x:Name="btnSF" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="83" BorderBrush="MediumSlateBlue" Foreground="{x:Null}" BorderThickness="3" Margin="131,10,0,0" Background="{x:Null}" Click="btnSF_Click">
+            <Image Source="/SalesForce.png" Stretch="Uniform"/>
+        </Button>
+        <Button x:Name="btnMyApps" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="64" BorderBrush="MediumSlateBlue" Foreground="{x:Null}" BorderThickness="3" Margin="220,10,0,0" Background="{x:Null}" Click="btnMyApps_Click">
+            <DockPanel>
+                <TextBlock Text="My Apps" DockPanel.Dock="Top" Foreground="MediumSlateBlue"/>
+                <Image Source ="/msft.png" DockPanel.Dock="Bottom" Stretch="Uniform"/>
+            </DockPanel>
+        </Button>
+        <Button x:Name="btnFormsTracker" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="83" BorderBrush="MediumSlateBlue" Foreground="{x:Null}" BorderThickness="3" Margin="289,10,0,0" Background="{x:Null}" Click="btnFormsTracker_Click">
+            <DockPanel>
+                <TextBlock Text="Forms Tracker" DockPanel.Dock="Top" Foreground="MediumSlateBlue"/>
+                <Image Source ="/excel.png" DockPanel.Dock="Bottom" Stretch="Uniform"/>
+            </DockPanel>
+        </Button>
+        <Button x:Name="btnClientInfoReport" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="104" BorderBrush="MediumSlateBlue" Foreground="{x:Null}" BorderThickness="3" Margin="377,10,0,0" Background="{x:Null}" Click="btnClientInfoReport_Click">
+            <DockPanel>
+                <TextBlock Text="Client Info Report" DockPanel.Dock="Top" Foreground="MediumSlateBlue"/>
+                <Image Source ="/database.png" DockPanel.Dock="Bottom" Stretch="Uniform"/>
+            </DockPanel>
+        </Button>
+        <Button x:Name="btnWorkday" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="58" BorderBrush="MediumSlateBlue" Foreground="{x:Null}" BorderThickness="3" Margin="486,10,0,0" Background="{x:Null}" Click="btnWorkday_Click">
+            <Image Source="/workday.png" Stretch="Uniform"/>
         </Button>
 
     </Grid>

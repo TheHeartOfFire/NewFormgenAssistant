@@ -46,7 +46,7 @@ namespace FormgenAssistant
             Dealerships = JsonConvert.DeserializeObject<Dictionary<string, DealerInfo>>(File.ReadAllText(dealersURL)) ?? new Dictionary<string, DealerInfo>();
         }
 
-        private static void SetDealersJson()
+        public static void SetDealersJson()
         {
             string json = JsonConvert.SerializeObject(Dealerships);
             Directory.CreateDirectory(AppData);
@@ -64,7 +64,7 @@ namespace FormgenAssistant
             using (var client = new HttpClient())
             {
                 var content = new FormUrlEncodedContent(values);
-                var response = await client.PostAsync("http://linux.automate.local/cgi-bin/getinfo2.cgi", content).ConfigureAwait(false);
+                var response = await client.PostAsync(Properties.Resources.ClientInfoReport, content).ConfigureAwait(false);
                 return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             }
         }
@@ -89,48 +89,45 @@ namespace FormgenAssistant
             return servers;
         }
 
-        private static async Task GetServers(ProgressBar progress, IProgress<double> progress1)
+        private static IProgress<double> _progress = new Progress<double>();
+
+        private static async Task GetServers()
         {
             var servers = ParseServersHTML(await GetServersHTML().ConfigureAwait(false));
-            Thread.CurrentThread.IsBackground = false;
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, (SendOrPostCallback)async delegate
+
+            foreach (var server in servers)
             {
-                progress.IsIndeterminate = false;
-                progress.Maximum = servers.Count;
-                int prog = 0;
-                foreach (var server in servers)
+                var key = server[..server.IndexOf(' ')];
+
+                if (!Servers.ContainsKey(key))
+                    Servers.Add(key, server.Substring(server.IndexOf(' ')));
+                if (!Dealerships.ContainsKey(key))
                 {
-                    if (!Servers.ContainsKey(server[..server.IndexOf(' ')]))
-                        Servers.Add(server[..server.IndexOf(' ')], server.Substring(server.IndexOf(' ')));
-                    if (!Dealerships.ContainsKey(server[..server.IndexOf(' ')]))
-                        Dealerships.Add(server[..server.IndexOf(' ')], await DealerInfo.Create(server.Substring(0, server.IndexOf(' '))).ConfigureAwait(false));
-
-                    prog++;
-                    progress1.Report(prog);
+                    var di = new DealerInfo(key);
+                    Dealerships.Add(key, di);
                 }
-                progress1.Report(0.0);
-
-            }, null).Task.ConfigureAwait(false);
-            SetDealersJson();
+                _progress.Report(servers.IndexOf(server)+1);
+            }
+            _progress.Report(0.0);
             SetServersJson();
-
         }
 
         public static void InitAllServers()
         {
 
             GetServersJson();
-            GetDealersJson();
         }
 
-        public static async Task UpdateAllServers(ProgressBar progress, IProgress<double> progress1)
+        public static async Task UpdateAllServers(IProgress<double> progress1)
         {
             try
             {
-                await GetServers(progress, progress1).ConfigureAwait(false);
+                _progress = progress1;
+                await GetServers().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
+                _progress.Report(0.0);
                 MessageBox.Show(ex.Message, "oops");
             }
         }

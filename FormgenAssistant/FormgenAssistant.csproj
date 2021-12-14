@@ -10,13 +10,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ADP.png" />
     <None Remove="AMLogo.ico" />
     <None Remove="database.png" />
+    <None Remove="excel.png" />
     <None Remove="file.png" />
     <None Remove="home.png" />
     <None Remove="logo-white.png" />
+    <None Remove="msft.png" />
     <None Remove="Resources\GitHub-logo-White.png" />
+    <None Remove="SalesForce.png" />
     <None Remove="settings_gear.png" />
+    <None Remove="web.png" />
+    <None Remove="workday.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,13 +31,33 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="ADP.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="AMLogo.ico" />
     <Resource Include="database.png" />
+    <Resource Include="excel.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="file.png" />
-    <Resource Include="home.png" />
+    <Resource Include="home.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="logo-white.png" />
     <Resource Include="GitHub-logo-White.png" />
+    <Resource Include="msft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="SalesForce.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="settings_gear.png" />
+    <Resource Include="web.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="workday.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

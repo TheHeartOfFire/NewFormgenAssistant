@@ -1,4 +1,5 @@
 ﻿using HtmlAgilityPack;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,120 +9,143 @@ using System.Threading.Tasks;
 
 namespace FormgenAssistant
 {
-    internal class DealerInfo
+    public class DealerInfo
     {
-        internal Dictionary<string, string> Companies { get; set; }
-        internal string ServerID { get; set; }
-        internal string DAC { get; set; }
-        internal string HACLOC { get; set; }
-        internal string AMPSVersion { get; set; }
-        internal string COBOLVersion { get; set; }
-        internal string COBOLLicense { get; set; }
-        internal string COBOLUsers { get; set; }
 
-        private readonly string URL = "http://linux.automate.local/cgi-bin/getinfo2.cgi";
-        private readonly Dictionary<string, string> request = new Dictionary<string, string>();
+        public Dictionary<string, string> Companies { get; set; }
+        public string ServerID { get; set; }
+        public string DAC { get; set; }
+        public string HACLOC { get; set; }
+        public string AMPSVersion { get; set; }
+        public string COBOLVersion { get; set; }
+        public string COBOLLicense { get; set; }
+        public string COBOLUsers { get; set; }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public DealerInfo(string ServerID)
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        private const string Xpath = "//html/body/table/tbody/tr/td/table/tbody";
+        private const string Xpath1 = "//html/body/table/tbody/td/table/tbody";
+        private static readonly string URL = Properties.Resources.ClientInfoReport;
+        private static Dictionary<string, string> request = new Dictionary<string, string>();
+
+        public DealerInfo(string serverID)
         {
-            this.ServerID = ServerID;
-            Companies = new Dictionary<string, string>();
-            request.Add("search", ServerID);
+            request = new Dictionary<string, string>() { { "search", serverID } };
+
+            ServerID = serverID;
+
+            var html = GetServerHTML().Result;
+            var doc = new HtmlDocument();
+            doc.LoadHtml(html);
+
+            Companies = ParseCompanies(doc);
+
+            var sys = ParseSysInfo(doc);
+            DAC = sys[0];
+            HACLOC = sys[1];
+
+            AMPSVersion = ParseAMPSInfo(doc);
+
+            var COBOL = ParseCOBOLInfo(doc);
+            COBOLVersion = COBOL[0];
+            COBOLLicense = COBOL[1];
+            COBOLUsers = COBOL[2];
+
         }
 
-        public async static Task<DealerInfo> Create(string ServerID)
+        [JsonConstructor]
+        public DealerInfo(Dictionary<string,string> companies, string serverID, string dAC, string hACLOC, string aMPSVersion, string cOBOLVersion, string cOBOLLicense, string cOBOLUsers)
         {
-            var output = new DealerInfo(ServerID);
-            output.ParseServerHTML(await output.GetServerHTML().ConfigureAwait(false));
-            return output;
+            Companies = companies;
+            ServerID = serverID;
+            DAC = dAC;
+            HACLOC = hACLOC;
+            AMPSVersion = aMPSVersion;
+            COBOLVersion = cOBOLVersion;
+            COBOLLicense = cOBOLLicense;
+            COBOLUsers = cOBOLUsers;
         }
 
-        public async Task<string> GetServerHTML()
+        public static async Task<string> GetServerHTML()
         {
             using (var client = new HttpClient())
             {
                 var content = new FormUrlEncodedContent(request);
-                var response = await client.PostAsync(URL, content).ConfigureAwait(false);
-                return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                var response = await client.PostAsync(URL, content);
+                var HTML = await response.Content.ReadAsStringAsync();
+
+                return HTML;
             }
         }
 
-        private List<string> ParseServerHTML(string HTML)
-        {
-            var servers = new List<string>();
-            var doc = new HtmlDocument();
-            doc.LoadHtml(HTML);
-            ParseCompanies(doc);
-            ParseSysInfo(doc);
-            ParseAMPSInfo(doc);
-            ParseCOBOLInfo(doc);
 
-            return servers;
-        }
-
-        private void ParseCompanies(HtmlDocument doc)
+        private static Dictionary<string,string> ParseCompanies(HtmlDocument doc)
         {
-            var CompanyData = doc.DocumentNode.SelectNodes("//html/body/table/tbody/tr/td/table/tbody")[0].InnerText.Contains("EC2") ||
-                doc.DocumentNode.SelectNodes("//html/body/table/tbody/tr/td/table/tbody")[0].InnerText.Contains("VM") ?
-                doc.DocumentNode.SelectNodes("//html/body/table/tbody/tr/td/table/tbody")[1].ChildNodes :
-                doc.DocumentNode.SelectNodes("//html/body/table/tbody/tr/td/table/tbody")[0].ChildNodes;
+            var CompanyData = doc.DocumentNode.SelectNodes(Xpath)[0].InnerText.Contains("EC2") ||
+                doc.DocumentNode.SelectNodes(Xpath)[0].InnerText.Contains("VM") ?
+                doc.DocumentNode.SelectNodes(Xpath)[1].ChildNodes :
+                doc.DocumentNode.SelectNodes(Xpath)[0].ChildNodes;
             CompanyData.RemoveAt(0);
 
+            var output = new Dictionary<string, string>();
             foreach (var node in CompanyData)
             {
                 if (node.NodeType == HtmlNodeType.Element && node != CompanyData.First(x => x.NodeType == HtmlNodeType.Element))
                 {
-                    Companies.Add(node.ChildNodes[1].InnerText.Trim(), node.ChildNodes[3].InnerText.Trim());
+                    output.Add(node.ChildNodes[1].InnerText.Trim(), node.ChildNodes[3].InnerText.Trim());
                 }
             }
-
+            return output;
         }
-        private void ParseSysInfo(HtmlDocument doc)
+        private static string[] ParseSysInfo(HtmlDocument doc)
         {
-            var SystemInfo = doc.DocumentNode.SelectNodes("//html/body/table/tbody/td/table/tbody")[0].ChildNodes;
-
+            var SystemInfo = doc.DocumentNode.SelectNodes(Xpath1)[0].ChildNodes;
+            string[] output = new string[2];
             foreach (var node in SystemInfo)
             {
                 if (node.NodeType == HtmlNodeType.Element)
                 {
                     if (node.ChildNodes[1].InnerText.Trim().Equals("DAC"))
-                        DAC = node.ChildNodes[3].InnerText.Trim();
+                        output[0] = node.ChildNodes[3].InnerText.Trim();
                     if (node.ChildNodes[1].InnerText.Trim().Equals("HAC/LOC"))
-                        HACLOC = node.ChildNodes[3].InnerText.Trim();
+                        output[1] = node.ChildNodes[3].InnerText.Trim();
                 }
             }
+            return output;
         }
-        private void ParseAMPSInfo(HtmlDocument doc)
+        private static string ParseAMPSInfo(HtmlDocument doc)
         {
-            var AMPSInfo = doc.DocumentNode.SelectNodes("//html/body/table/tbody/td/table/tbody")[1].ChildNodes;
-
+            var AMPSInfo = doc.DocumentNode.SelectNodes(Xpath1)[1].ChildNodes;
+            string output = string.Empty;
             foreach (var node in AMPSInfo)
             {
                 if (node.NodeType == HtmlNodeType.Element)
                 {
                     if (node.ChildNodes[1].InnerText.Trim().Equals("AMPS Version"))
-                        AMPSVersion = node.ChildNodes[3].InnerText.Trim();
+                        output = node.ChildNodes[3].InnerText.Trim();
                 }
             }
-        }
-        private void ParseCOBOLInfo(HtmlDocument doc)
-        {
-            var COBOLInfo = doc.DocumentNode.SelectNodes("//html/body/table/tbody/td/table/tbody")[2].ChildNodes;
 
+            return output;
+        }
+        private static string[] ParseCOBOLInfo(HtmlDocument doc)
+        {
+            var COBOLInfo = doc.DocumentNode.SelectNodes(Xpath1)[2].ChildNodes;
+            string[] output = new string[3];
             foreach (var node in COBOLInfo)
             {
                 if (node.NodeType == HtmlNodeType.Element)
                 {
                     if (node.ChildNodes[1].InnerText.Trim().Equals("COBOL Version"))
-                        COBOLVersion = node.ChildNodes[3].InnerText.Trim();
+                        output[0] = node.ChildNodes[3].InnerText.Trim();
                     if (node.ChildNodes[1].InnerText.Trim().Equals("COBOL License"))
-                        COBOLLicense = node.ChildNodes[3].InnerText.Trim();
+                        output[1] = node.ChildNodes[3].InnerText.Trim();
                     if (node.ChildNodes[1].InnerText.Trim().Equals("COBOL Users"))
-                        COBOLUsers = node.ChildNodes[3].InnerText.Trim();
+                        output[2] = node.ChildNodes[3].InnerText.Trim();
                 }
             }
+            return output;
         }
+
     }
+
 }

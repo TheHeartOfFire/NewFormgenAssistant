@@ -28,7 +28,7 @@ namespace FormgenAssistant
         {
 			Utils.InitAllServers();
             InitializeComponent();
-			Pages.Add(Home);
+			Pages.Add(HomePage);
 			Pages.Add(FileNameGen);
 			Pages.Add(CIR);
 			Pages.Add(Settings);
@@ -175,7 +175,7 @@ namespace FormgenAssistant
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 			CloseAllPages();
-			Home.Visibility = Visibility.Visible;
+			HomePage.Visibility = Visibility.Visible;
         }
 
 		private void CloseAllPages() => Pages.ForEach(Page => Page.Visibility = Visibility.Hidden);

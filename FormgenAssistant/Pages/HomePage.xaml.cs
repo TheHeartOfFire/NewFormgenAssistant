@@ -34,5 +34,59 @@ namespace FormgenAssistant.Pages
             }) ;
         }
 
+        private void btnADP_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = Properties.Resources.ADP,
+                UseShellExecute = true
+            });
+        }
+
+        private void btnSF_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = Properties.Resources.SalesForce,
+                UseShellExecute = true
+            });
+        }
+
+        private void btnMyApps_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = Properties.Resources.MyApps,
+                UseShellExecute = true
+            });
+        }
+
+        private void btnClientInfoReport_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = Properties.Resources.ClientInfoReport,
+                UseShellExecute = true
+            });
+
+        }
+
+        private void btnFormsTracker_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = Properties.Resources.FormsTracker,
+                UseShellExecute = true
+            });
+        }
+
+        private void btnWorkday_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = Properties.Resources.Workday,
+                UseShellExecute = true
+            });
+        }
     }
 }

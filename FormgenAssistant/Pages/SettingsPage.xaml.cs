@@ -38,8 +38,7 @@ namespace FormgenAssistant
                 var progress = new Progress<double>();
                 progress.ProgressChanged+=Progress_ProgressChanged;
 
-
-                await Utils.UpdateAllServers(prgDealerLookup, progress).ConfigureAwait(false);
+                _=Task.Run(() => Utils.UpdateAllServers(progress).ConfigureAwait(false));
                 
             }
 
@@ -48,7 +47,17 @@ namespace FormgenAssistant
         private void Progress_ProgressChanged(object? sender, double e)
         {
             if (e == 0.0)
+            {
                 prgDealerLookup.Visibility = Visibility.Hidden;
+                Utils.SetDealersJson();
+            }
+
+            if(e == 1.0)
+            {
+                prgDealerLookup.IsIndeterminate = false;
+                prgDealerLookup.Maximum = Utils.Servers.Count;
+            }
+
             prgDealerLookup.Value = e;
         }
     }

@@ -39,16 +39,16 @@
                                 <Button Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_1">
                                     <Image Height="45" Width="45" Source="/file.png" />
                                 </Button>
-                                <Button Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_2">
+                                <Button Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_2" Visibility="Hidden">
                                     <Image Height="45" Width="45" Source="/database.png" />
                                 </Button>
                             </StackPanel>
-                            <Button DockPanel.Dock="Bottom" Style="{DynamicResource ButtonStyle1}" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Height="49" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="Button_Click_3">
+                            <Button DockPanel.Dock="Bottom" Style="{DynamicResource ButtonStyle1}" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Height="49" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="Button_Click_3" Visibility="Hidden">
                                 <Image Height="45" Source="/settings_gear.png" Width="45" OpacityMask="Black"/>
                             </Button>
                         </StackPanel>
                     </DockPanel>
-                    <Pages:HomePage Margin="50,50,0,0" Visibility="Visible" x:Name="Home" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <Pages:HomePage Margin="50,50,0,0" Visibility="Visible" x:Name="HomePage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     <Pages:FileNameGenerator HorizontalAlignment="Stretch" Margin="50,50,0,0" VerticalAlignment="Stretch" Visibility="Hidden" x:Name="FileNameGen"/>
                     <Pages:ClientInfoReport Margin="50,50,0,0" Visibility="Hidden" x:Name="CIR"/>
                     <local:SettingsPage x:Name="Settings" HorizontalAlignment="Stretch" Margin="50,50,0,0" VerticalAlignment="Stretch" Visibility="Hidden"/>

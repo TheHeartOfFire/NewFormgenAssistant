@@ -93,6 +93,21 @@ namespace FormgenAssistant.Controls
 
         }
 
+        public static readonly DependencyProperty handleThirdState = DependencyProperty.Register(
+           "HandleThirdState", typeof(SolidColorBrush),
+           typeof(ToggleSwitch),
+           new FrameworkPropertyMetadata(
+               defaultValue: new SolidColorBrush(Color.FromArgb(255, 200, 200, 200)),
+           FrameworkPropertyMetadataOptions.AffectsRender,
+           new PropertyChangedCallback(OnHandleThirdStateChanged)));
+
+        private static void OnHandleThirdStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ToggleSwitch tSwitch = (ToggleSwitch)d;
+            tSwitch.OnHandleChanged(e);
+
+        }
+
         public static readonly DependencyProperty borderOff = DependencyProperty.Register(
             "BorderOff", typeof(SolidColorBrush), 
             typeof(ToggleSwitch),
@@ -148,7 +163,7 @@ namespace FormgenAssistant.Controls
         }
 
         public static readonly DependencyProperty isOn = DependencyProperty.Register(
-            "IsOn", typeof(bool),
+            "IsOn", typeof(bool?),
             typeof(ToggleSwitch),
             new FrameworkPropertyMetadata(
                 defaultValue: false,
@@ -163,7 +178,7 @@ namespace FormgenAssistant.Controls
 
         private void OnIsOnChanged(DependencyPropertyChangedEventArgs e)
         {
-            if ((bool)e.NewValue)
+            if ((bool?)e.NewValue == true)
             {
                 rectTrack.Fill = (SolidColorBrush)GetValue(trackOn);
                 rectTrack.Stroke = (SolidColorBrush)GetValue(borderOn);
@@ -171,31 +186,70 @@ namespace FormgenAssistant.Controls
                 elipseHandle.Margin = btnOn;
                 return;
             }
-            rectTrack.Fill = (SolidColorBrush)GetValue(trackOff);
-            rectTrack.Stroke = (SolidColorBrush)GetValue(borderOff);
-            elipseHandle.Fill = (SolidColorBrush)GetValue(handleOff);
-            elipseHandle.Margin = btnOff;
+            if ((bool?)e.NewValue == false)
+            {
+                rectTrack.Fill = (SolidColorBrush)GetValue(trackOff);
+                rectTrack.Stroke = (SolidColorBrush)GetValue(borderOff);
+                elipseHandle.Fill = (SolidColorBrush)GetValue(handleOff);
+                elipseHandle.Margin = btnOff;
+            }
+        }
+
+        private static readonly DependencyProperty threeState = DependencyProperty.Register(
+           "ThreeState", typeof(bool),
+           typeof(ToggleSwitch),
+           new FrameworkPropertyMetadata(
+               defaultValue: false,
+           FrameworkPropertyMetadataOptions.AffectsRender,
+           new PropertyChangedCallback(On3StateChanged)));
+
+        private static void On3StateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ToggleSwitch tSwitch = (ToggleSwitch)d;
+            tSwitch.On3StateChanged(e);
+        }
+
+        private void On3StateChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue)
+            {
+                IsOn = null;
+                elipseHandle.Fill = (SolidColorBrush)GetValue(handleThirdState);
+                elipseHandle.Margin = new Thickness(0,0,0,0);
+                return;
+            }
+            IsOn = false;
         }
 
 
         public ToggleSwitch()
         {
             InitializeComponent();
+
+            elipseHandle.Fill = (SolidColorBrush)GetValue(handleOff);
+            elipseHandle.Margin = btnOff;
+
+            if ((bool)GetValue(threeState) && (bool?)GetValue(isOn) is null)
+            {
+                elipseHandle.Fill = (SolidColorBrush)GetValue(handleThirdState);
+                elipseHandle.Margin = new Thickness(0, 0, 0, 0);
+            }
+
             rectTrack.Fill = (SolidColorBrush)GetValue(trackOff);
             rectTrack.Stroke = (SolidColorBrush)GetValue(borderOff);
             rectTrack.StrokeThickness = (double)GetValue(borderThickness);
-            elipseHandle.Fill = (SolidColorBrush)GetValue(handleOff);
-            elipseHandle.Margin = btnOff;
         }
 
-        public bool IsOn { get => (bool)GetValue(isOn); set => SetValue(isOn, value); }
+        public bool? IsOn { get => (bool?)GetValue(isOn); set => SetValue(isOn, value); }
         public SolidColorBrush TrackOff { get => (SolidColorBrush)GetValue(trackOff); set => SetValue(trackOff, value); }
         public SolidColorBrush TrackOn { get => (SolidColorBrush)GetValue(trackOn); set => SetValue(trackOn, value); }
         public SolidColorBrush HandleOff { get => (SolidColorBrush)GetValue(handleOff); set => SetValue(handleOff, value); }
         public SolidColorBrush HandleOn { get => (SolidColorBrush)GetValue(handleOn); set => SetValue(handleOn, value); }
+        public SolidColorBrush HandleThirdState { get => (SolidColorBrush)GetValue(handleThirdState); set => SetValue(handleThirdState, value); }
         public SolidColorBrush BorderOff { get => (SolidColorBrush)GetValue(borderOff); set => SetValue(borderOff, value); }
         public SolidColorBrush BorderOn { get => (SolidColorBrush)GetValue(borderOn); set => SetValue(borderOn, value); }
         public double BorderThickness1 { get => (double)GetValue(borderThickness); set => SetValue(borderThickness, value); }
+        public bool ThreeState { get => (bool)GetValue(threeState); set => SetValue(threeState, value); }
 
         private void elipseHandle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -206,23 +260,31 @@ namespace FormgenAssistant.Controls
         {
             ToggleButton();
         }
-
         private void ToggleButton()
         {
-            SetValue(isOn, !(bool)GetValue(isOn));
-
-            if ((bool)GetValue(isOn))
+            if ((bool)GetValue(threeState) && (bool?)GetValue(isOn) is null)//toggle is changing FROM third state->Turn it off
+            {
+                rectTrack.Fill = (SolidColorBrush)GetValue(trackOff);
+                rectTrack.Stroke = (SolidColorBrush)GetValue(borderOff);
+                elipseHandle.Fill = (SolidColorBrush)GetValue(handleOff);
+                elipseHandle.Margin = btnOff;
+                SetValue(isOn, false);
+                return;
+            }
+            if ((bool?)GetValue(isOn) is true)//toggle is changing FROM on->go to third state
             {
                 rectTrack.Fill = (SolidColorBrush)GetValue(trackOn);
                 rectTrack.Stroke = (SolidColorBrush)GetValue(borderOn);
-                elipseHandle.Fill = (SolidColorBrush)GetValue(handleOn);
-                elipseHandle.Margin = btnOn;
+                elipseHandle.Fill = (SolidColorBrush)GetValue(handleThirdState);
+                elipseHandle.Margin = new Thickness(0, 0, 0, 0);
+                SetValue(isOn, null);
                 return;
             }
-            rectTrack.Fill = (SolidColorBrush)GetValue(trackOff);
-            rectTrack.Stroke = (SolidColorBrush)GetValue(borderOff);
-            elipseHandle.Fill = (SolidColorBrush)GetValue(handleOff);
-            elipseHandle.Margin = btnOff;
+            rectTrack.Fill = (SolidColorBrush)GetValue(trackOn);//Toggle is changing FROM off->turn it on
+            rectTrack.Stroke = (SolidColorBrush)GetValue(borderOn);
+            elipseHandle.Fill = (SolidColorBrush)GetValue(handleOn);
+            elipseHandle.Margin = btnOn;
+            SetValue(isOn, true);
         }
     }
 }

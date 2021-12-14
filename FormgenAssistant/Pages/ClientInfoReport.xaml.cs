@@ -30,8 +30,46 @@ namespace FormgenAssistant.Pages
             InitializeComponent();
             _servers = Utils.Servers;
             _dealerships = Utils.Dealerships;
+
+            cboServers.ItemsSource = _servers.Keys;
+            cboGroups.ItemsSource = _servers.Values;
         }
 
-      
+        private void btnLookup_Click(object sender, RoutedEventArgs e)
+        {
+            LookupDealership();
+        }
+
+        private void LookupDealership()
+        {
+            if (cboServers.SelectedItem == null) return;
+            string ID = cboServers.SelectedItem.ToString().ToUpperInvariant();
+
+            if (!_servers.ContainsKey(ID)) return;
+
+            if (!_dealerships.ContainsKey(ID))
+            {
+                var di = new DealerInfo(ID);
+                Utils.Dealerships.Add(di.ServerID, di);
+                Utils.SetDealersJson();
+                _dealerships = Utils.Dealerships;
+            }
+                
+        }
+
+
+        private void ViewDealership()
+        {
+            if (cboServers.SelectedItem == null) return;
+            string ID = cboServers.SelectedItem.ToString().ToUpperInvariant();
+
+            if (!_dealerships.ContainsKey(ID))
+                LookupDealership();
+
+
+
+        }
+
+
     }
 }
