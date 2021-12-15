@@ -277,7 +277,11 @@ namespace FormgenAssistant.Controls
                 rectTrack.Stroke = (SolidColorBrush)GetValue(borderOn);
                 elipseHandle.Fill = (SolidColorBrush)GetValue(handleThirdState);
                 elipseHandle.Margin = new Thickness(0, 0, 0, 0);
-                SetValue(isOn, null);
+
+                if ((bool)GetValue(threeState))
+                    SetValue(isOn, null);
+                else
+                    SetValue(isOn, false);
                 return;
             }
             rectTrack.Fill = (SolidColorBrush)GetValue(trackOn);//Toggle is changing FROM off->turn it on

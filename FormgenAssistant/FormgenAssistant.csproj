@@ -27,7 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="AMLogo.ico" />
+    <Content Include="AMLogo.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
