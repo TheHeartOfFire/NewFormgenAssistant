@@ -32,6 +32,7 @@ namespace FormgenAssistant
 			Pages.Add(FileNameGen);
 			Pages.Add(CIR);
 			Pages.Add(Settings);
+			Pages.Add(Notes);
 		}
 
         private void OnMinimizeButtonClick(object sender, RoutedEventArgs e)
@@ -196,6 +197,12 @@ namespace FormgenAssistant
         {
 			CloseAllPages();
 			Settings.Visibility = Visibility.Visible;
+		}
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+		{
+			CloseAllPages();
+			Notes.Visibility = Visibility.Visible;
 		}
     }
 }
