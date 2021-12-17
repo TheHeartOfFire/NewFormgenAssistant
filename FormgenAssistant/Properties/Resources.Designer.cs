@@ -88,11 +88,29 @@ namespace FormgenAssistant.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://account.activedirectory.windowsazure.com/applications/signin/84239e69-1ea0-48f0-a161-46ae4a2c4f88?tenantId=eb80478c-899d-4783-950d-73b2391d9c7b.
+        /// </summary>
+        internal static string DSLink {
+            get {
+                return ResourceManager.GetString("DSLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://solerainc-my.sharepoint.com/:x:/r/personal/felicia_carpenter_solera_com/_layouts/15/doc2.aspx?sourcedoc=%7B11CD9173-C662-4CB0-886A-1D98FB86D55C%7D&amp;file=Forms%20Tracker.xlsx&amp;action=default&amp;mobileredirect=true&amp;DefaultItemOpen=1&amp;cid=b7817432-b777-48c0-ae5d-c94958348e0a.
         /// </summary>
         internal static string FormsTracker {
             get {
                 return ResourceManager.GetString("FormsTracker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://dsocket.sharepoint.com/sites/FormsWiki.
+        /// </summary>
+        internal static string FormsWiki {
+            get {
+                return ResourceManager.GetString("FormsWiki", resourceCulture);
             }
         }
         
@@ -111,6 +129,15 @@ namespace FormgenAssistant.Properties {
         internal static string MyApps {
             get {
                 return ResourceManager.GetString("MyApps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to https://account.activedirectory.windowsazure.com/applications/signin/1a282a08-90d5-421b-bac8-3b2c7b9a610e?tenantId=eb80478c-899d-4783-950d-73b2391d9c7b.
+        /// </summary>
+        internal static string Outlook {
+            get {
+                return ResourceManager.GetString("Outlook", resourceCulture);
             }
         }
         

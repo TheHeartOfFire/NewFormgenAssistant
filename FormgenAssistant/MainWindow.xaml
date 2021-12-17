@@ -42,6 +42,9 @@
                                 <Button Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_4">
                                     <Image Height="45" Width="45" Source="/edit.png" />
                                 </Button>
+                                <Button x:Name="btnPrompts" Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="btnPrompts_Click" >
+                                    <Image Height="45" Width="45" Source="/prompt.png" />
+                                </Button>
                                 <Button Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_2" Visibility="Hidden">
                                     <Image Height="45" Width="45" Source="/database.png" />
                                 </Button>
@@ -56,6 +59,7 @@
                     <Pages:ClientInfoReport Margin="50,50,0,0" Visibility="Hidden" x:Name="CIR"/>
                     <Pages:Notes Margin="50,50,0,0" Visibility="Hidden" x:Name="Notes"/>
                     <local:SettingsPage x:Name="Settings" HorizontalAlignment="Stretch" Margin="50,50,0,0" VerticalAlignment="Stretch" Visibility="Hidden"/>
+                    <Pages:PromptCopier x:Name="Prompts" Margin="50,50,0,0" Visibility="Hidden"/>
                     <Grid Height="50" VerticalAlignment="Top" x:Name="grdTitle">
                         <Grid.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

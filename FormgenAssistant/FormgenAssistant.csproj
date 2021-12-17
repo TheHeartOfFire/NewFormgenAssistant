@@ -21,6 +21,7 @@
     <None Remove="home.png" />
     <None Remove="logo-white.png" />
     <None Remove="msft.png" />
+    <None Remove="prompt.png" />
     <None Remove="Resources\GitHub-logo-White.png" />
     <None Remove="SalesForce.png" />
     <None Remove="settings_gear.png" />
@@ -67,6 +68,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="msft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="prompt.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="SalesForce.png">
