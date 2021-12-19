@@ -24,6 +24,7 @@ namespace FormgenAssistant.Windows
             InitializeComponent();
             txtPrompt.Text = Prompt;
             txtVariableName.Text = VariableName;
+            if(VariableName == "F0") txtVariableName.IsReadOnly = true;
         }
 
         private void btnDialogOk_Click(object sender, RoutedEventArgs e)

@@ -84,23 +84,48 @@ namespace FormgenAssistant.Pages
             if(txtFilePath.Text == string.Empty) return;
             if (lboxPrompts.SelectedIndex<0) return;
 
-            var item = Prompts[lboxPrompts.SelectedIndex];
-            DuplicatePrompt dia = new DuplicatePrompt(item.variable, item.message);
-            if(dia.ShowDialog() == true)
+            foreach(var selection in lboxPrompts.SelectedItems)
             {
-                var newItem = new PromptItem((Prompts.Count).ToString(), dia.VariableName, dia.Prompt, Nodes[lboxPrompts.SelectedIndex].FirstChild.Attributes[0].Value);
+                int idx = lboxPrompts.Items.IndexOf(selection);
+                var item = Prompts[idx];
+                DuplicatePrompt dia = new DuplicatePrompt(item.variable, item.message);
+                if(item.type == "Separator")
+                {
 
-                var newNode = Nodes[lboxPrompts.SelectedIndex].Clone();
-                newNode.Attributes[0].Value = newItem.position;
-                newNode.Attributes[2].Value = newItem.variable;
-                if(newItem.message != "None")
-                newNode.FirstChild.FirstChild.InnerText = newItem.message;
+                    var newItem = new PromptItem((Prompts.Count).ToString(), dia.VariableName, dia.Prompt, Nodes[idx].FirstChild.Attributes[0].Value);
 
-                File.DocumentElement.AppendChild(newNode);
-                Prompts.Add(newItem);
-                UpdatePrompts();
-                File.Save(txtFilePath.Text);
+                    var newNode = Nodes[idx].Clone();
+                    newNode.Attributes[0].Value = newItem.position;
+                    newNode.Attributes[2].Value = newItem.variable;
+                    if (newItem.message != "None")
+                        newNode.FirstChild.FirstChild.InnerText = newItem.message;
+
+                    Nodes.Add(newNode);
+                    File.DocumentElement.AppendChild(newNode);
+                    Prompts.Add(newItem);
+                }
+                else if (dia.ShowDialog() == true)
+                {
+                    string variable = dia.VariableName;
+
+                    while (Prompts.Exists(x => x.variable == variable))
+                        variable = CopyIncrimentor(variable);
+
+                    var newItem = new PromptItem((Prompts.Count).ToString(), variable, dia.Prompt, Nodes[idx].FirstChild.Attributes[0].Value);
+
+                    var newNode = Nodes[idx].Clone();
+                    newNode.Attributes[0].Value = newItem.position;
+                    newNode.Attributes[2].Value = newItem.variable;
+                    if (newItem.message != "None")
+                        newNode.FirstChild.FirstChild.InnerText = newItem.message;
+
+                    Nodes.Add(newNode);
+                    File.DocumentElement.AppendChild(newNode);
+                    Prompts.Add(newItem);
+                }
             }
+            UpdatePrompts();
+            File.Save(txtFilePath.Text);
         }
 
         private void UpdatePrompts()
@@ -121,6 +146,18 @@ namespace FormgenAssistant.Pages
             txtFilePath.Text = string.Empty;
             txtUUID.Text = string.Empty;
             lboxPrompts.Items.Clear();
+        }
+
+        private static string CopyIncrimentor(string input)
+        {
+            if(int.TryParse(input.Last().ToString(),out int number))
+            {
+                number++;
+                var output = input.Substring(0, input.Length -  1) + number.ToString();
+                return output;
+            }
+            
+            return input + 1.ToString();
         }
     }
 

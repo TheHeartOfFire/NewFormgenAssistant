@@ -12,7 +12,7 @@
         <TextBox x:Name="txtUUID" HorizontalAlignment="Left" Height="32" Margin="23,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="350" FontSize="18" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" IsReadOnly="True"/>
         <Label Content="UUID" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="23,47,0,0"/>
         <Button x:Name="btnUUIDGen" Content="Re-Generate" HorizontalAlignment="Left" Margin="378,89,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnUUIDGen_Click"/>
-        <ListBox x:Name="lboxPrompts" HorizontalAlignment="Left" Height="203" Margin="23,157,0,0" VerticalAlignment="Top" Width="377" d:ItemsSource="{d:SampleData ItemCount=5}" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue"/>
+        <ListBox x:Name="lboxPrompts" HorizontalAlignment="Left" Height="203" Margin="23,157,0,0" VerticalAlignment="Top" Width="377" d:ItemsSource="{d:SampleData ItemCount=5}" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" SelectionMode="Multiple"/>
         <Button x:Name="btnDupePrompt" Content="Duplicate" HorizontalAlignment="Left" Margin="405,157,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnDupePrompt_Click"/>
         <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="647,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnClose_Click"/>
 
