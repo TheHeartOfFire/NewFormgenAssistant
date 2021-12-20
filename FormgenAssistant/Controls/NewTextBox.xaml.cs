@@ -78,5 +78,16 @@ namespace FormgenAssistant.Controls
             OnTextChanged?.Invoke(sender, e);
             SetValue(text, textBox.Text);
         }
+
+        private void Grid_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            textBox.Focus();
+        }
+
+        private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+
+            textBox.Focus();
+        }
     }
 }

@@ -57,7 +57,7 @@
                     <Pages:HomePage Margin="50,50,0,0" Visibility="Visible" x:Name="HomePage" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                     <Pages:FileNameGenerator HorizontalAlignment="Stretch" Margin="50,50,0,0" VerticalAlignment="Stretch" Visibility="Hidden" x:Name="FileNameGen"/>
                     <Pages:ClientInfoReport Margin="50,50,0,0" Visibility="Hidden" x:Name="CIR"/>
-                    <Pages:Notes Margin="50,50,0,0" Visibility="Hidden" x:Name="Notes"/>
+                    <Pages:Notes Margin="50,50,0,0" Visibility="Visible" x:Name="Notes"/>
                     <local:SettingsPage x:Name="Settings" HorizontalAlignment="Stretch" Margin="50,50,0,0" VerticalAlignment="Stretch" Visibility="Hidden"/>
                     <Pages:PromptCopier x:Name="Prompts" Margin="50,50,0,0" Visibility="Hidden"/>
                     <Grid Height="50" VerticalAlignment="Top" x:Name="grdTitle">

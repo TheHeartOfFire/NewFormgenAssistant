@@ -9,9 +9,9 @@
     <Grid Height="130" Width="250">
 
         <Label x:Name="lblVariableName" Foreground="MediumSlateBlue" Content="Variable Name" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25"/>
-        <TextBox x:Name="txtVariableName" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Height="20" Margin="0,26,0,0" Width="230" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtVariableName" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Height="20" Margin="0,26,0,0" Width="230" HorizontalAlignment="Center" VerticalAlignment="Top" CaretBrush="MediumSlateBlue"/>
         <Label x:Name="lblPrompt" Foreground="MediumSlateBlue" Content="Prompt" Margin="10,46,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="25"/>
-        <TextBox x:Name="txtPrompt" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Width="230" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20" Margin="0,67,0,0"/>
+        <TextBox x:Name="txtPrompt" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Width="230" HorizontalAlignment="Center" VerticalAlignment="Top" Height="20" Margin="0,67,0,0" CaretBrush="MediumSlateBlue"/>
 
         <WrapPanel HorizontalAlignment="Right" Margin="0,103,10,10">
             <Button IsDefault="True" x:Name="btnDialogOk" Click="btnDialogOk_Click" MinWidth="60" Foreground="MediumSlateBlue" BorderBrush="MediumSlateBlue" Background="{x:Null}" Content="_Ok"/>

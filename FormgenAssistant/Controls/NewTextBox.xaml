@@ -8,13 +8,13 @@
              d:DesignHeight="50" Width="514"
              Name="Base">
 
-    <Grid>
+    <Grid PreviewMouseUp="Grid_PreviewMouseUp" MouseUp="Grid_MouseUp">
         <Line
         X1="0" Y1="{Binding Path=ActualHeight, ElementName=Base}"
         X2="{Binding Path=ActualWidth, ElementName=Base}" Y2="{Binding Path=ActualHeight, ElementName=Base}"
         Stroke="MediumSlateBlue"
         StrokeThickness="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
-        <TextBox x:Name="textBox" TextWrapping="NoWrap" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="MediumSlateBlue" VerticalAlignment="Bottom" Margin="0,0,0,6" FontSize="22" TextChanged="textBox_TextChanged"/>
+        <TextBox x:Name="textBox" TextWrapping="NoWrap" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="MediumSlateBlue" VerticalAlignment="Stretch" Margin="0,0,0,6" FontSize="22" TextChanged="textBox_TextChanged" AcceptsReturn="True" CaretBrush="MediumSlateBlue" VerticalScrollBarVisibility="Auto"/>
     </Grid>
 
 
