@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FormgenAssistant.SavedItems;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,55 +16,43 @@ namespace FormgenAssistant
 {
     internal class Utils
     {
-        private static Dictionary<string, string> _servers = new Dictionary<string, string>();
-        private static Dictionary<string, DealerInfo> _dealerships = new Dictionary<string, DealerInfo>();
-
-        private static readonly string AppData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\FormgenAssistant";
-        private static readonly string serversURL = AppData + "\\Servers.json";
-        private static readonly string dealersURL = AppData + "\\Dealers.json";
-
-        private static void GetServersJson()
+        private static readonly Servers _servers = SavedItems.Servers.Instance;
+        private static readonly Dealers _dealers = SavedItems.Dealers.Instance;
+        public static Dictionary<string, string> Servers { 
+            get 
+            {
+                if (_servers.Content is not null)
+                    return _servers.Content;
+                return new Dictionary<string, string>();
+            }
+            set 
+            { 
+                _servers.Content = value;
+            } 
+        }
+        public static Dictionary<string, DealerInfo> Dealers
         {
-
-            Directory.CreateDirectory(AppData);
-            if (!File.Exists(serversURL)) File.Create(serversURL);
-            Servers = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(serversURL)) ?? new Dictionary<string, string>();
+            get
+            {
+                if (_dealers.Content is not null)
+                    return _dealers.Content;
+                return new Dictionary<string, DealerInfo>();
+            }
+            set
+            {
+                _dealers.Content = value;
+            }
         }
 
-        private static void SetServersJson()
-        {
-            string json = JsonConvert.SerializeObject(Servers);
-            Directory.CreateDirectory(AppData);
-            if (!File.Exists(serversURL)) File.Create(serversURL);
-            File.WriteAllText(serversURL, json);
 
-        }
-        private static void GetDealersJson()
-        {
+        private static Dictionary<string, string> searchTerms = new Dictionary<string, string>() { { "search", "*" } };
 
-            Directory.CreateDirectory(AppData);
-            if (!File.Exists(dealersURL)) File.Create(dealersURL);
-            Dealerships = JsonConvert.DeserializeObject<Dictionary<string, DealerInfo>>(File.ReadAllText(dealersURL)) ?? new Dictionary<string, DealerInfo>();
-        }
-
-        public static void SetDealersJson()
-        {
-            string json = JsonConvert.SerializeObject(Dealerships);
-            Directory.CreateDirectory(AppData);
-            if (!File.Exists(dealersURL)) File.Create(dealersURL);
-            File.WriteAllText(dealersURL, json);
-        }
-
-        private static Dictionary<string, string> values = new Dictionary<string, string>() { { "search", "*" } };
-
-        public static Dictionary<string, string> Servers { get => _servers; set => _servers = value; }
-        internal static Dictionary<string, DealerInfo> Dealerships { get => _dealerships; set => _dealerships = value; }
 
         private static async Task<string> GetServersHTML()
         {
             using (var client = new HttpClient())
             {
-                var content = new FormUrlEncodedContent(values);
+                var content = new FormUrlEncodedContent(searchTerms);
                 var response = await client.PostAsync(Properties.Resources.ClientInfoReport, content).ConfigureAwait(false);
                 return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             }
@@ -101,21 +90,15 @@ namespace FormgenAssistant
 
                 if (!Servers.ContainsKey(key))
                     Servers.Add(key, server.Substring(server.IndexOf(' ')));
-                if (!Dealerships.ContainsKey(key))
+                if (!Dealers.ContainsKey(key))
                 {
                     var di = new DealerInfo(key);
-                    Dealerships.Add(key, di);
+                    Dealers.Add(key, di);
                 }
                 _progress.Report(servers.IndexOf(server)+1);
             }
             _progress.Report(0.0);
-            SetServersJson();
-        }
-
-        public static void InitAllServers()
-        {
-
-            GetServersJson();
+            _servers.Save();
         }
 
         public static async Task UpdateAllServers(IProgress<double> progress1)

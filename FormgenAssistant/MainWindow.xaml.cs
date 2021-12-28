@@ -26,7 +26,6 @@ namespace FormgenAssistant
 
         public MainWindow()
         {
-			Utils.InitAllServers();
             InitializeComponent();
 			Pages.Add(HomePage);
 			Pages.Add(FileNameGen);

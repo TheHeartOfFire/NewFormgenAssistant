@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormgenAssistant.SavedItems;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace FormgenAssistant
     /// </summary>
     public partial class SettingsPage : UserControl
     {
+        private static readonly Dealers _dealers = Dealers.Instance;
         public SettingsPage()
         {
             InitializeComponent();
@@ -49,7 +51,7 @@ namespace FormgenAssistant
             if (e == 0.0)
             {
                 prgDealerLookup.Visibility = Visibility.Hidden;
-                Utils.SetDealersJson();
+                _dealers.Save();
             }
 
             if(e == 1.0)

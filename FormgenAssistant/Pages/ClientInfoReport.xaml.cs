@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using FormgenAssistant.SavedItems;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,16 +24,13 @@ namespace FormgenAssistant.Pages
     /// </summary>
     public partial class ClientInfoReport : UserControl
     {
-        Dictionary<string, string> _servers = new Dictionary<string, string>();
-        Dictionary<string, DealerInfo> _dealerships = new Dictionary<string, DealerInfo>();
+        private static readonly Dealers _dealers = Dealers.Instance;
         public ClientInfoReport()
         {
             InitializeComponent();
-            _servers = Utils.Servers;
-            _dealerships = Utils.Dealerships;
 
-            cboServers.ItemsSource = _servers.Keys;
-            cboGroups.ItemsSource = _servers.Values;
+            cboServers.ItemsSource = Utils.Servers.Keys;
+            cboGroups.ItemsSource = Utils.Servers.Values;
         }
 
         private void btnLookup_Click(object sender, RoutedEventArgs e)
@@ -42,17 +40,17 @@ namespace FormgenAssistant.Pages
 
         private void LookupDealership()
         {
-            if (cboServers.SelectedItem == null) return;
+            if (cboServers is null || cboServers.SelectedItem is null) return;
+
             string ID = cboServers.SelectedItem.ToString().ToUpperInvariant();
 
-            if (!_servers.ContainsKey(ID)) return;
+            if (!Utils.Servers.ContainsKey(ID)) return;
 
-            if (!_dealerships.ContainsKey(ID))
+            if (!Utils.Dealers.ContainsKey(ID))
             {
                 var di = new DealerInfo(ID);
-                Utils.Dealerships.Add(di.ServerID, di);
-                Utils.SetDealersJson();
-                _dealerships = Utils.Dealerships;
+                Utils.Dealers.Add(di.ServerID, di);
+                _dealers.Save();
             }
                 
         }
@@ -63,11 +61,8 @@ namespace FormgenAssistant.Pages
             if (cboServers.SelectedItem == null) return;
             string ID = cboServers.SelectedItem.ToString().ToUpperInvariant();
 
-            if (!_dealerships.ContainsKey(ID))
+            if (!Utils.Dealers.ContainsKey(ID))
                 LookupDealership();
-
-
-
         }
 
 

@@ -88,5 +88,25 @@ namespace FormgenAssistant.Pages
                 UseShellExecute = true
             });
         }
+
+        private void btnCST_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+            {
+                FileName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\AmpsSupport\\CSTLoader.exe",
+                UseShellExecute = true
+            });
+        }
+
+        private void btnFormgen_Click(object sender, RoutedEventArgs e)
+        {
+            var Info = new System.Diagnostics.ProcessStartInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\NewFormGen.lnk")
+            {
+                UseShellExecute = true
+            };
+
+            System.Diagnostics.Process.Start(Info);
+
+        }
     }
 }
