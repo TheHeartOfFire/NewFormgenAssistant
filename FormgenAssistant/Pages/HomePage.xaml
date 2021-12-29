@@ -40,7 +40,7 @@
         <Button x:Name="btnWorkday" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="58" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="486,10,0,0" Background="{x:Null}" Click="btnWorkday_Click">
             <Image Source="/Resources/workday.png" Stretch="Uniform"/>
         </Button>
-        <Button x:Name="btnCST" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="46" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="549,10,0,0" Background="{x:Null}" Click="btnClientInfoReport_Click">
+        <Button x:Name="btnCST" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="46" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="549,10,0,0" Background="{x:Null}" Click="btnCST_Click">
             <DockPanel>
                 <TextBlock Text="CST" DockPanel.Dock="Top" Foreground="MediumSlateBlue" TextAlignment="Center"/>
                 <Image Source ="/Resources/AMLogo.ico" DockPanel.Dock="Bottom" Stretch="Uniform"/>
