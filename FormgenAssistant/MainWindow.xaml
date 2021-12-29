@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Pages="clr-namespace:FormgenAssistant.Pages" xmlns:local="clr-namespace:FormgenAssistant" x:Name="Background" x:Class="FormgenAssistant.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="{x:Null}" Icon="/AMLogo.ico" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
+        Title="MainWindow" Height="450" Width="800" Background="{x:Null}" Icon="/Resources/AMLogo.ico" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True">
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="50" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
@@ -34,23 +34,23 @@
 
 
                                 <Button x:Name="btnHome" Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,55,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click">
-                                    <Image Height="45" Source="/home.png" Width="45" OpacityMask="Black"/>
+                                    <Image Height="45" Source="/Resources/home.png" Width="45" OpacityMask="Black"/>
                                 </Button>
                                 <Button x:Name="btnNameGen" Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_1">
-                                    <Image Height="45" Width="45" Source="/file.png" />
+                                    <Image Height="45" Width="45" Source="/Resources/file.png" />
                                 </Button>
                                 <Button x:Name="btnNotes" Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_4">
-                                    <Image Height="45" Width="45" Source="/edit.png" />
+                                    <Image Height="45" Width="45" Source="/Resources/edit.png" />
                                 </Button>
                                 <Button x:Name="btnPrompts" Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="btnPrompts_Click" >
-                                    <Image Height="45" Width="45" Source="/prompt.png" />
+                                    <Image Height="45" Width="45" Source="/Resources/prompt.png" />
                                 </Button>
-                                <Button x:Name="btnCLI" Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_2" Visibility="Visible">
-                                    <Image Height="45" Width="45" Source="/database.png" />
+                                <Button x:Name="btnCLI" Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_2" Visibility="Hidden">
+                                    <Image Height="45" Width="45" Source="/Resources/database.png" />
                                 </Button>
                             </StackPanel>
-                            <Button x:Name="btnSettings" DockPanel.Dock="Bottom" Style="{DynamicResource ButtonStyle1}" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Height="49" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="Button_Click_3" Visibility="Hidden">
-                                <Image Height="45" Source="/settings_gear.png" Width="45" OpacityMask="Black"/>
+                            <Button x:Name="btnSettings" DockPanel.Dock="Bottom" Style="{DynamicResource ButtonStyle1}" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Height="49" Width="50" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="Button_Click_3" Visibility="Visible">
+                                <Image Height="45" Source="/Resources/settings_gear.png" Width="45" OpacityMask="Black"/>
                             </Button>
                         </StackPanel>
                     </DockPanel>
@@ -77,7 +77,7 @@
                         <Image
 		Grid.Column="0"
 		Margin="15,0,473,-3"
-		Source="/logo-white.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
+		Source="/Resources/logo-white.png" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
                         <Button
 		Grid.Column="2"
 		Click="OnMinimizeButtonClick"

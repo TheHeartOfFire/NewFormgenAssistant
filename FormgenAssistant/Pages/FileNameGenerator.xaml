@@ -426,6 +426,7 @@
         <Label Content="CAPS" HorizontalAlignment="Left" Margin="171,182,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
         <Button Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Click="Button_Click" Margin="446,339,0,0" Content="Clear" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Height="25">
         </Button>
+        <Button x:Name="tglNotes_CopyAll" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Click="Button_Click_1" Margin="391,339,0,0" Content="Copy" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Height="25"/>
 
 
     </Grid>

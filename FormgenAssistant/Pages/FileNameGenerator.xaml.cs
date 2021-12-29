@@ -169,5 +169,10 @@ namespace FormgenAssistant.Pages
             txtCode.Text = string.Empty;
             txtDate.Text = string.Empty;
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(txtOutput.Text);
+        }
     }
 }

@@ -23,13 +23,17 @@ namespace FormgenAssistant
     public partial class SettingsPage : UserControl
     {
         private static readonly Dealers _dealers = Dealers.Instance;
+        private static readonly Settings _settings = Settings.Instance;
         public SettingsPage()
         {
             InitializeComponent();
+
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void btnLookupDealers_Click(object sender, RoutedEventArgs e)
         {
+            return;//disabled for now
+
             var result = MessageBox.Show("This process takes over an hour to complete if no other dealerships have already been downloaded.\n\nPlease do not perform this action during normal working house.\n\nDo you wish to proceed?", "Are you sure?", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {
@@ -61,6 +65,14 @@ namespace FormgenAssistant
             }
 
             prgDealerLookup.Value = e;
+        }
+
+        private void tglFormCodeCAPS_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (tglFormCodeCAPS.IsOn is null) return;
+
+            _settings.Notes_CopyAll = (bool)tglFormCodeCAPS.IsOn;
+            Settings.Save();
         }
     }
 }

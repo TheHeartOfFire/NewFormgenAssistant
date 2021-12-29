@@ -1,14 +1,21 @@
-﻿<UserControl x:Class="FormgenAssistant.SettingsPage"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FormgenAssistant"
+             xmlns:Controls="clr-namespace:FormgenAssistant.Controls" x:Class="FormgenAssistant.SettingsPage"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="#FF0F0B1E">
-        <Button Content="Lookup All Dealerships" HorizontalAlignment="Left" Height="42" Margin="63,55,0,0" VerticalAlignment="Top" Width="207" Background="{x:Null}" Foreground="MediumSlateBlue" BorderBrush="MediumSlateBlue" FontSize="18" Click="Button_Click"/>
         <Canvas>
+            <Label Content="Notes" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Canvas.Left="10" Canvas.Top="10"/>
+            <Controls:ToggleSwitch x:Name="tglFormCodeCAPS" Height="22" Width="50" BorderThickness1="5" IsOn="True" Canvas.Left="10" Canvas.Top="54" MouseLeftButtonDown="tglFormCodeCAPS_MouseLeftButtonDown"/>
+            <Separator Height="2" Canvas.Left="10" Canvas.Top="45" Width="182" Background="MediumSlateBlue"/>
+            <Label Content="Copy all on clear" Background="{x:Null}" Foreground="MediumSlateBlue" Canvas.Left="65" Canvas.Top="52" Height="24" Width="101"/>
+            <Label Content="Client Info Report" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Canvas.Left="10" Canvas.Top="78"/>
+            <Separator Height="2" Canvas.Left="10" Canvas.Top="117" Width="182" Background="MediumSlateBlue"/>
+            <Button x:Name="btnLookupDealers" Content="Lookup All Dealerships" Height="42" Width="207" Background="{x:Null}" Foreground="MediumSlateBlue" BorderBrush="MediumSlateBlue" FontSize="18" Click="btnLookupDealers_Click" Canvas.Left="12" Canvas.Top="126" Visibility="Visible"/>
             <ProgressBar x:Name="prgDealerLookup" Background="{x:Null}" BorderBrush="MediumSlateBlue" Height="10" Canvas.Left="63" Canvas.Top="102" Width="207" Visibility="Hidden">
                 <ProgressBar.Foreground>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

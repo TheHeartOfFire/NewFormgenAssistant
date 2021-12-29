@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormgenAssistant.SavedItems;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,11 +31,12 @@ namespace FormgenAssistant.Pages
         private void btnCopyDealer_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtDealer.Text);
         private void btnCopyName_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtName.Text);
         private void btnCopyEmail_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtEmail.Text);
-        private void btnCopyPhone_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtPhone.Text + " x" + txtPhoneExt);
+        private void btnCopyPhone_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtPhone.Text != "" ? txtPhone.Text + " x" + txtPhoneExt : "");
         private void btnCopyNotes_Click(object sender, RoutedEventArgs e) =>  Clipboard.SetText(txtNotes.Text);
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
+            if(Settings.Instance.Notes_CopyAll) CopyAll();
             txtServerId.Text = string.Empty;
             txtCompanies.Text = string.Empty;
             txtDealer.Text = string.Empty;
@@ -43,6 +45,21 @@ namespace FormgenAssistant.Pages
             txtPhone.Text = string.Empty;
             txtPhoneExt.Text = string.Empty;
             txtNotes.Text = string.Empty;
+        }
+
+        private void btnCopyAll_Click(object sender, RoutedEventArgs e)
+        {
+            CopyAll();
+        }
+
+        private void CopyAll()
+        {
+            var SB = new StringBuilder();
+            SB.AppendLine("Server: " + txtServerId.Text + "\tCompany(s): " + txtCompanies.Text);
+            SB.AppendLine("Dealership: " + txtDealer.Text);
+            SB.AppendLine("Contact: " + txtName.Text + "\tE-Mail: " + txtEmail.Text + "\tPhone: " + txtPhone.Text != "" ? txtPhone.Text + " x" + txtPhoneExt.Text : "");
+            SB.AppendLine("Notes: " + txtNotes.Text);
+            Clipboard.SetText(SB.ToString());
         }
     }
 }

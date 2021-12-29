@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PackageIcon>AMLogo.ico</PackageIcon>
-    <ApplicationIcon>AMLogo.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\AMLogo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +22,9 @@
     <None Remove="logo-white.png" />
     <None Remove="msft.png" />
     <None Remove="prompt.png" />
-    <None Remove="Resources\GitHub-logo-White.png" />
+    <None Remove="Resources\AMLogo.ico" />
+    <None Remove="Resources\file.png" />
+    <None Remove="Resources\logo-white.png" />
     <None Remove="SalesForce.png" />
     <None Remove="settings_gear.png" />
     <None Remove="web.png" />
@@ -30,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="AMLogo.ico">
+    <Content Include="Resources\AMLogo.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -41,48 +43,47 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="ADP.png">
+    <Resource Include="Resources\ADP.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="AMLogo.ico" />
-    <Resource Include="copy.png">
+    <Resource Include="Resources\copy.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="database.png" />
-    <Resource Include="edit.png">
+    <Resource Include="Resources\database.png" />
+    <Resource Include="Resources\edit.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="excel.png">
+    <Resource Include="Resources\excel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="file.png">
+    <Resource Include="Resources\file.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="home.png">
+    <Resource Include="Resources\home.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="logo-white.png">
+    <Resource Include="Resources\GitHub-logo-White.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="GitHub-logo-White.png">
+    <Resource Include="Resources\logo-white.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="msft.png">
+    <Resource Include="Resources\msft.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="prompt.png">
+    <Resource Include="Resources\prompt.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="SalesForce.png">
+    <Resource Include="Resources\SalesForce.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="settings_gear.png">
+    <Resource Include="Resources\settings_gear.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="web.png">
+    <Resource Include="Resources\web.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="workday.png">
+    <Resource Include="Resources\workday.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -100,17 +101,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Resources\AMLogo.ico">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Bases\" />
   </ItemGroup>
 
 </Project>

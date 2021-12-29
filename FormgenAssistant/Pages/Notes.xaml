@@ -16,9 +16,6 @@
         <Controls:NewTextBox x:Name="txtDealer" HorizontalAlignment="Left" Height="41" Margin="223,38,0,0" VerticalAlignment="Top" Width="490"/>
         <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,114,0,0"/>
         <Controls:NewTextBox x:Name="txtName" HorizontalAlignment="Left" Height="41" Margin="10,142,0,0" VerticalAlignment="Top" Width="260"/>
-        <Button x:Name="btnCopyServer" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="42,84,0,0" Background="{x:Null}" Click="btnCopyServer_Click">
-            <Image Source="/copy.png" Stretch="Uniform"/>
-        </Button>
         <Label Content="E-Mail" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="275,114,0,0"/>
         <Controls:NewTextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="41" Margin="275,142,0,0" VerticalAlignment="Top" Width="208" />
         <Label Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="489,114,0,0"/>
@@ -27,25 +24,29 @@
         <Controls:NewTextBox x:Name="txtPhoneExt" HorizontalAlignment="Left" Height="41" Margin="659,142,0,0" VerticalAlignment="Top" Width="54" />
         <Label Content="Notes" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,219,0,0"/>
         <Controls:NewTextBox x:Name="txtNotes" HorizontalAlignment="Center" Height="130" Margin="0,247,0,0" VerticalAlignment="Top" Width="713" Text="" TextWrapping="Wrap"/>
+        <Button x:Name="btnCopyServer" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="42,84,0,0" Background="{x:Null}" Click="btnCopyServer_Click">
+            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+        </Button>
         <Button x:Name="btnCopyCompanies" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="148,84,0,0" Background="{x:Null}" Click="btnCopyCompanies_Click">
-            <Image Source="/copy.png" Stretch="Uniform"/>
+            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
         <Button x:Name="btnCopyDealer" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="300,84,0,0" Background="{x:Null}" Click="btnCopyDealer_Click">
-            <Image Source="/copy.png" Stretch="Uniform"/>
+            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
         <Button x:Name="btnCopyName" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="29,188,0,0" Background="{x:Null}" Click="btnCopyName_Click">
-            <Image Source="/copy.png" Stretch="Uniform"/>
+            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
         <Button x:Name="btnCopyEmail" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="296,188,0,0" Background="{x:Null}" Click="btnCopyEmail_Click">
-            <Image Source="/copy.png" Stretch="Uniform"/>
+            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
         <Button x:Name="btnCopyPhone" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="510,188,0,0" Background="{x:Null}" Click="btnCopyPhone_Click">
-            <Image Source="/copy.png" Stretch="Uniform"/>
+            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
         <Button x:Name="btnCopyNotes" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="72,225,0,0" Background="{x:Null}" Click="btnCopyNotes_Click">
-            <Image Source="/copy.png" Stretch="Uniform"/>
+            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
         <Button x:Name="btnClear" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Margin="663,222,0,0" Content="Clear" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Height="25" Click="btnClear_Click"/>
+        <Button x:Name="btnCopyAll" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Margin="663,22,0,0" Content="Copy All" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Height="25" Click="btnCopyAll_Click"/>
 
     </Grid>
 </UserControl>
