@@ -23,7 +23,7 @@
         <Label Content="Ext." HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="659,114,0,0"/>
         <Controls:NewTextBox x:Name="txtPhoneExt" HorizontalAlignment="Left" Height="41" Margin="659,142,0,0" VerticalAlignment="Top" Width="54" />
         <Label Content="Notes" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,219,0,0"/>
-        <Controls:NewTextBox x:Name="txtNotes" HorizontalAlignment="Center" Height="130" Margin="0,247,0,0" VerticalAlignment="Top" Width="713" Text="" TextWrapping="Wrap"/>
+        <Controls:NewTextBox x:Name="txtNotes" HorizontalAlignment="Stretch" Height="130" Margin="0,247,0,0" VerticalAlignment="Top" Width="713" Text="" TextWrapping="Wrap"/>
         <Button x:Name="btnCopyServer" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="42,84,0,0" Background="{x:Null}" Click="btnCopyServer_Click">
             <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>

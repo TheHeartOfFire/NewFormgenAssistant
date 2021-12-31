@@ -29,7 +29,7 @@ namespace FormgenAssistant.Pages
         {
             InitializeComponent();
             lboxPrompts.Items.Clear();
-            lboxPrompts.Items.Add(new Controls.PromptItem(PromptDescriptor(PromptType.RadioButtons), "rdoPrompt1", "I am a radio prompt for testing purposes!"));
+            //lboxPrompts.Items.Add(new Controls.PromptItem(PromptDescriptor(PromptType.RadioButtons), "rdoPrompt1", "I am a radio prompt for testing purposes!"));
         }
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
