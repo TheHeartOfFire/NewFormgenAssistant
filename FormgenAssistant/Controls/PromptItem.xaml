@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="FormgenAssistant.Controls.PromptItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FormgenAssistant.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="675">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="475"/>
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="MediumSlateBlue" BorderThickness="1" Grid.ColumnSpan="3"/>
+        <Border BorderBrush="MediumSlateBlue" BorderThickness="1"/>
+        <Label x:Name="lblDescriptor" Foreground="MediumSlateBlue" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="15" Content="RDO"/>
+
+        <Label x:Name="lblName" Content="Name" HorizontalAlignment="Left" Margin="0,16,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="18" Grid.Column="1" MaxWidth="150" VerticalContentAlignment="Top" Height="34" Width="136"/>
+        <Label x:Name="lblNameTitle" Content="Variable Name" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" Grid.Column="1" FontSize="10" Height="23" Width="74"/>
+        <Label x:Name="lblMessage" Content="Message" HorizontalAlignment="Left" Margin="0,16,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="18" Grid.Column="2" MaxWidth="475"/>
+        <Label x:Name="lblMessageTitle" Content="Message" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" Grid.Column="2" FontSize="10" Height="23" Width="49"/>
+
+    </Grid>
+</UserControl>

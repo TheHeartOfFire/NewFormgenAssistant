@@ -30,18 +30,19 @@ namespace FormgenAssistant.Pages
         {
             InitializeComponent();
             lboxPrompts.Items.Clear();
+            lboxPrompts.Items.Add(new Controls.PromptItem(PromptDescriptor(PromptType.RadioButtons), "rdoPrompt1", "I am a radio prompt for testing purposes!"));
         }
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dia = new OpenFileDialog();
             dia.Filter = "Formgen files (*.formgen)|*.formgen";
-            if (dia.ShowDialog() == true)
-            {
-                txtFilePath.Text = dia.FileName;
-                File.Load(txtFilePath.Text);
-                ReadXML();
-            }
+            if (dia.ShowDialog() == false) return;
+
+            txtFilePath.Text = dia.FileName;
+            File.Load(txtFilePath.Text);
+            ReadXML();
+
 
         }
 
@@ -79,7 +80,40 @@ namespace FormgenAssistant.Pages
             File.Save(txtFilePath.Text);
         }
 
-        private void btnDupePrompt_Click(object sender, RoutedEventArgs e)
+        private void ctxtDeletePrompt(object sender, RoutedEventArgs e)
+        {
+            if (File.DocumentElement is null) return;
+            if (MessageBox.Show(
+                "Are you sure you want to delete " + lboxPrompts.SelectedItems.Count + "Item(s)?", 
+                "Delete", 
+                MessageBoxButton.YesNo, 
+                MessageBoxImage.Warning) == MessageBoxResult.No) return;
+
+            foreach (var selection in lboxPrompts.SelectedItems)
+            {
+                int idx = lboxPrompts.Items.IndexOf(selection);
+
+
+                foreach (XmlNode node in File.DocumentElement.ChildNodes)
+                {
+
+                    if (node.Name == "codeLines" && node.Attributes is not null && node.Attributes[1].Value == "PROMPT")
+                    {
+                        if (node.Attributes[2].Value == Prompts[idx].variable)
+                        {
+                            File.DocumentElement.RemoveChild(node);
+                        }
+                    }
+                }
+                Nodes.RemoveAt(idx);
+                Prompts.RemoveAt(idx);
+            }
+
+
+            UpdatePrompts();
+            File.Save(txtFilePath.Text);
+        }
+        private void ctxtClonePrompt(object sender, RoutedEventArgs e)
         {
             if(txtFilePath.Text == string.Empty) return;
             if (lboxPrompts.SelectedIndex<0) return;
@@ -88,41 +122,22 @@ namespace FormgenAssistant.Pages
             {
                 int idx = lboxPrompts.Items.IndexOf(selection);
                 var item = Prompts[idx];
-                DuplicatePrompt dia = new DuplicatePrompt(item.variable, item.message);
-                if(item.type == "Separator")
-                {
+                var oldNode = Nodes[idx];
+                var variable = item.variable;
+                while (Prompts.Exists(x => x.variable == variable))
+                    variable = CopyIncrimentor(variable);
 
-                    var newItem = new PromptItem((Prompts.Count).ToString(), dia.VariableName, dia.Prompt, Nodes[idx].FirstChild.Attributes[0].Value);
+                var newItem = new PromptItem(Prompts.Count.ToString(), variable, item.message, oldNode.FirstChild.Attributes[0].Value);
 
-                    var newNode = Nodes[idx].Clone();
-                    newNode.Attributes[0].Value = newItem.position;
-                    newNode.Attributes[2].Value = newItem.variable;
-                    if (newItem.message != "None")
-                        newNode.FirstChild.FirstChild.InnerText = newItem.message;
+                var newNode = Nodes[idx].Clone();
+                newNode.Attributes[0].Value = newItem.position;
+                newNode.Attributes[2].Value = newItem.variable;
+                if (newItem.message != "None")
+                    newNode.FirstChild.FirstChild.InnerText = newItem.message;
 
-                    Nodes.Add(newNode);
-                    File.DocumentElement.AppendChild(newNode);
-                    Prompts.Add(newItem);
-                }
-                else if (dia.ShowDialog() == true)
-                {
-                    string variable = dia.VariableName;
-
-                    while (Prompts.Exists(x => x.variable == variable))
-                        variable = CopyIncrimentor(variable);
-
-                    var newItem = new PromptItem((Prompts.Count).ToString(), variable, dia.Prompt, Nodes[idx].FirstChild.Attributes[0].Value);
-
-                    var newNode = Nodes[idx].Clone();
-                    newNode.Attributes[0].Value = newItem.position;
-                    newNode.Attributes[2].Value = newItem.variable;
-                    if (newItem.message != "None")
-                        newNode.FirstChild.FirstChild.InnerText = newItem.message;
-
-                    Nodes.Add(newNode);
-                    File.DocumentElement.AppendChild(newNode);
-                    Prompts.Add(newItem);
-                }
+                Nodes.Add(newNode);
+                File.DocumentElement.AppendChild(newNode);
+                Prompts.Add(newItem);
             }
             UpdatePrompts();
             File.Save(txtFilePath.Text);
@@ -133,7 +148,7 @@ namespace FormgenAssistant.Pages
             lboxPrompts.Items.Clear();
             foreach (var prompt in Prompts)
             {
-                lboxPrompts.Items.Add($"Variable Name: {prompt.variable}\nMessage: {prompt.message}\nType: {prompt.type}");
+                lboxPrompts.Items.Add( new Controls.PromptItem(PromptDescriptor(prompt.type),prompt.variable, prompt.message));
             }
         }
 
@@ -150,14 +165,26 @@ namespace FormgenAssistant.Pages
 
         private static string CopyIncrimentor(string input)
         {
-            if(int.TryParse(input.Last().ToString(),out int number))
+            var index = input.Length-1;
+            int number;
+            while (int.TryParse(input[index].ToString(), out _))
             {
-                number++;
-                var output = input.Substring(0, input.Length -  1) + number.ToString();
-                return output;
+                index--;
             }
-            
-            return input + 1.ToString();
+
+            _ = int.TryParse(input.Substring(index+1), out number);
+
+            number++;
+            var output = input.Substring(0, index+1) + number.ToString();
+            return output;
+
+        }
+
+        private void lboxPrompts_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+            if(lboxPrompts.SelectedItems.Count > 0)
+                e.Handled = true;
         }
     }
 
