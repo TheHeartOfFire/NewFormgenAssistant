@@ -151,7 +151,7 @@ namespace FormgenAssistant.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to https://account.activedirectory.windowsazure.com/applications/signin/9f5cedca-59db-4396-8569-793bbfd3fb13?tenantId=c45b48f3-13bb-448b-9356-ba7b863c2189.
+        ///   Looks up a localized string similar to https://wd5.myworkday.com/solera/d/home.htmld.
         /// </summary>
         internal static string Workday {
             get {

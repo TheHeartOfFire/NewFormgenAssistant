@@ -148,6 +148,6 @@
     <value>https://account.activedirectory.windowsazure.com/applications/signin/16d2b7b8-7000-4c9c-8476-212e03ddea4c?tenantId=c45b48f3-13bb-448b-9356-ba7b863c2189</value>
   </data>
   <data name="Workday" xml:space="preserve">
-    <value>https://account.activedirectory.windowsazure.com/applications/signin/9f5cedca-59db-4396-8569-793bbfd3fb13?tenantId=c45b48f3-13bb-448b-9356-ba7b863c2189</value>
+    <value>https://wd5.myworkday.com/solera/d/home.htmld</value>
   </data>
 </root>
