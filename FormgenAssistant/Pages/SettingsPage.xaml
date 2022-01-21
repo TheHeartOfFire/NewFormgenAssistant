@@ -15,7 +15,7 @@
             <Label Content="Copy all on clear" Background="{x:Null}" Foreground="MediumSlateBlue" Canvas.Left="65" Canvas.Top="52" Height="24" Width="101"/>
             <Label Content="Client Info Report" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Canvas.Left="10" Canvas.Top="78"/>
             <Separator Height="2" Canvas.Left="10" Canvas.Top="117" Width="182" Background="MediumSlateBlue"/>
-            <Button x:Name="btnLookupDealers" Content="Lookup All Dealerships" Height="42" Width="207" Background="{x:Null}" Foreground="MediumSlateBlue" BorderBrush="MediumSlateBlue" FontSize="18" Click="btnLookupDealers_Click" Canvas.Left="12" Canvas.Top="126" Visibility="Visible"/>
+            <Button x:Name="btnLookupDealers" Content="Lookup All Dealerships" Height="42" Width="207" Background="{x:Null}" Foreground="MediumSlateBlue" BorderBrush="MediumSlateBlue" FontSize="18" Click="btnLookupDealers_Click" Canvas.Left="12" Canvas.Top="126" Visibility="Hidden"/>
             <ProgressBar x:Name="prgDealerLookup" Background="{x:Null}" BorderBrush="MediumSlateBlue" Height="10" Canvas.Left="63" Canvas.Top="102" Width="207" Visibility="Hidden">
                 <ProgressBar.Foreground>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -29,7 +29,7 @@
                     </LinearGradientBrush>
                 </ProgressBar.Foreground>
             </ProgressBar>
-            <Button x:Name="btnGenerateFormgenFile" Content="Create Formgen for PDF with Fields" Height="42" Background="{x:Null}" Foreground="MediumSlateBlue" BorderBrush="MediumSlateBlue" FontSize="18" Click="btnGenerateFormgenFile_Click" Canvas.Left="12" Canvas.Top="173" Visibility="Visible"/>
+            <Button x:Name="btnGenerateFormgenFile" Content="Create Formgen for PDF with Fields" Height="42" Background="{x:Null}" Foreground="MediumSlateBlue" BorderBrush="MediumSlateBlue" FontSize="18" Click="btnGenerateFormgenFile_Click" Canvas.Left="12" Canvas.Top="173" Visibility="Hidden"/>
         </Canvas>
 
     </Grid>
