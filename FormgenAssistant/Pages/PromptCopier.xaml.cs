@@ -1,6 +1,8 @@
-﻿using Microsoft.Win32;
+﻿using FormgenAssistant.DataTypes;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,60 +25,53 @@ namespace FormgenAssistant.Pages
     public partial class PromptCopier : UserControl
     {
         private XmlDocument File = new XmlDocument();
-        private List<PromptItem> Prompts = new List<PromptItem>();
-        private List<XmlNode> Nodes = new List<XmlNode>();
+        private string FilePath;
+        private string backupFilePath;
+        private DotFormgen FormFile;
+        private static readonly string DirPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\FormgenAssistant\\FormgenBackup";
         public PromptCopier()
         {
             InitializeComponent();
             lboxPrompts.Items.Clear();
-            //lboxPrompts.Items.Add(new Controls.PromptItem(PromptDescriptor(PromptType.RadioButtons), "rdoPrompt1", "I am a radio prompt for testing purposes!"));
         }
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dia = new OpenFileDialog();
-            dia.Filter = "Formgen files (*.formgen)|*.formgen";
+            OpenFileDialog dia = new()
+            {
+                Filter = "Formgen files (*.formgen)|*.formgen"
+            };
             if (dia.ShowDialog() == false) return;
 
-            txtFilePath.Text = dia.FileName;
-            File.Load(txtFilePath.Text);
+            FilePath = dia.FileName;
+            txtFilePath.Text = FilePath[(FilePath.LastIndexOf(@"\") + 1)..];
+            File.Load(FilePath);
             ReadXML();
-
-
+            UpdatePrompts();
         }
 
         private void ReadXML()
         {
-            //UUID is inside of <formDef> and is named publishedUUID and is a string
-            //Prompts are each a different <codeLines> node with a type of "PROMPT" with a name of destVariable
-            //inside of prompts are <promptData>
-            //inside of prompt Data are <promptMessage>
             if (File.DocumentElement is null) return;
-            txtUUID.Text =  File.DocumentElement.Attributes[1].Value;
 
-            foreach(XmlNode node in File.DocumentElement.ChildNodes)
-            {
-                
-                if (node.Name == "codeLines" && node.Attributes is not null && node.Attributes[1].Value == "PROMPT")
-                {
-                    Prompts.Add(new PromptItem(node.Attributes[0].Value, 
-                        node.Attributes[2].Value, 
-                        node.FirstChild is not null && node.FirstChild.FirstChild is not null ? node.FirstChild.FirstChild.InnerText : "None",
-                        node.FirstChild is not null ? node.FirstChild.Attributes[0].Value : "None"));
-                    Nodes.Add(node);
-                }
-            }
-            UpdatePrompts();
+            FormFile = new DotFormgen(File.DocumentElement);
+
+            txtUUID.Text = FormFile.Settings.UUID;
         }
 
         private void btnUUIDGen_Click(object sender, RoutedEventArgs e)
         {
             if (File.DocumentElement is null) return;
+            if (MessageBox.Show(
+                "Are you sure you want to change the UUID for this form. Formgen will no longer recognize this as the same form.",
+                "Update UUID",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning) == MessageBoxResult.No) return;
 
             var UUID = Guid.NewGuid().ToString();
             txtUUID.Text = UUID;
             File.DocumentElement.Attributes[1].Value = UUID;
-            File.Save(txtFilePath.Text);
+            FormFile.Settings.UUID = UUID;
         }
 
         private void ctxtDeletePrompt(object sender, RoutedEventArgs e)
@@ -93,24 +88,11 @@ namespace FormgenAssistant.Pages
                 int idx = lboxPrompts.Items.IndexOf(selection);
 
 
-                foreach (XmlNode node in File.DocumentElement.ChildNodes)
-                {
-
-                    if (node.Name == "codeLines" && node.Attributes is not null && node.Attributes[1].Value == "PROMPT")
-                    {
-                        if (node.Attributes[2].Value == Prompts[idx].variable)
-                        {
-                            File.DocumentElement.RemoveChild(node);
-                        }
-                    }
-                }
-                Nodes.RemoveAt(idx);
-                Prompts.RemoveAt(idx);
+                FormFile.CodeLines.Remove(FormFile.GetPrompt(idx));
             }
 
 
             UpdatePrompts();
-            File.Save(txtFilePath.Text);
         }
         private void ctxtClonePrompt(object sender, RoutedEventArgs e)
         {
@@ -120,45 +102,39 @@ namespace FormgenAssistant.Pages
             foreach(var selection in lboxPrompts.SelectedItems)
             {
                 int idx = lboxPrompts.Items.IndexOf(selection);
-                var item = Prompts[idx];
-                var oldNode = Nodes[idx];
-                var variable = item.variable;
-                while (Prompts.Exists(x => x.variable == variable))
-                    variable = CopyIncrimentor(variable);
+                var item = FormFile.GetPrompt(idx);
+                var variable = item.Settings.Variable;
 
-                var newItem = new PromptItem(Prompts.Count.ToString(), variable, item.message, oldNode.FirstChild.Attributes[0].Value);
+                var prompts = FormFile.CodeLines.Where(x => x.Settings.Type == CodeLineSettings.CodeType.PROMPT).ToList();
 
-                var newNode = Nodes[idx].Clone();
-                newNode.Attributes[0].Value = newItem.position;
-                newNode.Attributes[2].Value = newItem.variable;
-                if (newItem.message != "None")
-                    newNode.FirstChild.FirstChild.InnerText = newItem.message;
+                if (variable != "F0")
+                    while (prompts.Exists(x => x.Settings.Variable == variable))
+                        variable = CopyIncrimentor(variable);
 
-                Nodes.Add(newNode);
-                File.DocumentElement.AppendChild(newNode);
-                Prompts.Add(newItem);
+                FormFile.ClonePrompt(item, variable, FormFile.PromptCount());
             }
             UpdatePrompts();
-            File.Save(txtFilePath.Text);
         }
 
         private void UpdatePrompts()
         {
             lboxPrompts.Items.Clear();
-            foreach (var prompt in Prompts)
-            {
-                lboxPrompts.Items.Add( new Controls.PromptItem(PromptDescriptor(prompt.type),prompt.variable, prompt.message));
+            foreach (var line in FormFile.CodeLines)
+            {   
+                if(line.Settings.Type == CodeLineSettings.CodeType.PROMPT)
+                lboxPrompts.Items.Add( new Controls.PromptItem(PromptDataSettings.PromptDescriptor(line.PromptData.Settings.Type), line.Settings.Variable, line.PromptData.Message));
             }
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
+            if (txtFilePath.Text == string.Empty) return;
             File = new XmlDocument();
-            Nodes.Clear();
-            Prompts.Clear();
+            FormFile = null;
 
             txtFilePath.Text = string.Empty;
             txtUUID.Text = string.Empty;
+            FilePath = string.Empty;
             lboxPrompts.Items.Clear();
         }
 
@@ -185,20 +161,95 @@ namespace FormgenAssistant.Pages
             if(lboxPrompts.SelectedItems.Count > 0)
                 e.Handled = true;
         }
-    }
 
-    public class PromptItem
-    {
-        public string position { get; set; }
-        public string variable { get; set; }
-        public string message { get; set; }
-        public string type { get; set; }
-        public PromptItem(string Position, string Variable, string Message, string Type)
+        private void btnUndo_Click(object sender, RoutedEventArgs e)
         {
-            position = Position;
-            variable = Variable;
-            message = Message;
-            type = Type;
+            if (txtFilePath.Text == string.Empty) return;
+            OpenFileDialog dia = new()
+            {
+                Filter = "Backup files (*.bak)|*.bak",
+                InitialDirectory = DirPath + "\\" + FormFile.Settings.UUID
+            };
+            if (dia.ShowDialog() == false) return;
+
+            File.Load(dia.FileName);
+            ReadXML();
+            File.Save(FilePath);
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtFilePath.Text == string.Empty) return;
+            if (MessageBox.Show(
+               $"You are about to save your changes to {txtFilePath.Text}. A backup will be created of your original file in case you change your mind. Do you wish to proceed?",
+               "Save",
+               MessageBoxButton.YesNo,
+               MessageBoxImage.Warning) == MessageBoxResult.No) return;
+
+            //Create backup file
+            Directory.CreateDirectory(DirPath + "\\" + FormFile.Settings.UUID);
+            backupFilePath = DirPath + "\\" + FormFile.Settings.UUID + "\\" + DateTime.Now.ToString("mm-dd-yyyy.hh-mm-ss") + ".bak";
+            File.Save(backupFilePath);
+
+            var xml = FormFile.GenerateXML();
+            File.LoadXml(xml);
+            File.Save(FilePath);
+        }
+
+        private void tglPromptField_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (txtFilePath.Text == string.Empty) return;
+            var item = lboxPrompts.ContextMenu.Items[0] as MenuItem;
+            item.IsEnabled = !item.IsEnabled;
+            item = lboxPrompts.ContextMenu.Items[1] as MenuItem;
+            item.IsEnabled = !item.IsEnabled;
+            item = lboxPrompts.ContextMenu.Items[2] as MenuItem;
+            item.IsEnabled = !item.IsEnabled;
+
+            if (tglPromptField.IsOn == false)
+            {
+                UpdatePrompts();
+                return;
+            }
+
+            LoadFields();
+        }
+
+        private void LoadFields()
+        {
+            lboxPrompts.Items.Clear();
+            foreach (var line in FormFile.Pages)
+                foreach (var field in line.Fields)
+                    lboxPrompts.Items.Add(new Controls.FieldItem(field.Settings.Type.ToString(), field.Settings.Bold.ToString(), field.Expression));
+        }
+
+        private void ctxtEdit(object sender, RoutedEventArgs e)
+        {
+            if (txtFilePath.Text == string.Empty) return;
+            if (lboxPrompts.SelectedIndex < 0) return;
+
+            foreach (var selection in lboxPrompts.SelectedItems)
+            {
+                int idx = lboxPrompts.Items.IndexOf(selection);
+                var item = FormFile.GetField(idx);
+
+                item.Settings.Bold = !item.Settings.Bold;
+            }
+            LoadFields();
+        }
+
+        private void btnUndoChanges_Click(object sender, RoutedEventArgs e)
+        {
+            File.Load(FilePath);
+            ReadXML();
+
+            if (tglPromptField.IsOn == false)
+            {
+                UpdatePrompts();
+                return;
+            }
+
+            LoadFields();
         }
     }
 }

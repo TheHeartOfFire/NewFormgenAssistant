@@ -10,13 +10,14 @@
     <Grid Background="#FF0F0B1E">
         <Button x:Name="btnOpen" Content="Open" HorizontalAlignment="Left" Margin="594,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnOpen_Click"/>
         <TextBox x:Name="txtFilePath" HorizontalAlignment="Left" Height="32" Margin="23,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="556" FontSize="18" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" IsReadOnly="True"/>
-        <TextBox x:Name="txtUUID" HorizontalAlignment="Left" Height="32" Margin="23,89,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="350" FontSize="18" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" IsReadOnly="True"/>
-        <Label Content="UUID" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="23,47,0,0"/>
-        <Button x:Name="btnUUIDGen" Content="Re-Generate" HorizontalAlignment="Left" Margin="378,89,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnUUIDGen_Click"/>
+        <TextBox x:Name="txtUUID" HorizontalAlignment="Left" Height="32" Margin="23,81,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="350" FontSize="18" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" IsReadOnly="True"/>
+        <Label Content="UUID" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="23,44,0,0"/>
+        <Button x:Name="btnUUIDGen" Content="Re-Generate" HorizontalAlignment="Left" Margin="378,81,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnUUIDGen_Click" RenderTransformOrigin="0.386,0.047"/>
         <ListBox x:Name="lboxPrompts" HorizontalAlignment="Left" Height="221" Margin="23,157,0,0" VerticalAlignment="Top" Width="713" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" SelectionMode="Multiple" PreviewMouseRightButtonDown="lboxPrompts_PreviewMouseRightButtonDown">
             <ListBox.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Clone" Click="ctxtClonePrompt"/>
+                    <MenuItem Header="Bold / Unbold" Click="ctxtEdit" IsEnabled="False"/>
                     <MenuItem Header="Delete" Click="ctxtDeletePrompt"/>
                 </ContextMenu>
             </ListBox.ContextMenu>
@@ -25,6 +26,12 @@
             </ListBoxItem>
         </ListBox>
         <Button x:Name="btnClose" Content="Close" HorizontalAlignment="Left" Margin="647,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnClose_Click"/>
+        <Button x:Name="btnUndo" Content="Load Backup" Margin="594,84,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnUndo_Click" HorizontalAlignment="Left"/>
+        <Button x:Name="btnSave" Content="Save" Margin="699,10,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnSave_Click" HorizontalAlignment="Left"/>
+        <Button x:Name="btnUndoChanges" Content="Undo Changes" Margin="594,47,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnUndoChanges_Click" HorizontalAlignment="Left"/>
+        <Label Content="Prompts" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="14" Margin="23,128,0,0"/>
+        <Controls:ToggleSwitch x:Name="tglPromptField" HorizontalAlignment="Left" Margin="85,134,0,0" VerticalAlignment="Top" Height="18" Width="45" MouseLeftButtonDown="tglPromptField_MouseLeftButtonDown"/>
+        <Label Content="Fields" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="14" Margin="136,128,0,0"/>
 
     </Grid>
 </UserControl>
