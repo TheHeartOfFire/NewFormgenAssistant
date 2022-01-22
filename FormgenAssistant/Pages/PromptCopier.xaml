@@ -32,6 +32,7 @@
         <Label Content="Prompts" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="14" Margin="23,128,0,0"/>
         <Controls:ToggleSwitch x:Name="tglPromptField" HorizontalAlignment="Left" Margin="85,134,0,0" VerticalAlignment="Top" Height="18" Width="45" MouseLeftButtonDown="tglPromptField_MouseLeftButtonDown"/>
         <Label Content="Fields" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="14" Margin="136,128,0,0"/>
+        <Button x:Name="btnUndo_Copy" Content="Copy To" Margin="594,120,0,0" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" HorizontalAlignment="Left" Click="btnUndo_Copy_Click"/>
 
     </Grid>
 </UserControl>

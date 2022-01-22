@@ -113,12 +113,27 @@ namespace FormgenAssistant.DataTypes
 
             return Fields[Index];
         }
+        public int FieldCount()
+        {
+            int count = 0;
+            foreach (var page in Pages)
+                foreach (var field in page.Fields)
+                    count++;
 
+            return count;
+        }
+        public int InitCount()
+        {
+            return CodeLines.Where(x => x.Settings.Type == CodeLineSettings.CodeType.INIT).Count();
+        }
         public int PromptCount()
         {
             return CodeLines.Where(x => x.Settings.Type == CodeLineSettings.CodeType.PROMPT).Count();
         }
-
+        public int PostCount()
+        {
+            return CodeLines.Where(x => x.Settings.Type == CodeLineSettings.CodeType.POST).Count();
+        }
         public CodeLine ClonePrompt(CodeLine Prompt, string newName, int NewIndex)
         {
             var cl = new CodeLine(Prompt, newName, NewIndex);

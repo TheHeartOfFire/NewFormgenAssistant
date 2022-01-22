@@ -251,5 +251,49 @@ namespace FormgenAssistant.Pages
 
             LoadFields();
         }
+
+        private void btnUndo_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dia = new()
+            {
+                Filter = "Formgen files (*.formgen)|*.formgen"
+            };
+            if (dia.ShowDialog() == false) return;
+
+            var newDoc = new XmlDocument();
+            newDoc.Load(dia.FileName);
+            var Recipient = new DotFormgen(newDoc.DocumentElement);
+
+            var RecipientNicerName = dia.FileName[(dia.FileName.LastIndexOf(@"\") + 1)..];
+
+            if (Recipient.Pages.Count != FormFile.Pages.Count)
+            {
+                MessageBox.Show(
+                $"{RecipientNicerName} has {Recipient.Pages.Count} pages, but {txtFilePath.Text} has {FormFile.Pages.Count}. You can only copy to a form with the same number of pages.",
+                "Copy",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error);
+                return;
+            }
+
+            if (MessageBox.Show(
+                $"You're about to copy {FormFile.FieldCount()} fields, {FormFile.InitCount()} init(default) lines, {FormFile.PromptCount()} prompts and {FormFile.PostCount()} post prompt lines from {txtFilePath.Text} to {RecipientNicerName}. \n" +
+                $"This will overwrite {Recipient.FieldCount()} fields, {Recipient.InitCount()} init(default) lines, {Recipient.PromptCount()} prompts and {Recipient.PostCount()} post prompt lines.\n" +
+                $"A backup of {RecipientNicerName} will be created, do you wish to proceed?",
+                "Copy",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning) == MessageBoxResult.No) return;
+
+
+            Directory.CreateDirectory(DirPath + "\\" + Recipient.Settings.UUID);
+            backupFilePath = DirPath + "\\" + Recipient.Settings.UUID + "\\" + DateTime.Now.ToString("mm-dd-yyyy.hh-mm-ss") + ".bak";
+            File.Save(backupFilePath);
+
+            Recipient.Pages = FormFile.Pages;
+            Recipient.CodeLines = FormFile.CodeLines;
+            
+            newDoc.LoadXml(Recipient.GenerateXML());
+            newDoc.Save(dia.FileName);
+        }
     }
 }
