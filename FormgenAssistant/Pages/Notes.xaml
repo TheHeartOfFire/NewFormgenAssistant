@@ -5,48 +5,65 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FormgenAssistant.Pages"
              xmlns:Controls="clr-namespace:FormgenAssistant.Controls" x:Class="FormgenAssistant.Pages.Notes"
-             mc:Ignorable="d" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-    <Grid Background="#FF0F0B1E" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Grid Background="#FF0F0B1E">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" MaxHeight="30" MinHeight="30"/>
+            <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
+            <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
+            <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
+            <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
+            <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
+            <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
+            <RowDefinition Height="135*" MinHeight="135"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*" MinWidth="100" />
+            <ColumnDefinition Width="125*" MinWidth="125"/>
+            <ColumnDefinition Width="150*" MinWidth="150"/>
+            <ColumnDefinition Width="125*" MinWidth="125"/>
+            <ColumnDefinition Width="50*"  MinWidth="50"/>
+        </Grid.ColumnDefinitions>
 
-        <Label Content="Server Id" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,10,0,0"/>
-        <Controls:NewTextBox x:Name="txtServerId" HorizontalAlignment="Left" Height="41" Margin="10,38,0,0" VerticalAlignment="Top" Width="88"/>
-        <Label Content="Company(s)" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="103,10,0,0"/>
-        <Controls:NewTextBox x:Name="txtCompanies" HorizontalAlignment="Left" Height="41" Margin="103,38,0,0" VerticalAlignment="Top" Width="115"/>
-        <Label Content="Dealership / Group" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="223,10,0,0"/>
-        <Controls:NewTextBox x:Name="txtDealer" HorizontalAlignment="Left" Height="41" Margin="223,38,0,0" VerticalAlignment="Top" Width="490"/>
-        <Label Content="Name" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,114,0,0"/>
-        <Controls:NewTextBox x:Name="txtName" HorizontalAlignment="Left" Height="41" Margin="10,142,0,0" VerticalAlignment="Top" Width="260"/>
-        <Label Content="E-Mail" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="275,114,0,0"/>
-        <Controls:NewTextBox x:Name="txtEmail" HorizontalAlignment="Left" Height="41" Margin="275,142,0,0" VerticalAlignment="Top" Width="208" />
-        <Label Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="489,114,0,0"/>
-        <Controls:NewTextBox x:Name="txtPhone" HorizontalAlignment="Left" Height="41" Margin="489,142,0,0" VerticalAlignment="Top" Width="165"  Text=""/>
-        <Label Content="Ext." HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="659,114,0,0"/>
-        <Controls:NewTextBox x:Name="txtPhoneExt" HorizontalAlignment="Left" Height="41" Margin="659,142,0,0" VerticalAlignment="Top" Width="54" />
-        <Label Content="Notes" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,219,0,0"/>
-        <Controls:NewTextBox x:Name="txtNotes" HorizontalAlignment="Stretch" Height="130" Margin="0,247,0,0" VerticalAlignment="Top" Width="713" Text="" TextWrapping="Wrap"/>
-        <Button x:Name="btnCopyServer" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="42,84,0,0" Background="{x:Null}" Click="btnCopyServer_Click">
+        <Label x:Name="lblServer" Content="Server Id" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="88" Margin="5,5,0,0"/>
+        <Label x:Name="lblCompany" Content="Company(s)" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="115" Grid.Column="1"/>
+        <Label x:Name="lblDealer" Content="Dealership / Group" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="178" Grid.Column="2"/>
+        <Button x:Name="btnCopyAll" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Copy All" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="50" Height="25" Click="btnCopyAll_Click" Grid.Column="4"/>
+        <Controls:NewTextBox x:Name="txtServerId" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Margin="5,5,5,5"/>
+        <Controls:NewTextBox x:Name="txtCompanies" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5"/>
+        <Controls:NewTextBox x:Name="txtDealer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" Margin="5,5,5,5"/>
+        <Button x:Name="btnCopyServer" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="25,0,0,0" Background="{x:Null}" Click="btnCopyServer_Click" Grid.Row="2">
             <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
-        <Button x:Name="btnCopyCompanies" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="148,84,0,0" Background="{x:Null}" Click="btnCopyCompanies_Click">
+        <Button x:Name="btnCopyCompanies" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyCompanies_Click" Grid.Row="2" Grid.Column="1" Margin="25,0,0,0">
             <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
-        <Button x:Name="btnCopyDealer" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="300,84,0,0" Background="{x:Null}" Click="btnCopyDealer_Click">
+        <Button x:Name="btnCopyDealer" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyDealer_Click" Grid.Row="2" Grid.Column="2" Margin="25,0,0,0">
             <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
-        <Button x:Name="btnCopyName" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="29,188,0,0" Background="{x:Null}" Click="btnCopyName_Click">
+        <Label x:Name="lblName" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Width="63" Grid.Row="3"/>
+        <Label x:Name="lblEmail" Content="E-Mail" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="66" Grid.Row="3" Grid.Column="2"/>
+        <Label x:Name="lblPhone" Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="66" Grid.Row="3" Grid.Column="3"/>
+        <Label x:Name="lblExt" Content="Ext." HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="40" Grid.Row="3" Grid.Column="4"/>
+        <Controls:NewTextBox x:Name="txtName" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.ColumnSpan="2" Margin="5,5,5,5"/>
+        <Controls:NewTextBox x:Name="txtEmail" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.Column="2" Margin="5,5,5,5" />
+        <Controls:NewTextBox x:Name="txtPhone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Text="" Grid.Row="4" Grid.Column="3" Margin="5,5,5,5"/>
+        <Controls:NewTextBox x:Name="txtPhoneExt" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.Column="4" Margin="5,5,5,5" />
+        <Button x:Name="btnCopyName" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="25,0,0,0" Background="{x:Null}" Click="btnCopyName_Click" Grid.Row="5">
             <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
-        <Button x:Name="btnCopyEmail" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="296,188,0,0" Background="{x:Null}" Click="btnCopyEmail_Click">
+        <Button x:Name="btnCopyEmail" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyEmail_Click" Grid.Row="5" Grid.Column="2" Margin="25,0,0,0">
             <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
-        <Button x:Name="btnCopyPhone" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="510,188,0,0" Background="{x:Null}" Click="btnCopyPhone_Click">
+        <Button x:Name="btnCopyPhone" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="25,0,0,0" Background="{x:Null}" Click="btnCopyPhone_Click" Grid.Row="5" Grid.Column="3">
             <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
-        <Button x:Name="btnCopyNotes" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="72,225,0,0" Background="{x:Null}" Click="btnCopyNotes_Click">
+        <Label x:Name="lblNotes" Content="Notes" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Width="62" Grid.Row="6"/>
+        <Button x:Name="btnCopyNotes" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="72,0,0,0" Background="{x:Null}" Click="btnCopyNotes_Click" Grid.Row="6">
             <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
-        <Button x:Name="btnClear" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Margin="663,222,0,0" Content="Clear" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Height="25" Click="btnClear_Click"/>
-        <Button x:Name="btnCopyAll" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Margin="663,22,0,0" Content="Copy All" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Height="25" Click="btnCopyAll_Click"/>
+        <Button x:Name="btnClear" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Clear" VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Height="25" Click="btnClear_Click" Grid.Row="6" Grid.Column="4"/>
+        <Controls:NewTextBox x:Name="txtNotes" VerticalAlignment="Top" Text="" TextWrapping="Wrap" Grid.Row="7" Margin="5,5,5,5" Grid.ColumnSpan="6" HorizontalAlignment="Left"/>
 
     </Grid>
 </UserControl>

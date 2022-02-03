@@ -391,42 +391,56 @@
         </Style>
     </UserControl.Resources>
     <Grid Background="#FF0F0B1E">
-        <Label Content="State" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20"/>
-        <Label Content="Provider / Bank" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="419,-1,0,0"/>
-        <ComboBox TextBoxBase.TextChanged="UpdateFormName" ItemContainerStyle="{DynamicResource ComboBoxItemContainerStyle1}" Style="{DynamicResource ComboBoxStyle1}" HorizontalAlignment="Left" Height="40" Margin="5,37,0,0" VerticalAlignment="Top" Width="204" x:Name="cboStates" Foreground="MediumSlateBlue" IsEditable="True" FontSize="18"/>
-        <Controls:NewTextBox x:Name="txtCoBank" HorizontalAlignment="Left" Height="41" Margin="427,36,0,0" VerticalAlignment="Top" Width="198" OnTextChanged="UpdateFormName" Text=""/>
-        <Label Content="Form Name" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="2,83,0,0"/>
-        <Controls:NewTextBox x:Name="txtFormName" HorizontalAlignment="Center" Height="41" Margin="0,120,0,0" VerticalAlignment="Top" Width="728" OnTextChanged="UpdateFormName"/>
-        <Label Content="Form Code" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="4,168,0,0"/>
-        <Controls:NewTextBox x:Name="txtCode" HorizontalAlignment="Left" Height="41" Margin="12,205,0,0" VerticalAlignment="Top" Width="198" OnTextChanged="UpdateFormName"/>
-        <Label Content="Revision Date" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="216,168,0,0"/>
-        <Controls:NewTextBox x:Name="txtDate" HorizontalAlignment="Left" Height="41" Margin="224,205,0,0" VerticalAlignment="Top" Width="198" OnTextChanged="UpdateFormName"/>
-        <Label Content="OEM / Dealer" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="216,-1,0,0"/>
-        <Controls:NewTextBox x:Name="txtOEMDealer" HorizontalAlignment="Left" Height="41" Margin="224,36,0,0" VerticalAlignment="Top" Width="198" OnTextChanged="UpdateFormName"/>
-        <TextBox x:Name="txtOutput" HorizontalAlignment="Center" Height="21" Margin="0,369,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="727" Background="Black" BorderBrush="MediumSlateBlue" SelectionBrush="MediumSlateBlue" Foreground="White" SelectionTextBrush="MediumSlateBlue" CaretBrush="MediumSlateBlue" IsReadOnly="True" PreviewMouseUp="txtOutput_PreviewMouseUp" PreviewMouseLeftButtonUp="txtOutput_PreviewMouseLeftButtonUp"/>
-        <Controls:ToggleSwitch x:Name="tglFormCodeCAPS" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="50" Margin="116,178,0,0" BorderThickness1="5" MouseLeftButtonDown="UpdateFormName" IsOn="True"/>
-        <Controls:ToggleSwitch x:Name="tglFormNameTitle" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="50" Margin="121,93,0,0" BorderThickness1="5" MouseLeftButtonDown="UpdateFormName" IsOn="True"/>
-        <Grid HorizontalAlignment="Left" Height="183" Margin="501,181,0,0" VerticalAlignment="Top" Width="236">
-            <Rectangle HorizontalAlignment="Center" Height="164" Stroke="MediumSlateBlue" VerticalAlignment="Top" Width="236" Margin="0,19,0,0" StrokeThickness="2"/>
-            <Label Content="Form Properties" HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" Background="#FF0F0B1E" FontSize="18"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250*" MinWidth="250"/>
+            <ColumnDefinition Width="250*" MinWidth="250"/>
+            <ColumnDefinition Width="250*" MinWidth="250"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="33" MaxHeight="33" MinHeight="33"/>
+            <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
+            <RowDefinition Height="33" MaxHeight="33" MinHeight="33"/>
+            <RowDefinition Height="50" MinHeight="50" MaxHeight="50"/>
+            <RowDefinition Height="33" MaxHeight="33" MinHeight="33"/>
+            <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
+            <RowDefinition Height="120*" MinHeight="120"/>
+            <RowDefinition Height="33" MaxHeight="33" MinHeight="33"/>
+        </Grid.RowDefinitions>
+        <Label x:Name="lblState" Content="State" HorizontalAlignment="Left" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="5,0,0,0"/>
+        <Label x:Name="lblOEM" Content="OEM / Dealer" HorizontalAlignment="Left" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="4,0,0,0" Width="129" Grid.Column="1"/>
+        <Label x:Name="lblBank" Content="Provider / Bank" HorizontalAlignment="Left" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Width="145" Grid.Column="2"/>
+        <ComboBox TextBoxBase.TextChanged="UpdateFormName" ItemContainerStyle="{DynamicResource ComboBoxItemContainerStyle1}" Style="{DynamicResource ComboBoxStyle1}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="cboStates" Foreground="MediumSlateBlue" IsEditable="True" FontSize="18" Grid.Row="1" Margin="5,5,5,5"/>
+        <Controls:NewTextBox x:Name="txtOEMDealer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" OnTextChanged="UpdateFormName" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5"/>
+        <Controls:NewTextBox x:Name="txtCoBank" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" OnTextChanged="UpdateFormName" Text="" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Margin="5,5,5,5"/>
+        <Label x:Name="lblName" Content="Form Name" HorizontalAlignment="Left" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Grid.Row="2"/>
+        <Controls:ToggleSwitch x:Name="tglFormNameTitle" HorizontalAlignment="Left" Height="22" VerticalAlignment="Center" Width="50" Margin="121,0,0,0" BorderThickness1="5" MouseLeftButtonDown="UpdateFormName" IsOn="True" Grid.Row="2"/>
+        <Label x:Name="lblTitleCase" Content="Title" HorizontalAlignment="Left" Margin="176,0,0,0" Foreground="MediumSlateBlue" Grid.Row="2" Width="32" VerticalAlignment="Bottom" Height="26"/>
+        <Controls:NewTextBox x:Name="txtFormName" OnTextChanged="UpdateFormName" Grid.Row="3" Margin="5,5,5,5" Grid.ColumnSpan="3"/>
+        <Label x:Name="lblCode" Content="Form Code" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Grid.Row="4"/>
+        <Controls:ToggleSwitch x:Name="tglFormCodeCAPS" HorizontalAlignment="Left" Height="22" VerticalAlignment="Bottom" Width="50" Margin="116,0,0,0" BorderThickness1="5" MouseLeftButtonDown="UpdateFormName" IsOn="True" Grid.Row="4"/>
+        <Label x:Name="lblCodeCaps" Content="CAPS" HorizontalAlignment="Left" Margin="171,0,0,0" VerticalAlignment="Bottom" Foreground="MediumSlateBlue" Grid.Row="4" Width="38" Height="26"/>
+        <Controls:NewTextBox x:Name="txtCode" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" OnTextChanged="UpdateFormName" Grid.Row="5" Margin="5,5,5,5"/>
+        <Label x:Name="lblDate" Content="Revision Date" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="5,0,0,0" Grid.Row="4" Width="130" Grid.Column="1"/>
+        <Controls:NewTextBox x:Name="txtDate" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" OnTextChanged="UpdateFormName" Grid.Row="5" Grid.Column="1" Margin="5,5,5,5"/>
+        <TextBox x:Name="txtOutput" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Stretch" Background="Black" BorderBrush="MediumSlateBlue" SelectionBrush="MediumSlateBlue" Foreground="White" SelectionTextBrush="MediumSlateBlue" CaretBrush="MediumSlateBlue" IsReadOnly="True" PreviewMouseUp="txtOutput_PreviewMouseUp" PreviewMouseLeftButtonUp="txtOutput_PreviewMouseLeftButtonUp" Grid.Row="7" Grid.ColumnSpan="5" Margin="5,0,5,10"/>
+        <Grid x:Name="grdProperties" HorizontalAlignment="Right" Height="195" VerticalAlignment="Bottom" Width="245" Grid.Row="4" Grid.RowSpan="3" Grid.Column="3" Margin="0,0,5,5">
+            <Rectangle x:Name="rectBackground" HorizontalAlignment="Stretch" Stroke="MediumSlateBlue" StrokeThickness="2" Width="245"/>
+            <Label x:Name="lblProperties" Content="Form Properties" HorizontalAlignment="Left" Margin="10,-2,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" Background="#FF0F0B1E" FontSize="18"/>
             <Controls:ToggleSwitch x:Name="tglFormType" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="50" Margin="78,37,0,0" BorderThickness1="5" HandleOff="MediumSlateBlue" MouseLeftButtonDown="UpdateFormName"/>
             <Label Content="Laser" HorizontalAlignment="Left" Margin="36,36,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
             <Label Content="Impact" HorizontalAlignment="Left" Margin="133,36,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
-            <Label Content="LAW" HorizontalAlignment="Left" Margin="94,98,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
-            <Label Content="Custom" HorizontalAlignment="Left" Margin="94,125,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
-            <Label Content="Vehicle Merchandicing" HorizontalAlignment="Left" Margin="94,153,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
-            <Controls:ToggleSwitch x:Name="tglNewUsed" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="50" Margin="78,63,0,0" BorderThickness1="5" HandleOff="MediumSlateBlue" MouseLeftButtonDown="UpdateFormName" ThreeState="True"/>
-            <Label Content="Sold" HorizontalAlignment="Left" Margin="36,62,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
-            <Label Content="Trade" HorizontalAlignment="Left" Margin="133,62,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
+            <Label Content="LAW" HorizontalAlignment="Left" Margin="113,104,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
+            <Label Content="Custom" HorizontalAlignment="Left" Margin="111,135,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
+            <Label Content="Vehicle Merchandicing" HorizontalAlignment="Left" Margin="111,164,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
+            <Controls:ToggleSwitch x:Name="tglNewUsed" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="50" Margin="78,70,0,0" BorderThickness1="5" HandleOff="MediumSlateBlue" MouseLeftButtonDown="UpdateFormName" ThreeState="True"/>
+            <Label Content="Sold" HorizontalAlignment="Left" Margin="36,69,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
+            <Label Content="Trade" HorizontalAlignment="Left" Margin="133,69,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
+            <Controls:ToggleSwitch x:Name="tglLAW" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="50" Margin="55,106,0,0" BorderThickness1="5" MouseLeftButtonDown="UpdateFormName"/>
+            <Controls:ToggleSwitch x:Name="tglCustom" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="50" Margin="55,137,0,0" BorderThickness1="5" MouseLeftButtonDown="UpdateFormName"/>
+            <Controls:ToggleSwitch x:Name="tglVM" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="50" Margin="56,169,0,0" BorderThickness1="5" MouseLeftButtonDown="UpdateFormName"/>
         </Grid>
-        <Controls:ToggleSwitch x:Name="tglLAW" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="50" Margin="543,280,0,0" BorderThickness1="5" MouseLeftButtonDown="UpdateFormName"/>
-        <Controls:ToggleSwitch x:Name="tglCustom" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="50" Margin="543,307,0,0" BorderThickness1="5" MouseLeftButtonDown="UpdateFormName"/>
-        <Controls:ToggleSwitch x:Name="tglVM" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="50" Margin="543,334,0,0" BorderThickness1="5" MouseLeftButtonDown="UpdateFormName"/>
-        <Label Content="Title" HorizontalAlignment="Left" Margin="176,94,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
-        <Label Content="CAPS" HorizontalAlignment="Left" Margin="171,182,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue"/>
-        <Button Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Click="Button_Click" Margin="446,339,0,0" Content="Clear" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Height="25">
-        </Button>
-        <Button x:Name="tglNotes_CopyAll" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Click="Button_Click_1" Margin="391,339,0,0" Content="Copy" VerticalAlignment="Top" HorizontalAlignment="Left" Width="50" Height="25"/>
+        <Button Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Click="Button_Click" Content="Clear" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="50" Height="26" Grid.Row="6" Margin="60,0,0,5"/>
+        <Button x:Name="tglNotes_CopyAll" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Click="Button_Click_1" Margin="5,0,0,5" Content="Copy" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="50" Height="26" Grid.Row="6"/>
 
 
     </Grid>

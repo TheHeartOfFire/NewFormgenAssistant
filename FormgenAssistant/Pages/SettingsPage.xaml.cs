@@ -66,25 +66,5 @@ namespace FormgenAssistant
             _settings.Notes_CopyAll = (bool)tglFormCodeCAPS.IsOn;
             Settings.Save();
         }
-
-        private void btnGenerateFormgenFile_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dia = new()
-            {
-                Filter = "PDF files (*.pdf)|*.pdf"
-            };
-            if (dia.ShowDialog() == false) return;
-
-            var FilePath = dia.FileName;
-
-
-
-            GenerateFormgenFile();
-        }
-
-        private void GenerateFormgenFile()
-        {
-            return;
-        }
     }
 }

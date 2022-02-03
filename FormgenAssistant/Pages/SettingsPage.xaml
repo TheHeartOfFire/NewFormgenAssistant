@@ -29,7 +29,6 @@
                     </LinearGradientBrush>
                 </ProgressBar.Foreground>
             </ProgressBar>
-            <Button x:Name="btnGenerateFormgenFile" Content="Create Formgen for PDF with Fields" Height="42" Background="{x:Null}" Foreground="MediumSlateBlue" BorderBrush="MediumSlateBlue" FontSize="18" Click="btnGenerateFormgenFile_Click" Canvas.Left="12" Canvas.Top="173" Visibility="Hidden"/>
         </Canvas>
 
     </Grid>
