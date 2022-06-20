@@ -39,7 +39,7 @@ namespace FormgenAssistant
 		}
 		private static async Task CheckForUpdates()
 		{
-			using var manager = new UpdateManager(@"C:\Users\Dakota.Jordan\OneDrive - Solera Holdings, Inc\Desktop\FormgenAssistant\Updates");
+			using var manager = new UpdateManager(@"\\share.automate.local\share\Public\FormgenAssistant");
 			await manager.UpdateApp();
 		}
 
