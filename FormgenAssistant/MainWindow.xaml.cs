@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Squirrel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -34,9 +35,15 @@ namespace FormgenAssistant
 			Pages.Add(Settings);
 			Pages.Add(Notes);
 			Pages.Add(Prompts);
+            _ = CheckForUpdates();
+		}
+		private static async Task CheckForUpdates()
+		{
+			using var manager = new UpdateManager(@"C:\Users\Dakota.Jordan\OneDrive - Solera Holdings, Inc\Desktop\FormgenAssistant\Updates");
+			await manager.UpdateApp();
 		}
 
-        private void OnMinimizeButtonClick(object sender, RoutedEventArgs e)
+		private void OnMinimizeButtonClick(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
         }

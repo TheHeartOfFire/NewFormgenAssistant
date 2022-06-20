@@ -48,7 +48,7 @@
                 <Image Source ="/Resources/AMLogo.ico" DockPanel.Dock="Bottom" Stretch="Uniform"/>
             </DockPanel>
         </Button>
-        <Label Content="v" HorizontalAlignment="Right" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Right" Foreground="#FFA5A5A5" Background="#00000000" Margin="0,0,5,5"/>
+        <Label x:Name="lblVersion" Content="v" HorizontalAlignment="Right" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Right" Foreground="#FFA5A5A5" Background="#00000000" Margin="0,0,5,5"/>
 
     </Grid>
 </UserControl>

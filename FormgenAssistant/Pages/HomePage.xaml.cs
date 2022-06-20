@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,90 +25,45 @@ namespace FormgenAssistant.Pages
         public HomePage()
         {
             InitializeComponent();
+            AddVersionNumber();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void AddVersionNumber()
         {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = Properties.Resources.GitHub,
-                UseShellExecute = true
-            }) ;
+            var assy = Assembly.GetExecutingAssembly();
+            var version = FileVersionInfo.GetVersionInfo(assy.Location);
+            lblVersion.Content += version.FileVersion;
         }
+        
+        private void btnADP_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Properties.Resources.ADP);
 
-        private void btnADP_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = Properties.Resources.ADP,
-                UseShellExecute = true
-            });
-        }
+        private void btnSF_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Properties.Resources.SalesForce);
 
-        private void btnSF_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = Properties.Resources.SalesForce,
-                UseShellExecute = true
-            });
-        }
+        private void btnMyApps_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Properties.Resources.MyApps);
 
-        private void btnMyApps_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = Properties.Resources.MyApps,
-                UseShellExecute = true
-            });
-        }
+        private void btnClientInfoReport_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Properties.Resources.ClientInfoReport);
 
-        private void btnClientInfoReport_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+        private void btnFormsTracker_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Properties.Resources.FormsTracker);
+
+        private void btnWorkday_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Properties.Resources.Workday);
+
+        private void btnCST_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\AmpsSupport\\CSTLoader.exe");
+
+        private void btnFormgen_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\NewFormGen.lnk");
+
+        private static void OpenLink(string path) =>
+            Process.Start(new ProcessStartInfo
             {
-                FileName = Properties.Resources.ClientInfoReport,
+                FileName = path,
                 UseShellExecute = true
             });
-
-        }
-
-        private void btnFormsTracker_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = Properties.Resources.FormsTracker,
-                UseShellExecute = true
-            });
-        }
-
-        private void btnWorkday_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = Properties.Resources.Workday,
-                UseShellExecute = true
-            });
-        }
-
-        private void btnCST_Click(object sender, RoutedEventArgs e)
-        {
-            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-            {
-                FileName = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\AmpsSupport\\CSTLoader.exe",
-                UseShellExecute = true
-            });
-        }
-
-        private void btnFormgen_Click(object sender, RoutedEventArgs e)
-        {
-            var Info = new System.Diagnostics.ProcessStartInfo(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\NewFormGen.lnk")
-            {
-                UseShellExecute = true
-            };
-
-            System.Diagnostics.Process.Start(Info);
-
-        }
+        
     }
 }
