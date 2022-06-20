@@ -8,11 +8,6 @@
              mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
     <Grid Background="#FF0F0B1E" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
-        <TextBlock TextWrapping="Wrap" Text="Dakota Jordan 2021" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#FFD2D2D2" FontSize="16" Margin="0,0,5,5"/>
-        <Button Width="75" Height="50" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="{x:Null}" Margin="643,319,35,36" Style="{DynamicResource ButtonStyle1}" Click="Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Image HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="70" Source="/Resources/GitHub-logo-White.png" Stretch="Fill"/>
-        </Button>
         <Button x:Name="btnADP" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="111" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="10,10,0,0" Background="{x:Null}" Click="btnADP_Click" d:IsHidden="True">
             <Image Source="/Resources/ADP.png" Stretch="Uniform"/>
         </Button>
@@ -53,6 +48,7 @@
                 <Image Source ="/Resources/AMLogo.ico" DockPanel.Dock="Bottom" Stretch="Uniform"/>
             </DockPanel>
         </Button>
+        <Label Content="v" HorizontalAlignment="Right" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Right" Foreground="#FFA5A5A5" Background="#00000000" Margin="0,0,5,5"/>
 
     </Grid>
 </UserControl>

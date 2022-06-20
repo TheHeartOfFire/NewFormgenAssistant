@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FormgenAssistant.Pages"
              xmlns:Controls="clr-namespace:FormgenAssistant.Controls" x:Class="FormgenAssistant.Pages.Notes"
-             mc:Ignorable="d" HorizontalAlignment="Left" VerticalAlignment="Top">
+             mc:Ignorable="d" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <Grid Background="#FF0F0B1E">
         <Grid.RowDefinitions>
             <RowDefinition Height="30" MaxHeight="30" MinHeight="30"/>
@@ -63,7 +63,7 @@
             <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
         <Button x:Name="btnClear" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Clear" VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Height="25" Click="btnClear_Click" Grid.Row="6" Grid.Column="4"/>
-        <Controls:NewTextBox x:Name="txtNotes" VerticalAlignment="Top" Text="" TextWrapping="Wrap" Grid.Row="7" Margin="5,5,5,5" Grid.ColumnSpan="6" HorizontalAlignment="Left"/>
+        <Controls:NewTextBox x:Name="txtNotes" VerticalAlignment="Stretch" Text="" TextWrapping="Wrap" Grid.Row="7" Margin="5,5,5,5" Grid.ColumnSpan="6" HorizontalAlignment="Stretch"/>
 
     </Grid>
 </UserControl>
