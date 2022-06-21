@@ -39,7 +39,7 @@ namespace FormgenAssistant
 		}
 		private static async Task CheckForUpdates()
 		{
-			using var manager = new UpdateManager(@"\\share.automate.local\share\Public\FormgenAssistant");
+			using var manager = new GithubUpdateManager("https://github.com/TheHeartOfFire/NewFormgenAssistant");
 			await manager.UpdateApp();
 		}
 
