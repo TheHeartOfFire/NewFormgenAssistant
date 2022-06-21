@@ -8,14 +8,18 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <PackageIcon>AMLogo.ico</PackageIcon>
     <ApplicationIcon>Resources\AMLogo.ico</ApplicationIcon>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1</FileVersion>
+    <AssemblyVersion>1.0.3</AssemblyVersion>
+    <FileVersion>1.0.3</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Releases\**" />
     <Compile Remove="Windows\**" />
+    <EmbeddedResource Remove="Releases\**" />
     <EmbeddedResource Remove="Windows\**" />
+    <None Remove="Releases\**" />
     <None Remove="Windows\**" />
+    <Page Remove="Releases\**" />
     <Page Remove="Windows\**" />
   </ItemGroup>
 
@@ -121,28 +125,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Releases\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Releases\FormgenAssistant-1.0.0-full.nupkg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Releases\FormgenAssistant-1.0.1-delta.nupkg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Releases\FormgenAssistant-1.0.1-full.nupkg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Releases\FormgenAssistantSetup.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Releases\RELEASES">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
