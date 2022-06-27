@@ -1,4 +1,4 @@
-# NewFormgenAssistant
+# Formgen Assistant
 Formgen Assistant is a tool to increase my, and eventually my teams, productivity during daily forms operations.
 
 Current Features
