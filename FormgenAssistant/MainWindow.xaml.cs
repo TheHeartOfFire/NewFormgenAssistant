@@ -28,6 +28,7 @@ namespace FormgenAssistant
         public MainWindow()
         {
 			SavedItems.Settings.Load();
+            SavedItems.Snippets.Load();
             InitializeComponent();
 			Pages.Add(HomePage);
 			Pages.Add(FileNameGen);
@@ -35,7 +36,8 @@ namespace FormgenAssistant
 			Pages.Add(Settings);
 			Pages.Add(Notes);
 			Pages.Add(Prompts);
-            _ = CheckForUpdates();
+            Pages.Add(CodeSnippets);
+			_ = CheckForUpdates();
 		}
 		private static async Task CheckForUpdates()
 		{
@@ -217,6 +219,12 @@ namespace FormgenAssistant
 		{
 			CloseAllPages();
 			Prompts.Visibility = Visibility.Visible;
+		}
+
+        private void BtnSnippets_OnClick(object sender, RoutedEventArgs e)
+		{
+			CloseAllPages();
+            CodeSnippets.Visibility = Visibility.Visible;
 		}
     }
 }

@@ -49,6 +49,7 @@ namespace FormgenAssistant.SavedItems
             if (!File.Exists(FileName)) Save();
 
             Instance = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(FileName)) ?? defaultSettings;
+            
         }
 
         public static void Save()

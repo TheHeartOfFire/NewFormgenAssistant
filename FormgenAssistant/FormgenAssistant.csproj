@@ -38,6 +38,7 @@
     <None Remove="prompt.png" />
     <None Remove="Resources\AMLogo.ico" />
     <None Remove="Resources\file.png" />
+    <None Remove="Resources\IF.png" />
     <None Remove="Resources\logo-white.png" />
     <None Remove="SalesForce.png" />
     <None Remove="settings_gear.png" />
@@ -87,6 +88,9 @@
     <Resource Include="Resources\GitHub-logo-White.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\IF.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\logo-white.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -132,6 +136,9 @@
     <Page Update="Controls\FieldItem.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\CodeSnippets.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>
 

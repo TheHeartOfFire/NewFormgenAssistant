@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FormgenAssistant.Pages"
              xmlns:Controls="clr-namespace:FormgenAssistant.Controls" x:Class="FormgenAssistant.Pages.HomePage"
-             mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+             mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="748" MinHeight="400">
 
     <Grid Background="#FF0F0B1E" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Button x:Name="btnADP" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Width="111" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="10,10,0,0" Background="{x:Null}" Click="btnADP_Click" d:IsHidden="True">

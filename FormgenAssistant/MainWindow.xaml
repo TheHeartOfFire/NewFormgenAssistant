@@ -56,6 +56,9 @@
                             <Button x:Name="btnPrompts" Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="btnPrompts_Click" >
                                 <Image Height="45" Width="45" Source="/Resources/prompt.png" />
                             </Button>
+                            <Button x:Name="btnSnippets" Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Click="BtnSnippets_OnClick" Visibility="Visible" Background="{x:Null}">
+                                <Image Height="45" Width="45" Source="/Resources/IF.png" />
+                            </Button>
                             <Button x:Name="btnCLI" Style="{DynamicResource ButtonStyle1}" Height="50" Width="50" Margin="0,5,0,0" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" Click="Button_Click_2" Visibility="Hidden">
                                 <Image Height="45" Width="45" Source="/Resources/database.png" />
                             </Button>
@@ -136,6 +139,7 @@
 			StrokeThickness="1" />
                         </Button>
                     </Grid>
+                    <Pages:CodeSnippets x:Name="CodeSnippets" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" Visibility="Hidden"/>
                 </Grid>
             </Grid>
         </Grid>
