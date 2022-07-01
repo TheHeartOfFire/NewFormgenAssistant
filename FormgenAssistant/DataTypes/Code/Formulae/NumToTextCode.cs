@@ -28,7 +28,8 @@ namespace FormgenAssistant.DataTypes.Code.Formulae
             
             return new TextCode()
                 .AddInput(new RoundCode()
-                    .AddInput(GetInput(0) as string ?? string.Empty));
+                    .AddInput(GetInput(0) as string ?? string.Empty)
+                    .AddInput(GetInput(1) as string ?? string.Empty));
         }
     }
 }

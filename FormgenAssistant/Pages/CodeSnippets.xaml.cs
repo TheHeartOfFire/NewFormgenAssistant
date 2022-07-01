@@ -83,6 +83,8 @@ namespace FormgenAssistant.Pages
             _snippets.Add(new MonthNameCode());
             _snippets.Add(new NumToTextCode());
             _snippets.Add(new SeplistNumber());
+            _snippets.Add(new DmvCalculationCode());
+            _snippets.Add(new FuelDropdownDefaultCode());
             _snippets.Add(new CaseCode());
             _snippets.Add(new IfCode());
             _snippets.Add(new SeplistCode());
@@ -132,8 +134,8 @@ namespace FormgenAssistant.Pages
 
             var boxes = wrpInputs.Children;
             var inputs = (from object? box in boxes select box as TextBox into textBox where textBox is not null select textBox.Text).ToList();
-            
-            txtOutput.Text = selectedSnippet.SetInputs(inputs);
+            selectedSnippet.SetInputs(inputs);
+            txtOutput.Text = selectedSnippet;
         }
 
         private void AddPrompts_Click(object sender, RoutedEventArgs e)

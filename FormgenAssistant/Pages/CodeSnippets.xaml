@@ -22,7 +22,7 @@
         <Button x:Name="Copy" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="White" Background="{x:Null}" Click="btnCopy_Click" Margin="5,0,0,35" Content="Copy" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="55" Height="25" Grid.Row="2"/>
 
         <WrapPanel x:Name="wrpInputs" Grid.Column="1" Grid.Row="1"/>
-        <TextBlock x:Name="txtDescription" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="18" TextAlignment="Center" TextWrapping="Wrap" FontStyle="Normal" Background="{x:Null}" />
+        <TextBlock x:Name="txtDescription" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" FontStyle="Normal" Background="{x:Null}" />
         <Button x:Name="RemovePrompts" Content="-" HorizontalAlignment="Left" Margin="5,35,0,0" Grid.Row="2" VerticalAlignment="Top" Width="25" Height="25" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="White" ToolTip="Remove excess prompts from code snippet" Visibility="Collapsed" Click="RemovePrompts_Click"/>
         <Button x:Name="AddPrompts" Content="+" HorizontalAlignment="Left" Margin="32,35,0,0" Grid.Row="2" VerticalAlignment="Top" Width="26" Height="25" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="White" ToolTip="Add additional prompts to code snippet" Visibility="Collapsed" Click="AddPrompts_Click"/>
 
