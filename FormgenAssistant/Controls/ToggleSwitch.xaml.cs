@@ -30,7 +30,7 @@ namespace FormgenAssistant.Controls
             new FrameworkPropertyMetadata(
                 defaultValue: new SolidColorBrush(Color.FromArgb(255, 15, 11, 30)),
             FrameworkPropertyMetadataOptions.AffectsRender,
-            new PropertyChangedCallback(OnTrackOffChanged)));
+            OnTrackOffChanged));
 
         private static void OnTrackOffChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

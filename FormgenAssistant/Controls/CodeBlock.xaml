@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="FormgenAssistant.Controls.CodeBlock"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FormgenAssistant.Controls"
+             mc:Ignorable="d" 
+              MinWidth="200" MinHeight="75">
+    <Grid x:Name="grdBackground" Background="#FF0F0B1E">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBox x:Name="Title" HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="Title" VerticalAlignment="Stretch" Background="{x:Null}" BorderBrush="MediumSlateBlue" TextAlignment="Center" Foreground="White" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled" SelectionBrush="{x:Null}" SelectionTextBrush="{x:Null}" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsReadOnly="True"/>
+        <Grid x:Name="Inputs" Grid.Row="1"/>
+
+    </Grid>
+</UserControl>

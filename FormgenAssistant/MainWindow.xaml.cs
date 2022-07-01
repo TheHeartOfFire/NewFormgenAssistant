@@ -28,7 +28,6 @@ namespace FormgenAssistant
         public MainWindow()
         {
 			SavedItems.Settings.Load();
-            SavedItems.Snippets.Load();
             InitializeComponent();
 			Pages.Add(HomePage);
 			Pages.Add(FileNameGen);

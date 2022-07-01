@@ -13,17 +13,19 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50" MinHeight="50"/>
-            <RowDefinition Height="141*"/>
+            <RowDefinition Height="*" MinHeight="75"/>
+            <RowDefinition Height="200*"/>
             <RowDefinition Height="65"/>
         </Grid.RowDefinitions>
         <ListBox x:Name="lstSnippets" d:ItemsSource="{d:SampleData ItemCount=5}" HorizontalAlignment="Center" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" Width="200" Margin="0,5,0,5" Grid.RowSpan="2" SelectionChanged="lstSnippets_SelectionChanged"/>
-        <TextBox x:Name="txtOutput" TextWrapping="Wrap" Background="Black" BorderBrush="MediumSlateBlue" SelectionBrush="MediumSlateBlue" Foreground="White" SelectionTextBrush="MediumSlateBlue" CaretBrush="MediumSlateBlue" IsReadOnly="True" PreviewMouseUp="txtOutput_PreviewMouseUp" PreviewMouseLeftButtonUp="txtOutput_PreviewMouseLeftButtonUp" Margin="60,0,5,5" VerticalAlignment="Bottom" Grid.Row="2" Height="55" Grid.ColumnSpan="2"/>
-        <Button x:Name="Copy" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Click="btnCopy_Click" Margin="5,0,0,35" Content="Copy" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="50" Height="25" Grid.Row="2"/>
+        <TextBox x:Name="txtOutput" TextWrapping="Wrap" Background="Black" BorderBrush="MediumSlateBlue" SelectionBrush="MediumSlateBlue" Foreground="White" SelectionTextBrush="MediumSlateBlue" CaretBrush="MediumSlateBlue" IsReadOnly="True" PreviewMouseUp="txtOutput_PreviewMouseUp" PreviewMouseLeftButtonUp="txtOutput_PreviewMouseLeftButtonUp" Margin="65,0,5,5" VerticalAlignment="Bottom" Grid.Row="2" Height="55" Grid.ColumnSpan="2"/>
+        <Button x:Name="Copy" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="White" Background="{x:Null}" Click="btnCopy_Click" Margin="5,0,0,35" Content="Copy" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="55" Height="25" Grid.Row="2"/>
 
         <WrapPanel x:Name="wrpInputs" Grid.Column="1" Grid.Row="1"/>
         <TextBlock x:Name="txtDescription" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="18" TextAlignment="Center" TextWrapping="Wrap" FontStyle="Normal" Background="{x:Null}" />
-    
+        <Button x:Name="RemovePrompts" Content="-" HorizontalAlignment="Left" Margin="5,35,0,0" Grid.Row="2" VerticalAlignment="Top" Width="25" Height="25" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="White" ToolTip="Remove excess prompts from code snippet" Visibility="Collapsed" Click="RemovePrompts_Click"/>
+        <Button x:Name="AddPrompts" Content="+" HorizontalAlignment="Left" Margin="32,35,0,0" Grid.Row="2" VerticalAlignment="Top" Width="26" Height="25" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="White" ToolTip="Add additional prompts to code snippet" Visibility="Collapsed" Click="AddPrompts_Click"/>
+
 
     </Grid>
 </UserControl>

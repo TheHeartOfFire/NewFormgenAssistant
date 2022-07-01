@@ -14,6 +14,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FormgenAssistant.DataTypes.Code;
+using FormgenAssistant.DataTypes.Code.Formulae;
+using FormgenAssistant.DataTypes.Code.Functions;
+using FormgenAssistant.Interfaces;
 using FormgenAssistant.SavedItems;
 
 namespace FormgenAssistant.Pages
@@ -23,22 +27,32 @@ namespace FormgenAssistant.Pages
     /// </summary>
     public partial class CodeSnippets : UserControl
     {
-        private readonly Snippets Snippets = Snippets.Instance;
+        private readonly List<CodeBase> _snippets = new();
         public CodeSnippets()
         {
             
             InitializeComponent();
             InitializeSnippetList();
-
         }
-
+        
         private void UpdateContent()
         {
-            var selectedSnippet = Snippets.CodeSnippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content);
+            var selectedSnippet = _snippets.FirstOrDefault(x => x.Name == ((ListBoxItem) lstSnippets.SelectedItem).Content as string);
+
             if (selectedSnippet is null) return;
-            txtDescription.Text = selectedSnippet.Description;
+
+            if(selectedSnippet is IExtendableCode)
+                AddPrompts.Visibility = Visibility.Visible;
+            else
+            {
+                AddPrompts.Visibility = Visibility.Collapsed;
+                RemovePrompts.Visibility = Visibility.Collapsed;
+            }
+
+
+                txtDescription.Text = selectedSnippet.Description;
             wrpInputs.Children.Clear();
-            foreach (var input in selectedSnippet.Inputs)
+            foreach (var input in selectedSnippet.InputDescriptions)
             {
                 var textBox = new TextBox
                 {
@@ -63,13 +77,22 @@ namespace FormgenAssistant.Pages
         
         private void InitializeSnippetList()
         {
-            foreach (var snippet in Snippets.CodeSnippets)
+            _snippets.Add(new CityStateZIPCode());
+            _snippets.Add(new DateConversionCode());
+            _snippets.Add(new DayAndSuffixCode());
+            _snippets.Add(new MonthNameCode());
+            _snippets.Add(new NumToTextCode());
+            _snippets.Add(new SeplistNumber());
+            _snippets.Add(new CaseCode());
+            _snippets.Add(new IfCode());
+            _snippets.Add(new SeplistCode());
+
+            foreach (var item in _snippets.Select(snippet => new ListBoxItem
+                     {
+                         Content = snippet.Name,
+                         ToolTip = snippet.Description
+                     }))
             {
-                var item = new ListBoxItem
-                {
-                    Content = snippet.Name,
-                    ToolTip = snippet.Description
-                };
                 lstSnippets.Items.Add(item);
             }
         }
@@ -104,12 +127,39 @@ namespace FormgenAssistant.Pages
 
         private void UpdateOutput()
         {
-            var selectedSnippet = Snippets.CodeSnippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content);
+            var selectedSnippet = _snippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content as string);
             if (selectedSnippet is null) return;
 
             var boxes = wrpInputs.Children;
             var inputs = (from object? box in boxes select box as TextBox into textBox where textBox is not null select textBox.Text).ToList();
-            txtOutput.Text = selectedSnippet.GetCode(inputs.ToArray());
+            
+            txtOutput.Text = selectedSnippet.SetInputs(inputs);
+        }
+
+        private void AddPrompts_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedSnippet = _snippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content as string);
+            if (selectedSnippet is null) return;
+            var snippetEx = selectedSnippet as IExtendableCode;
+            snippetEx?.AddExtraInputs(1);
+            RemovePrompts.Visibility = Visibility.Visible;
+            UpdateContent();
+
+        }
+
+        private void RemovePrompts_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedSnippet = _snippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content as string);
+
+            if (selectedSnippet is not IExtendableCode snippetEx) return;
+            
+            if (selectedSnippet.InputCount() > snippetEx.DefaultArgCount)
+                snippetEx.RemoveExtraInputs(1);
+            
+            if (selectedSnippet.InputCount() <= snippetEx.DefaultArgCount + snippetEx.ArgIncriment) 
+                RemovePrompts.Visibility = Visibility.Collapsed;
+
+            UpdateContent();
         }
     }
 }
