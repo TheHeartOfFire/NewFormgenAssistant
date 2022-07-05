@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Dynamic;
 using System.Linq;
-using System.Printing;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace FormgenAssistant.DataTypes.Code
 {
@@ -17,67 +10,91 @@ namespace FormgenAssistant.DataTypes.Code
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Prefix { get; set; }
-
-        private List<object> Inputs { get; } = new();
-        public List<string> InputDescriptions { get; set; } = new();
+        public List<CodeInput> Inputs { get; } = new();
 
         public bool HasNoInputs() => Inputs.Count == 0;
 
-        public CodeBase AddInput(string input, int idx = -1)
+        public CodeBase AddInput(CodeInput input)
         {
-            if (idx == -1)
-                Inputs.Add(input);
+            if (Inputs.Exists(x => x.Index == input.Index))
+                Inputs[Inputs.IndexOf(Inputs.Find(x => x.Index == input.Index)!)] = input;
             else
-                Inputs[idx] = input;
+                Inputs.Add(input);
 
             return this;
         }
 
-        public CodeBase AddInput(CodeBase input, int idx = -1)
+        public CodeBase AddInput(string description)
         {
-            if (idx == -1)
-                Inputs.Add(input);
-            else
-                Inputs[idx] = input;
+            Inputs.Add(new CodeInput(description, description, Inputs.Count));
+            return this;
+        }
+        public CodeBase AddInput(int index, string description )
+        {
+
+            foreach (var input in Inputs.Where(input => input.Index >= index))
+                input.Index++;
+            
+            Inputs.Add(new CodeInput(description, description, index));
+            
+            return this;
+        }
+        public CodeBase RemoveInput(int index)
+        {
+
+            Inputs.RemoveAt(index);
+
+            foreach (var input in Inputs.Where(input => input.Index >= index))
+                input.Index--;
 
             return this;
         }
-        public CodeBase AddInput(object input, int idx = -1)
+        public CodeBase AddInput(string value, string description)
         {
-            if (idx == -1)
-                Inputs.Add(input);
-            else
-                Inputs[idx] = input;
+            Inputs.Add(new CodeInput(value, description, Inputs.Count) );
+            return this;
+        }
+        public CodeBase AddInput(CodeBase value, string description)
+        {
+            Inputs.Add(new CodeInput(value, description, Inputs.Count));
+            return this;
+        }
 
+        public CodeBase SetInputValue(int index, string value)
+        {
+            Inputs[index].SetValue(value);
+            return this;
+        }
+
+        public CodeBase SetInputValue(int index, CodeBase value)
+        {
+            Inputs[index].SetValue(value);
+            return this;
+        }
+        public CodeBase SetInputDescription(int index, string value)
+        {
+            Inputs[index].Description = value;
             return this;
         }
 
         public CodeBase SetInputs(List<string> inputs)
         {
-            Inputs.Clear();
+            if (inputs.Count != Inputs.Count)
+                throw new ArgumentException("Inputs count does not match");
 
-            foreach (var input in inputs)
-                AddInput(input);
-
+            foreach (var input in Inputs)
+                input.SetValue(inputs[input.Index]);
+            
             return this;
         }
 
-        public CodeBase SetInputs(List<object> inputs)
-        {
-            Inputs.Clear();
-
-            foreach (var input in inputs)
-                AddInput(input);
-
-            return this;
-        }
-
-        public List<object> GetInputs() => Inputs;
+        public List<CodeInput> GetInputs() => Inputs;
 
         public int InputCount() => Inputs.Count;
 
 
-        public virtual object GetInput(int idx) => Inputs[idx];
+        public virtual object GetInput(int idx) => Inputs[idx].Value;
+        public virtual object GetDescription(int idx) => Inputs[idx].Description;
 
         public virtual string GetCode()
         {
@@ -91,17 +108,7 @@ namespace FormgenAssistant.DataTypes.Code
 
             foreach (var input in Inputs)
             {
-                output.Append(
-                    input switch
-                    {
-                        string s =>
-                            s,
-
-                        CodeBase @base =>
-                            @base.GetCode(),
-
-                        _ => null
-                    });
+                output.Append(input.Value is CodeBase @base ? @base.GetCode() : input.Value);
 
                 if (step != Inputs.Count - 1)
                     output.Append(", ");
@@ -109,12 +116,13 @@ namespace FormgenAssistant.DataTypes.Code
             }
 
             output.Append(" )");
-            return output.ToString();
+            return output.ToString().Replace("( (", "((").Replace(") )", "))");
         }
 
         public static implicit operator string(CodeBase @base) => @base.GetCode();
         public static string operator +(CodeBase a, CodeBase b) => a.GetCode() + b.GetCode();
         public static string operator +(string a, CodeBase b) => a + b.GetCode();
         public static string operator +(CodeBase a, string b) => a.GetCode() + b;
+
     }
 }

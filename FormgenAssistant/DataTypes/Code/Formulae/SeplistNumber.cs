@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FormgenAssistant.DataTypes.Code.Functions;
+﻿using FormgenAssistant.DataTypes.Code.Functions;
 
 namespace FormgenAssistant.DataTypes.Code.Formulae
 {
@@ -14,11 +9,8 @@ namespace FormgenAssistant.DataTypes.Code.Formulae
 
             Name = "Seplist Number";
             Description = "Allow Numeric fields to be used in seplist.";
-            InputDescriptions = new List<string>()
-            {
-                "Numeric Field",
-                "Decimal Places"
-            };
+            AddInput("Numeric Field");
+            AddInput("Decimal Places");
         }
 
         public override string GetCode()
@@ -26,11 +18,11 @@ namespace FormgenAssistant.DataTypes.Code.Formulae
             if (HasNoInputs()) return string.Empty;
 
             return new IfCode()
-                .AddInput((GetInput(0) as string ?? string.Empty) + " != 0")
-                .AddInput(new RoundCode()
-                    .AddInput(GetInput(0) as string ?? string.Empty)
-                    .AddInput(GetInput(1) as string ?? string.Empty))
-                .AddInput("");
+                .SetInputValue(0, (GetInput(0) as string ?? string.Empty) + " != 0")
+                .SetInputValue(1, new RoundCode()
+                    .SetInputValue(0, GetInput(0) as string ?? string.Empty)
+                    .SetInputValue(1, GetInput(1) as string ?? string.Empty))
+                .SetInputValue(2, "''");
         }
     }
 }

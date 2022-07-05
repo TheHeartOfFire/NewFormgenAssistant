@@ -1,20 +1,11 @@
 ﻿using Squirrel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FormgenAssistant
 {
@@ -31,7 +22,6 @@ namespace FormgenAssistant
             InitializeComponent();
 			Pages.Add(HomePage);
 			Pages.Add(FileNameGen);
-			Pages.Add(CIR);
 			Pages.Add(Settings);
 			Pages.Add(Notes);
 			Pages.Add(Prompts);
@@ -97,18 +87,20 @@ namespace FormgenAssistant
 			{
 				// We need to tell the system what our size should be when maximized. Otherwise it will cover the whole screen,
 				// including the task bar.
-				MINMAXINFO mmi = (MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(MINMAXINFO));
+				MINMAXINFO mmi = (MINMAXINFO)(Marshal.PtrToStructure(lParam, typeof(MINMAXINFO)) ?? throw new InvalidOperationException());
 
 				// Adjust the maximized size and position to fit the work area of the correct monitor
 				IntPtr monitor = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
 
 				if (monitor != IntPtr.Zero)
 				{
-					MONITORINFO monitorInfo = new();
-					monitorInfo.cbSize = Marshal.SizeOf(typeof(MONITORINFO));
-					GetMonitorInfo(monitor, ref monitorInfo);
-					RECT rcWorkArea = monitorInfo.rcWork;
-					RECT rcMonitorArea = monitorInfo.rcMonitor;
+					MONITORINFO monitorInfo = new()
+                    {
+                        cbSize = Marshal.SizeOf(typeof(MONITORINFO))
+                    };
+                    GetMonitorInfo(monitor, ref monitorInfo);
+					var rcWorkArea = monitorInfo.rcWork;
+					var rcMonitorArea = monitorInfo.rcMonitor;
 					mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
 					mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
 					mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
@@ -194,12 +186,6 @@ namespace FormgenAssistant
         {
 			CloseAllPages();
 			FileNameGen.Visibility = Visibility.Visible;
-		}
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-			CloseAllPages();
-			CIR.Visibility = Visibility.Visible;
 		}
 
         private void Button_Click_3(object sender, RoutedEventArgs e)

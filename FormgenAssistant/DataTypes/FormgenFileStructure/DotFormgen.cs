@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace FormgenAssistant.DataTypes
@@ -11,53 +9,52 @@ namespace FormgenAssistant.DataTypes
     public class DotFormgen
     {
         public DotFormgenSettings Settings { get; set; }
-        public List<FormPage> Pages { get; set; } = new List<FormPage>();
-        public string Title { get; set; }
+        public List<FormPage> Pages { get; set; } = new ();
+        public string? Title { get; set; }
         public bool TradePrompt { get; set; }
         public Format FormType { get; set; }
         public bool SalesPersonPrompt { get; set; }
-        public string Username { get; set; }
-        public string BillingName { get; set; }
-        public List<CodeLine> CodeLines { get; set; } = new List<CodeLine>();
+        public string? Username { get; set; }
+        public string? BillingName { get; set; }
+        public List<CodeLine> CodeLines { get; set; } = new ();
         public FormCategory Category { get; set; }
-
-        public List<string> States { get; set; } = new List<string>();
+        public List<string> States { get; set; } = new ();
         
         public enum Format
         {
-            IMPACT,
-            IMPACTLABELROLL,
-            IMPACTLABELSHEET,
-            LASERLABELSHEET,
-            LEGACYIMPACT,
-            LEGACYLASER,
-            PDF
+            Impact,
+            ImpactLabelRoll,
+            ImpactLabelSheet,
+            LaserLabelSheet,
+            LegacyImpact,
+            LegacyLaser,
+            Pdf
         }
 
         public enum FormCategory
         {
-            AFTERMARKET,
-            BUYERSGUIDE,
-            COMMISSION,
-            CREDITLIFEAH,
-            CUSTOM,
-            DEALRECAP,
-            ENVELOPEDEALJACKET,
-            EXTENDEDWARRANTIES,
-            GAP,
-            INSURANCE,
-            LABEL,
-            LEASE,
-            MAINTENANCE,
-            MEMBERAPPLICATION,
-            NOTICETOCOSIGNER,
-            NOTICETOCUSTOMER,
-            OTHER,
-            PURCHASEORDERINVOICE,
-            REBATEINCENTIVE,
-            RETAIL,
-            STATESPECIFICDMV,
-            WEOWEYOUOWEDUEBILL
+            Aftermarket,
+            BuyersGuide,
+            Commission,
+            CreditLifeAH,
+            Custom,
+            DealRecap,
+            EnvelopeDealJacket,
+            ExtendedWarranties,
+            Gap,
+            Insurance,
+            Label,
+            Lease,
+            Maintenance,
+            MemberApplication,
+            NoticeToCosigner,
+            NoticeToCustomer,
+            Other,
+            PurchaseOrderInvoice,
+            RebateIncentive,
+            Retail,
+            StateSpecificDMV,
+            WeOweYouOweDueBill
         }
         public DotFormgen(XmlElement document)
         {
@@ -71,7 +68,7 @@ namespace FormgenAssistant.DataTypes
                     case "title": Title = node.InnerText;
                         break;
                     case "tradePrompt":
-                        if (bool.TryParse(node.InnerText, out bool parsedBool))
+                        if (bool.TryParse(node.InnerText, out var parsedBool))
                             TradePrompt = parsedBool;
                         break;
                     case "formPrintType": FormType = GetFormat(node.InnerText);
@@ -97,25 +94,21 @@ namespace FormgenAssistant.DataTypes
 
         public CodeLine GetPrompt(int index)
         {
-            var prompts = new List<CodeLine>();
-
-            prompts = CodeLines.Where(x => x.Settings.Type == CodeLineSettings.CodeType.PROMPT).ToList();
+            var prompts = CodeLines.Where(x => x.Settings is {Type: CodeLineSettings.CodeType.PROMPT}).ToList();
 
             return prompts[index];
         }
 
-        public FormField GetField(int Index)
+        public FormField GetField(int index)
         {
-            var Fields = new List<FormField>();
-            foreach(var page in Pages)
-                foreach(var field in page.Fields)
-                    Fields.Add(field);
+            var fields = new List<FormField>();
+            foreach(var page in Pages) fields.AddRange(page.Fields);
 
-            return Fields[Index];
+            return fields[index];
         }
         public int FieldCount()
         {
-            int count = 0;
+            var count = 0;
             foreach (var page in Pages)
                 foreach (var field in page.Fields)
                     count++;
@@ -124,88 +117,88 @@ namespace FormgenAssistant.DataTypes
         }
         public int InitCount()
         {
-            return CodeLines.Where(x => x.Settings.Type == CodeLineSettings.CodeType.INIT).Count();
+            return CodeLines.Count(x => x.Settings is {Type: CodeLineSettings.CodeType.INIT});
         }
         public int PromptCount()
         {
-            return CodeLines.Where(x => x.Settings.Type == CodeLineSettings.CodeType.PROMPT).Count();
+            return CodeLines.Count(x => x.Settings is {Type: CodeLineSettings.CodeType.PROMPT});
         }
         public int PostCount()
         {
-            return CodeLines.Where(x => x.Settings.Type == CodeLineSettings.CodeType.POST).Count();
+            return CodeLines.Count(x => x.Settings is {Type: CodeLineSettings.CodeType.POST});
         }
-        public CodeLine ClonePrompt(CodeLine Prompt, string newName, int NewIndex)
+        public CodeLine ClonePrompt(CodeLine prompt, string? newName, int newIndex)
         {
-            var cl = new CodeLine(Prompt, newName, NewIndex);
+            var cl = new CodeLine(prompt, newName, newIndex);
             CodeLines.Add(cl);
             return cl;
         }
         public static Format GetFormat(string format) => format switch
         {
-            "Pdf" => Format.PDF,
-            "LegacyImpact" => Format.LEGACYIMPACT,
-            _ => Format.PDF,
+            "Pdf" => Format.Pdf,
+            "LegacyImpact" => Format.LegacyImpact,
+            _ => Format.Pdf,
         }; 
         
         public static string GetFormat(Format format) => format switch
         {
-            Format.PDF => "Pdf",
-            Format.LEGACYIMPACT => "LegacyImpact",
+            Format.Pdf => "Pdf",
+            Format.LegacyImpact => "LegacyImpact",
             _ => "Pdf",
         };
 
         public static FormCategory GetCategory(string category) => category switch
         {
-            "Aftermarket" => FormCategory.AFTERMARKET,
-            "BuyersGuide" => FormCategory.BUYERSGUIDE,
-            "Commission" => FormCategory.COMMISSION,
-            "CreditLifeAH" => FormCategory.CREDITLIFEAH,
-            "Custom" => FormCategory.CUSTOM,
-            "DealRecap" => FormCategory.DEALRECAP,
-            "EnvelopeDealJacket" => FormCategory.ENVELOPEDEALJACKET,
-            "ExtendedWarranties" => FormCategory.EXTENDEDWARRANTIES,
-            "Gap" => FormCategory.GAP,
-            "Insurance" => FormCategory.INSURANCE,
-            "Label" => FormCategory.LABEL,
-            "Lease" => FormCategory.LEASE,
-            "Maintenance" => FormCategory.MAINTENANCE,
-            "MemberApplication" => FormCategory.MEMBERAPPLICATION,
-            "NoticeToCoSigner" => FormCategory.NOTICETOCOSIGNER,
-            "NoticeToCustomer" => FormCategory.NOTICETOCUSTOMER,
-            "Other" => FormCategory.OTHER,
-            "PurchaseOrderInvoice" => FormCategory.PURCHASEORDERINVOICE,
-            "RebateIncentive" => FormCategory.REBATEINCENTIVE,
-            "Retail" => FormCategory.RETAIL,
-            "StateSpecificDMV" => FormCategory.STATESPECIFICDMV,
-            "WeOweYouOweDueBill" => FormCategory.WEOWEYOUOWEDUEBILL,
-            _ => FormCategory.OTHER,
+            "Aftermarket" => FormCategory.Aftermarket,
+            "BuyersGuide" => FormCategory.BuyersGuide,
+            "Commission" => FormCategory.Commission,
+            "CreditLifeAH" => FormCategory.CreditLifeAH,
+            "Custom" => FormCategory.Custom,
+            "DealRecap" => FormCategory.DealRecap,
+            "EnvelopeDealJacket" => FormCategory.EnvelopeDealJacket,
+            "ExtendedWarranties" => FormCategory.ExtendedWarranties,
+            "Gap" => FormCategory.Gap,
+            "Insurance" => FormCategory.Insurance,
+            "Label" => FormCategory.Label,
+            "Lease" => FormCategory.Lease,
+            "Maintenance" => FormCategory.Maintenance,
+            "MemberApplication" => FormCategory.MemberApplication,
+            "NoticeToCoSigner" => FormCategory.NoticeToCosigner,
+            "NoticeToCustomer" => FormCategory.NoticeToCustomer,
+            "Other" => FormCategory.Other,
+            "PurchaseOrderInvoice" => FormCategory.PurchaseOrderInvoice,
+            "RebateIncentive" => FormCategory.RebateIncentive,
+            "Retail" => FormCategory.Retail,
+            "StateSpecificDMV" => FormCategory.StateSpecificDMV,
+            "WeOweYouOweDueBill" => FormCategory.WeOweYouOweDueBill,
+            _ => FormCategory.Other,
 
         };
 
         public static string GetCategory(FormCategory category) => category switch
         {
-            FormCategory.AFTERMARKET => "Aftermarket",
-            FormCategory.BUYERSGUIDE => "BuyersGuide",
-            FormCategory.COMMISSION => "Commission",
-            FormCategory.CREDITLIFEAH => "CreditLifeAH",
-            FormCategory.CUSTOM => "Custom",
-            FormCategory.DEALRECAP => "DealRecap",
-            FormCategory.ENVELOPEDEALJACKET => "EnvelopeDealJacket",
-            FormCategory.EXTENDEDWARRANTIES => "ExtendedWarranties",
-            FormCategory.GAP => "Gap",
-            FormCategory.INSURANCE => "Insurance",
-            FormCategory.LABEL => "Label",
-            FormCategory.LEASE => "Lease",
-            FormCategory.MAINTENANCE => "Maintenance",
-            FormCategory.MEMBERAPPLICATION => "MemberApplication",
-            FormCategory.NOTICETOCOSIGNER => "NoticeToCoSigner",
-            FormCategory.NOTICETOCUSTOMER => "NoticeToCustomer",
-            FormCategory.OTHER => "Other",
-            FormCategory.PURCHASEORDERINVOICE => "PurchaseOrderInvoice",
-            FormCategory.REBATEINCENTIVE => "RebateIncentive",
-            FormCategory.RETAIL => "Retail",
-            FormCategory.STATESPECIFICDMV => "StateSpecificDMV",
-            FormCategory.WEOWEYOUOWEDUEBILL => "WeOweYouOweDueBill",
+            FormCategory.Aftermarket => "Aftermarket",
+            FormCategory.BuyersGuide => "BuyersGuide",
+            FormCategory.Commission => "Commission",
+            FormCategory.CreditLifeAH => "CreditLifeAH",
+            FormCategory.Custom => "Custom",
+            FormCategory.DealRecap => "DealRecap",
+            FormCategory.EnvelopeDealJacket => "EnvelopeDealJacket",
+            FormCategory.ExtendedWarranties => "ExtendedWarranties",
+            FormCategory.Gap => "Gap",
+            FormCategory.Insurance => "Insurance",
+            FormCategory.Label => "Label",
+            FormCategory.Lease => "Lease",
+            FormCategory.Maintenance => "Maintenance",
+            FormCategory.MemberApplication => "MemberApplication",
+            FormCategory.NoticeToCosigner => "NoticeToCoSigner",
+            FormCategory.NoticeToCustomer => "NoticeToCustomer",
+            FormCategory.Other => "Other",
+            FormCategory.PurchaseOrderInvoice => "PurchaseOrderInvoice",
+            FormCategory.RebateIncentive => "RebateIncentive",
+            FormCategory.Retail => "Retail",
+            FormCategory.StateSpecificDMV => "StateSpecificDMV",
+            FormCategory.WeOweYouOweDueBill => "WeOweYouOweDueBill",
             _ => "Other",
 
         };
@@ -251,22 +244,19 @@ namespace FormgenAssistant.DataTypes
                 xml.WriteEndElement();
             }
 
-            foreach(var line in CodeLines)
+            foreach (var line in CodeLines.Where(line => line.Settings is {Type: CodeLineSettings.CodeType.INIT}))
             {
-                if (line.Settings.Type == CodeLineSettings.CodeType.INIT)
-                    line.GenerateXml(xml);
+                line.GenerateXml(xml);
             }
 
-            foreach (var line in CodeLines)
+            foreach (var line in CodeLines.Where(line => line.Settings is {Type: CodeLineSettings.CodeType.PROMPT}))
             {
-                if (line.Settings.Type == CodeLineSettings.CodeType.PROMPT)
-                    line.GenerateXml(xml);
+                line.GenerateXml(xml);
             }
 
-            foreach (var line in CodeLines)
+            foreach (var line in CodeLines.Where(line => line.Settings is {Type: CodeLineSettings.CodeType.POST}))
             {
-                if (line.Settings.Type == CodeLineSettings.CodeType.POST)
-                    line.GenerateXml(xml);
+                line.GenerateXml(xml);
             }
 
 
@@ -291,15 +281,9 @@ namespace FormgenAssistant.DataTypes
         public StringWriterWithEncoding(StringBuilder sb, Encoding encoding)
             : base(sb)
         {
-            this.m_Encoding = encoding;
+            this.Encoding = encoding;
         }
-        private readonly Encoding m_Encoding;
-        public override Encoding Encoding
-        {
-            get
-            {
-                return this.m_Encoding;
-            }
-        }
+
+        public override Encoding Encoding { get; }
     }
 }

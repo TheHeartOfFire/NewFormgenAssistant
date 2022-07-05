@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FormgenAssistant.Interfaces;
+﻿using FormgenAssistant.Interfaces;
 
 namespace FormgenAssistant.DataTypes.Code.Functions
 {
@@ -17,21 +12,19 @@ namespace FormgenAssistant.DataTypes.Code.Functions
             Name = "Seplist";
             Prefix = "SEPLIST";
             Description = "Separate a list of items with the given separator.";
-            InputDescriptions = new List<string>()
-            {
-                "Separator",
-                "Item",
-                "Item"
-            };
+            AddInput("Separator");
+            AddInput("Item");
+            AddInput("Item");
+
             DefaultArgCount = 3;
             ArgIncriment = 1;
+            
         }
         public CodeBase AddExtraInputs(int count)
         {
             for (var i = 0; i < count; i++)
-            {
-                InputDescriptions.Add( "Item");
-            }
+                AddInput("Item");
+            
             return this;
         }
 
@@ -39,9 +32,9 @@ namespace FormgenAssistant.DataTypes.Code.Functions
         {
             for (var i = 0; i < count; i++)
             {
-                if (InputDescriptions.Count <= DefaultArgCount) return this;
+                if (InputCount() <= DefaultArgCount) return this;
 
-                InputDescriptions.RemoveAt(InputDescriptions.Count - 1);
+                RemoveInput(InputCount() - 1);
             }
             return this;
         }

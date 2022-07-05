@@ -1,24 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using FormgenAssistant.DataTypes.Code;
 using FormgenAssistant.DataTypes.Code.Formulae;
 using FormgenAssistant.DataTypes.Code.Functions;
 using FormgenAssistant.Interfaces;
-using FormgenAssistant.SavedItems;
 
 namespace FormgenAssistant.Pages
 {
@@ -39,42 +29,44 @@ namespace FormgenAssistant.Pages
         {
             var selectedSnippet = _snippets.FirstOrDefault(x => x.Name == ((ListBoxItem) lstSnippets.SelectedItem).Content as string);
 
+            AddPrompts.Visibility = Visibility.Collapsed;
+            RemovePrompts.Visibility = Visibility.Collapsed;
             if (selectedSnippet is null) return;
 
             if(selectedSnippet is IExtendableCode)
                 AddPrompts.Visibility = Visibility.Visible;
-            else
-            {
-                AddPrompts.Visibility = Visibility.Collapsed;
-                RemovePrompts.Visibility = Visibility.Collapsed;
-            }
 
 
-                txtDescription.Text = selectedSnippet.Description;
+            txtDescription.Text = selectedSnippet.Description;
+            GenerateInputBoxes(selectedSnippet);
+            UpdateOutput();
+        }
+
+        private void GenerateInputBoxes(CodeBase selectedSnippet)
+        {
             wrpInputs.Children.Clear();
-            foreach (var input in selectedSnippet.InputDescriptions)
+            foreach (var input in selectedSnippet.Inputs)
             {
                 var textBox = new TextBox
                 {
-                    Text = input,
+                    Text = input.Description,
                     Margin = new Thickness(5),
                     Padding = new Thickness(5),
-                    Background = new SolidColorBrush() { Color = Color.FromArgb(255, 32, 25, 56) },
-                    Foreground = new SolidColorBrush() { Color = Color.FromArgb(255, 255, 255, 255) },
-                    BorderBrush = new SolidColorBrush() { Color = Colors.MediumSlateBlue },
+                    Background = new SolidColorBrush() {Color = Color.FromArgb(255, 32, 25, 56)},
+                    Foreground = new SolidColorBrush() {Color = Color.FromArgb(255, 255, 255, 255)},
+                    BorderBrush = new SolidColorBrush() {Color = Colors.MediumSlateBlue},
                     ToolTip = input,
                     MinWidth = 75
                 };
-                textBox.GotFocus += (s, e) => textBox.Text = textBox.Text == input ? "": textBox.Text;
+                textBox.GotFocus += (s, e) => textBox.Text = textBox.Text == input.Description ? "" : textBox.Text;
                 textBox.LostFocus += (s, e) =>
-                    textBox.Text = string.IsNullOrEmpty(textBox.Text) ? input : textBox.Text;
-                textBox.TextChanged += (s,e) => UpdateOutput();
+                    textBox.Text = string.IsNullOrEmpty(textBox.Text) ? input.Description : textBox.Text;
+                textBox.TextChanged += (s, e) => UpdateOutput();
 
                 wrpInputs.Children.Add(textBox);
             }
-            UpdateOutput();
         }
-        
+
         private void InitializeSnippetList()
         {
             _snippets.Add(new CityStateZIPCode());
@@ -131,6 +123,8 @@ namespace FormgenAssistant.Pages
         {
             var selectedSnippet = _snippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content as string);
             if (selectedSnippet is null) return;
+
+            //TODO: Allow CodeBase as Input
 
             var boxes = wrpInputs.Children;
             var inputs = (from object? box in boxes select box as TextBox into textBox where textBox is not null select textBox.Text).ToList();

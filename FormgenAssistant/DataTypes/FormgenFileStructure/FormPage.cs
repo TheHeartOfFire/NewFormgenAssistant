@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Xml;
 
 namespace FormgenAssistant.DataTypes
 {
     public class FormPage
     {
-        public FormPageSettings Settings { get; set; }
-        public List<FormField> Fields { get; set; } = new List<FormField>();
-        public FormPage(XmlNode Node)
+        public FormPageSettings? Settings { get; set; }
+        public List<FormField> Fields { get; set; } = new ();
+        public FormPage(XmlNode node)
         {
-            Settings = new FormPageSettings(Node.Attributes);
+            if (node.Attributes != null) Settings = new FormPageSettings(node.Attributes);
 
-            foreach(XmlNode Child in Node.FirstChild)
+            if (node.FirstChild == null) return;
+            foreach (XmlNode child in node.FirstChild)
             {
-                Fields.Add(new FormField(Child));
+                Fields.Add(new FormField(child));
             }
         }
 
@@ -25,17 +22,18 @@ namespace FormgenAssistant.DataTypes
         {
 
             xml.WriteStartElement("pages");
-            Settings.GenerateXml(xml);
+            Settings?.GenerateXml(xml);
 
             xml.WriteStartElement("fields");
-            foreach(FormField Field in Fields)
+            foreach(var field in Fields)
             {
                 xml.WriteStartElement("entry");
-                Field.GenerateXml(xml);
+                field.GenerateXml(xml);
                 xml.WriteEndElement();
             }
-                xml.WriteEndElement();
-                xml.WriteEndElement();
+
+            xml.WriteEndElement();
+            xml.WriteEndElement();
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 
 namespace FormgenAssistant.DataTypes
 {
@@ -11,7 +6,7 @@ namespace FormgenAssistant.DataTypes
     {
         public int Order { get; set; }
         public CodeType Type { get; set; }
-        public string Variable { get; set; }
+        public string? Variable { get; set; }
         public enum CodeType
         {
             INIT,
@@ -27,7 +22,7 @@ namespace FormgenAssistant.DataTypes
 
             Variable = attributes[2].Value;
         }
-        public CodeLineSettings(CodeLineSettings settings, string newName, int newIndex)
+        public CodeLineSettings(CodeLineSettings settings, string? newName, int newIndex)
         {
             Order = newIndex;
             Type = settings.Type;

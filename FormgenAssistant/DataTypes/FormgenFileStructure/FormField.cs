@@ -1,62 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 
 namespace FormgenAssistant.DataTypes
 {
     public class FormField
     {
-        public FormFieldSettings Settings { get; set; }
-        public string Expression { get; set; }
-        public string SampleData { get; set; }
+        public FormFieldSettings? Settings { get; set; }
+        public string? Expression { get; set; }
+        public string? SampleData { get; set; }
         public FormatOption FormattingOption { get; set; }
 
         public enum FormatOption
         {
-            NONE,
-            EMPTYZEROPRINTSNOTHING,
-            EMPTYFIELDPRINTS0,
-            NUMBERSASWORDS,
-            NAIFBLANK
+            None,
+            EmptyZeroPrintsNothing,
+            EmptyFieldPrints0,
+            NumbersAsWords,
+            NAIfBlank
         }
         public FormField(XmlNode node)
         {
-            Settings = new FormFieldSettings(node.ChildNodes[1].Attributes);
-            Expression = node.ChildNodes[1].ChildNodes[0].InnerText;
-            SampleData = node.ChildNodes[1].ChildNodes[1].InnerText;
-            FormattingOption = GetFormatOption(node.ChildNodes[1].ChildNodes[2].InnerText);
+            var xmlAttributeCollection = node.ChildNodes[1]?.Attributes;
+            if (xmlAttributeCollection != null)
+                Settings = new FormFieldSettings(xmlAttributeCollection);
+
+
+            var innerText = node.ChildNodes[1]?.ChildNodes[0]?.InnerText;
+            if (innerText != null)
+                Expression = innerText;
+
+            var sampleData = node.ChildNodes[1]?.ChildNodes[1]?.InnerText;
+            if (sampleData != null)
+                SampleData = sampleData;
+            
+            var option = node.ChildNodes[1]?.ChildNodes[2]?.InnerText;
+            if (option != null)
+                FormattingOption = GetFormatOption(option);
         }
         public static FormatOption GetFormatOption(string option) => option switch
         {
-            "None" => FormatOption.NONE,
-            "EmptyZeroPrintsNothing" => FormatOption.EMPTYZEROPRINTSNOTHING,
-            "BlankPrintsZero" => FormatOption.EMPTYFIELDPRINTS0,
-            "NumberAsWords" => FormatOption.NUMBERSASWORDS,
-            "NAIfBlank" => FormatOption.NAIFBLANK,
-            _ => FormatOption.NONE,
+            "None" => FormatOption.None,
+            "EmptyZeroPrintsNothing" => FormatOption.EmptyZeroPrintsNothing,
+            "BlankPrintsZero" => FormatOption.EmptyFieldPrints0,
+            "NumberAsWords" => FormatOption.NumbersAsWords,
+            "NAIfBlank" => FormatOption.NAIfBlank,
+            _ => FormatOption.None,
         };
 
         public static string GetFormatOption(FormatOption option) => option switch
         {
-            FormatOption.NONE => "None",
-            FormatOption.EMPTYZEROPRINTSNOTHING => "EmptyZeroPrintsNothing",
-            FormatOption.EMPTYFIELDPRINTS0 => "BlankPrintsZero",
-            FormatOption.NUMBERSASWORDS => "NumberAsWords",
-            FormatOption.NAIFBLANK => "NAIfBlank",
+            FormatOption.None => "None",
+            FormatOption.EmptyZeroPrintsNothing => "EmptyZeroPrintsNothing",
+            FormatOption.EmptyFieldPrints0 => "BlankPrintsZero",
+            FormatOption.NumbersAsWords => "NumberAsWords",
+            FormatOption.NAIfBlank => "NAIfBlank",
             _ => "None",
         };
 
         public void GenerateXml(XmlWriter xml)
         {
             xml.WriteStartElement("key");
-            xml.WriteString(Settings.ID.ToString());
+            xml.WriteString(Settings?.ID.ToString());
             xml.WriteEndElement();
 
             xml.WriteStartElement("value");
-            Settings.GenerateXml(xml);
+            Settings?.GenerateXml(xml);
 
                  xml.WriteStartElement("expression");
                  xml.WriteString(Expression);

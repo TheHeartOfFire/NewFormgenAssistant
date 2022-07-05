@@ -13,12 +13,12 @@
         </Grid.ColumnDefinitions>
         <Border BorderBrush="MediumSlateBlue" BorderThickness="1" Grid.ColumnSpan="3"/>
         <Border BorderBrush="MediumSlateBlue" BorderThickness="1"/>
-        <Label x:Name="lblDescriptor" Foreground="MediumSlateBlue" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="15" Content="RDO"/>
+        <Label x:Name="LblDescriptor" Foreground="MediumSlateBlue" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="15" Content="RDO"/>
 
-        <Label x:Name="lblName" Content="Name" HorizontalAlignment="Left" Margin="0,16,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="18" Grid.Column="1" MaxWidth="150" VerticalContentAlignment="Top" Height="34" Width="136"/>
-        <Label x:Name="lblNameTitle" Content="Variable Name" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" Grid.Column="1" FontSize="10" Height="23" Width="74"/>
-        <Label x:Name="lblMessage" Content="Message" HorizontalAlignment="Left" Margin="0,16,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="18" Grid.Column="2" MaxWidth="475"/>
-        <Label x:Name="lblMessageTitle" Content="Message" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" Grid.Column="2" FontSize="10" Height="23" Width="49"/>
+        <Label x:Name="LblName" Content="Name" HorizontalAlignment="Left" Margin="0,16,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="18" Grid.Column="1" MaxWidth="150" VerticalContentAlignment="Top" Height="34" Width="136"/>
+        <Label x:Name="LblNameTitle" Content="Variable Name" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" Grid.Column="1" FontSize="10" Height="23" Width="74"/>
+        <Label x:Name="LblMessage" Content="Message" HorizontalAlignment="Left" Margin="0,16,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" FontSize="18" Grid.Column="2" MaxWidth="475"/>
+        <Label x:Name="LblMessageTitle" Content="Message" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Foreground="MediumSlateBlue" Grid.Column="2" FontSize="10" Height="23" Width="49"/>
 
     </Grid>
 </UserControl>

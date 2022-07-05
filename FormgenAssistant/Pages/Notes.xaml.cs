@@ -1,18 +1,7 @@
 ﻿using FormgenAssistant.SavedItems;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FormgenAssistant.Pages
 {
@@ -36,7 +25,7 @@ namespace FormgenAssistant.Pages
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            if(Settings.Instance.Notes_CopyAll) CopyAll();
+            if(Settings.Instance.NotesCopyAll) CopyAll();
             txtServerId.Text = string.Empty;
             txtCompanies.Text = string.Empty;
             txtDealer.Text = string.Empty;

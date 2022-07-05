@@ -1,54 +1,46 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FormgenAssistant.SavedItems
 {
     public class Settings
     {
         //Serializable Properties
-        public bool Notes_CopyAll { get; set; }
+        public bool NotesCopyAll { get; set; }
 
         //Singleton
         [JsonIgnore]
-        private static Settings instance = null;
+        private static Settings? _instance;
         [JsonIgnore]
         public static Settings Instance { 
 
-            get 
-            {
-                if (instance is null) instance = new Settings();
-                return instance;
-            }
+            get => _instance ??= new Settings();
 
-            set => instance = value; 
+            set => _instance = value; 
         }
 
         //Default stuff
         [JsonIgnore]
-        private static Settings defaultSettings = new()
+        private static readonly Settings DefaultSettings = new()
         {
-            Notes_CopyAll = true
+            NotesCopyAll = true
         };
         private Settings() { }
         //Json stuff
         private static readonly string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\FormgenAssistant";
         private static readonly string FileName = FilePath + "\\Settings.json";
         [JsonConstructor]
-        public Settings(bool notes_CopyAll)
+        public Settings(bool notesCopyAll)
         {
-            Notes_CopyAll = notes_CopyAll;
+            NotesCopyAll = notesCopyAll;
         }
         public static void Load()
         {
             Directory.CreateDirectory(FilePath);
             if (!File.Exists(FileName)) Save();
 
-            Instance = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(FileName)) ?? defaultSettings;
+            Instance = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(FileName)) ?? DefaultSettings;
             
         }
 

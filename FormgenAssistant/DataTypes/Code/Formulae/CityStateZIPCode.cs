@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FormgenAssistant.DataTypes.Code.Functions;
+﻿using FormgenAssistant.DataTypes.Code.Functions;
 
 namespace FormgenAssistant.DataTypes.Code.Formulae
 {
@@ -13,12 +8,9 @@ namespace FormgenAssistant.DataTypes.Code.Formulae
         {
             Name = "City, State ZIP";
             Description = "Nicely format a city, state, and ZIP code.";
-            InputDescriptions = new List<string>()
-            {
-                "City",
-                "State",
-                "ZIP"
-            };
+            AddInput("City");
+            AddInput("State");
+            AddInput("ZIP");
         }
 
         public override string GetCode()
@@ -26,12 +18,12 @@ namespace FormgenAssistant.DataTypes.Code.Formulae
             if (HasNoInputs()) return string.Empty;
 
             return new SeplistCode()
-                .AddInput("\' \'")
-                .AddInput(new CaseCode()
-                    .AddInput("\', \'")
-                    .AddInput(GetInput(0) as string ?? string.Empty)
-                    .AddInput(GetInput(1) as string ?? string.Empty))
-                .AddInput(GetInput(2) as string ?? string.Empty);
+                .SetInputValue(0, "\' \'")
+                .SetInputValue(1, new SeplistCode()
+                    .SetInputValue(0, "\', \'")
+                    .SetInputValue(1, GetInput(0) as string ?? string.Empty)
+                    .SetInputValue(2, GetInput(1) as string ?? string.Empty))
+                .SetInputValue(2, GetInput(2) as string ?? string.Empty);
         }
     }
 }

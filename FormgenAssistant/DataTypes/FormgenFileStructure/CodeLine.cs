@@ -1,30 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 
 namespace FormgenAssistant.DataTypes
 {
     public class CodeLine
     {
-        public CodeLineSettings Settings { get; set; }
-        public string Expression { get; set; }
-        public PromptData PromptData { get; set; }
+        public CodeLineSettings? Settings { get; set; }
+        public string? Expression { get; set; }
+        public PromptData? PromptData { get; set; }
         public CodeLine(XmlNode node)
         {
-            Settings = new CodeLineSettings(node.Attributes);
+            if (node.Attributes != null) Settings = new CodeLineSettings(node.Attributes);
 
-            if (Settings.Type != CodeLineSettings.CodeType.PROMPT) 
-                Expression = node.FirstChild.InnerText;
-            else
-                PromptData = new PromptData(node.FirstChild);
-
+            if (Settings != null && Settings.Type != CodeLineSettings.CodeType.PROMPT)
+            {
+                if (node.FirstChild != null) Expression = node.FirstChild.InnerText;
+            }
+            else if (node.FirstChild != null) PromptData = new PromptData(node.FirstChild);
         }
-        public CodeLine(CodeLine codeLine, string newName, int newIndex)
+        public CodeLine(CodeLine codeLine, string? newName, int newIndex)
         {
-            Settings = new CodeLineSettings(codeLine.Settings, newName, newIndex);
+            if (codeLine.Settings != null) Settings = new CodeLineSettings(codeLine.Settings, newName, newIndex);
             Expression = codeLine.Expression;
             PromptData = codeLine.PromptData;
         }
@@ -32,18 +27,22 @@ namespace FormgenAssistant.DataTypes
         public void GenerateXml(XmlWriter xml)
         {
             xml.WriteStartElement("codeLines");
-            Settings.GenerateXml(xml);
+            if (Settings == null) return;
+                Settings.GenerateXml(xml);
 
-            if (Settings.Type != CodeLineSettings.CodeType.PROMPT)
-            {
-                xml.WriteStartElement("expression");
-                xml.WriteString(Expression);
+                if (Settings.Type != CodeLineSettings.CodeType.PROMPT)
+                {
+                    xml.WriteStartElement("expression");
+                    xml.WriteString(Expression);
+                    xml.WriteEndElement();
+                }
+                else
+                {
+                    var promptData = PromptData;
+                    promptData?.GenerateXml(xml);
+                }
+                
                 xml.WriteEndElement();
-            }
-            else
-                this.PromptData.GenerateXml(xml);
-
-            xml.WriteEndElement();
         }
     }
 }

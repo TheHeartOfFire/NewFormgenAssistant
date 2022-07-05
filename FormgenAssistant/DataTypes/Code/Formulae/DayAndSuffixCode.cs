@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FormgenAssistant.DataTypes.Code.Functions;
+﻿using FormgenAssistant.DataTypes.Code.Functions;
 
 namespace FormgenAssistant.DataTypes.Code.Formulae
 {
@@ -13,10 +8,7 @@ namespace FormgenAssistant.DataTypes.Code.Formulae
         {
             Name = "Day and Suffix";
             Description = "Returns the day of the month with the suffix. 11 = 11th, 12 = 12th, 13 = 13th, 21 = 21st, 22 = 22nd, etc.";
-            InputDescriptions = new List<string>()
-            {
-                "Numeric Day"
-            };
+            AddInput("Numeric Day");
         }
         
         public override string GetCode()
@@ -24,28 +16,28 @@ namespace FormgenAssistant.DataTypes.Code.Formulae
             if (HasNoInputs()) return string.Empty;
             
             return new NumToTextCode()
-                .AddInput(GetInput(0) as string ?? string.Empty)
-                .AddInput("0") + 
+                       .SetInputValue(0, GetInput(0) as string ?? string.Empty)
+                       .SetInputValue(1, "0") + 
                    " + " + 
                    new CaseCode()
                 .AddExtraInputs(1)
-                .AddInput(GetInput(0) as string ?? string.Empty)
-                .AddInput("11")
-                .AddInput("\'th\'")
-                .AddInput("12")
-                .AddInput("\'th\'")
-                .AddInput("13")
-                .AddInput("\'th\'")
-                .AddInput(new CaseCode()
+                .SetInputValue(0, GetInput(0) as string ?? string.Empty)
+                .SetInputValue(1, "11")
+                .SetInputValue(2, "\'th\'")
+                .SetInputValue(3, "12")
+                .SetInputValue(4, "\'th\'")
+                .SetInputValue(5, "13")
+                .SetInputValue(6, "\'th\'")
+                .SetInputValue(7, new CaseCode()
                     .AddExtraInputs(1)
-                    .AddInput($"{GetInput(0) as string ?? string.Empty} % 10")
-                    .AddInput("1")
-                    .AddInput("\'st\'")
-                    .AddInput("2")
-                    .AddInput("\'nd\'")
-                    .AddInput("3")
-                    .AddInput("\'rd\'")
-                    .AddInput("\'th\'")); 
+                    .SetInputValue(0, $"{GetInput(0) as string ?? string.Empty} % 10")
+                    .SetInputValue(1, "1")
+                    .SetInputValue(2, "\'st\'")
+                    .SetInputValue(3, "2")
+                    .SetInputValue(4, "\'nd\'")
+                    .SetInputValue(5, "3")
+                    .SetInputValue(6, "\'rd\'")
+                    .SetInputValue(7, "\'th\'")); 
         }
     }
 }

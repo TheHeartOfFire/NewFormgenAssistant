@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FormgenAssistant.DataTypes.Code.Functions;
+﻿using FormgenAssistant.DataTypes.Code.Functions;
 
 namespace FormgenAssistant.DataTypes.Code.Formulae
 {
@@ -13,10 +8,7 @@ namespace FormgenAssistant.DataTypes.Code.Formulae
         {
             Name = "Date Conversion";
             Description = "Converts a date in the format of MM/DD/YYYY to a date in the format of MM/DD/YY.";
-            InputDescriptions = new List<string>()
-            {
-                "Date Field"
-            };
+            AddInput("Date Field");
         }
 
         public override string GetCode()
@@ -25,12 +17,13 @@ namespace FormgenAssistant.DataTypes.Code.Formulae
             
             return new SeplistCode()
                 .AddExtraInputs(1)
-                .AddInput(new MonthCode()
-                    .AddInput(GetInput(0) as string ?? string.Empty))
-                .AddInput(new DayCode()
-                    .AddInput(GetInput(0) as string ?? string.Empty))
-                .AddInput(new YearCode()
-                    .AddInput(GetInput(0) as string ?? string.Empty) + " % 100");
+                .SetInputValue(0,"'/'")
+                .SetInputValue(1, new MonthCode()
+                    .SetInputValue(0, GetInput(0) as string ?? string.Empty))
+                .SetInputValue(2, new DayCode()
+                    .SetInputValue(0, GetInput(0) as string ?? string.Empty))
+                .SetInputValue(3, new YearCode()
+                    .SetInputValue(0, GetInput(0) as string ?? string.Empty) + " % 100");
         }
     }
 }

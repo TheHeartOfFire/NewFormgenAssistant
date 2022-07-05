@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FormgenAssistant.Interfaces;
+﻿using FormgenAssistant.Interfaces;
 
 namespace FormgenAssistant.DataTypes.Code.Functions
 {
@@ -20,15 +15,13 @@ namespace FormgenAssistant.DataTypes.Code.Functions
                           "return the corresponding result of any matches, " +
                           "otherwise return the default value. " +
                           "Identical to multiple nested If Statements.";
-            InputDescriptions = new List<string>()
-            {
-                "Comparison",
-                "Case",
-                "Result",
-                "Case",
-                "Result",
-                "Default"
-            };
+            AddInput("Comparison");
+            AddInput("Case");
+            AddInput("Result");
+            AddInput("Case");
+            AddInput("Result");
+            AddInput("Default");
+           
             DefaultArgCount = 6;
             ArgIncriment = 2;
         }
@@ -38,8 +31,8 @@ namespace FormgenAssistant.DataTypes.Code.Functions
         {
             for (var i = 0; i < count; i++)
             {
-                InputDescriptions.Insert(InputDescriptions.Count - 1, "Case");
-                InputDescriptions.Insert(InputDescriptions.Count - 1, "Result");
+                AddInput(InputCount() - 1, "Case");
+                AddInput(InputCount() - 1, "Result");
             }
 
             return this;
@@ -49,10 +42,10 @@ namespace FormgenAssistant.DataTypes.Code.Functions
         {
             for (var i = 0; i < count; i++)
             {
-                if (InputDescriptions.Count <= DefaultArgCount) return this;
-                
-                InputDescriptions.RemoveAt(InputDescriptions.Count - 2);
-                InputDescriptions.RemoveAt(InputDescriptions.Count - 2);
+                if (InputCount() <= DefaultArgCount) return this;
+
+                RemoveInput(InputCount() - 2);
+                RemoveInput(InputCount() - 2);
             }
 
             return this;

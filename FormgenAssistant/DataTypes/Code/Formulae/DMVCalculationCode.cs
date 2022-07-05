@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FormgenAssistant.DataTypes.Code.Formulae
+﻿namespace FormgenAssistant.DataTypes.Code.Formulae
 {
     public class DmvCalculationCode : CodeBase
     {

@@ -1,17 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
 namespace FormgenAssistant.Controls
 {
@@ -21,12 +8,12 @@ namespace FormgenAssistant.Controls
     public partial class PromptItem : UserControl
     {
 
-        public PromptItem(string Descriptor, string VariableName, string Message)
+        public PromptItem(string descriptor, string? VariableName, string? Message)
         {
             InitializeComponent();
-            lblDescriptor.Content = Descriptor;
-            lblName.Content = VariableName.Equals("F0")?"None":VariableName;
-            lblMessage.Content = Message;
+            LblDescriptor.Content = descriptor;
+            LblName.Content = VariableName is "F0"?"None":VariableName;
+            LblMessage.Content = Message;
         }
         /// <summary>
         /// For designer use only, do not call this for live code.
@@ -34,9 +21,9 @@ namespace FormgenAssistant.Controls
         public PromptItem()
         {
             InitializeComponent();
-            lblDescriptor.Content = "ABC";
-            lblName.Content = "txtPrompt1";
-            lblMessage.Content = "Use the Parameterized constructor for live use.";
+            LblDescriptor.Content = "ABC";
+            LblName.Content = "txtPrompt1";
+            LblMessage.Content = "Use the Parameterized constructor for live use.";
         }
     }
 }
