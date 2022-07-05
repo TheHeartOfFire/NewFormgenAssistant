@@ -49,6 +49,12 @@
             </DockPanel>
         </Button>
         <Label x:Name="lblVersion" Content="v" HorizontalAlignment="Right" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Right" Foreground="#FFA5A5A5" Background="#00000000" Margin="0,0,5,5"/>
+        <TextBox x:Name="txtAddress" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Attn: AM Forms 300 State Street, #96020, Southlake, TX 76092" VerticalAlignment="Bottom" Width="424" Margin="5,0,0,5" Height="25" Padding="5,5,5,5" UseLayoutRounding="True" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" IsReadOnly="True" PreviewMouseUp="txtAddress_PreviewMouseUp" PreviewMouseLeftButtonUp="txtAddress_PreviewMouseLeftButtonUp">
+            <TextBox.SelectionBrush>
+                <SolidColorBrush Color="#4CFFFFFF" Opacity="1"/>
+            </TextBox.SelectionBrush>
+        </TextBox>
+        <Label x:Name="lblAddress" Content="Mailing Address" HorizontalAlignment="Left" Margin="10,339,0,0" VerticalAlignment="Top" Width="419" Foreground="White"/>
 
     </Grid>
 </UserControl>

@@ -8,6 +8,7 @@ namespace FormgenAssistant.SavedItems
     {
         //Serializable Properties
         public bool NotesCopyAll { get; set; }
+        public string MailingAddress { get; set; }
 
         //Singleton
         [JsonIgnore]
@@ -24,16 +25,18 @@ namespace FormgenAssistant.SavedItems
         [JsonIgnore]
         private static readonly Settings DefaultSettings = new()
         {
-            NotesCopyAll = true
+            NotesCopyAll = true,
+            MailingAddress = "Attn: AM Forms 300 State Street, #96020, Southlake, TX 76092"
         };
         private Settings() { }
         //Json stuff
         private static readonly string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\FormgenAssistant";
         private static readonly string FileName = FilePath + "\\Settings.json";
         [JsonConstructor]
-        public Settings(bool notesCopyAll)
+        public Settings(bool notesCopyAll, string mailingAddress)
         {
             NotesCopyAll = notesCopyAll;
+            MailingAddress = mailingAddress;
         }
         public static void Load()
         {
@@ -41,7 +44,8 @@ namespace FormgenAssistant.SavedItems
             if (!File.Exists(FileName)) Save();
 
             Instance = JsonConvert.DeserializeObject<Settings>(File.ReadAllText(FileName)) ?? DefaultSettings;
-            
+            Instance.MailingAddress ??= DefaultSettings.MailingAddress;
+
         }
 
         public static void Save()

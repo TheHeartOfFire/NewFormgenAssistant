@@ -1,6 +1,7 @@
 ﻿using FormgenAssistant.SavedItems;
 using System.Windows.Controls;
 using System.Windows.Input;
+using FormgenAssistant.Pages;
 
 namespace FormgenAssistant
 {
@@ -9,11 +10,11 @@ namespace FormgenAssistant
     /// </summary>
     public partial class SettingsPage : UserControl
     {
-        private static readonly Dealers _dealers = Dealers.Instance;
-        private static readonly Settings _settings = Settings.Instance;
+        private static readonly Settings Settings = Settings.Instance;
         public SettingsPage()
         {
             InitializeComponent();
+            txtAddress.Text = Settings.MailingAddress;
 
         }
         
@@ -21,7 +22,18 @@ namespace FormgenAssistant
         {
             if (tglFormCodeCAPS.IsOn is null) return;
 
-            _settings.NotesCopyAll = (bool)tglFormCodeCAPS.IsOn;
+            Settings.NotesCopyAll = (bool)tglFormCodeCAPS.IsOn;
+            Settings.Save();
+        }
+
+        private void btnRevertAddress_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            txtAddress.Text = Settings.MailingAddress;
+        }
+
+        private void btnUpdateAddress_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Settings.MailingAddress = txtAddress.Text;
             Settings.Save();
         }
     }

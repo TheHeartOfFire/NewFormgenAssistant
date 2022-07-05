@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace FormgenAssistant.Pages
 {
@@ -15,6 +16,7 @@ namespace FormgenAssistant.Pages
         {
             InitializeComponent();
             AddVersionNumber();
+            txtAddress.Text = SavedItems.Settings.Instance.MailingAddress;
         }
         private void AddVersionNumber()
         {
@@ -53,6 +55,27 @@ namespace FormgenAssistant.Pages
                 FileName = path,
                 UseShellExecute = true
             });
+        
+        private void txtAddress_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtAddress.Text))
+                txtAddress.SelectAll();
+            
+        }
+
+        private void txtAddress_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var mouseDownEvent = new MouseButtonEventArgs(
+                Mouse.PrimaryDevice,
+                Environment.TickCount,
+                MouseButton.Right)
+            {
+                RoutedEvent = Mouse.MouseUpEvent,
+                Source = txtAddress,
+            };
+            
+            InputManager.Current.ProcessInput(mouseDownEvent);
+        }
         
     }
 }

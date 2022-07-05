@@ -9,10 +9,20 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="#FF0F0B1E">
         <Canvas>
-            <Label Content="Notes" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Canvas.Left="10" Canvas.Top="10"/>
-            <Controls:ToggleSwitch x:Name="tglFormCodeCAPS" Height="22" Width="50" BorderThickness1="5" IsOn="True" Canvas.Left="10" Canvas.Top="54" MouseLeftButtonDown="tglFormCodeCAPS_MouseLeftButtonDown"/>
-            <Separator Height="2" Canvas.Left="10" Canvas.Top="45" Width="182" Background="MediumSlateBlue"/>
-            <Label Content="Copy all on clear" Background="{x:Null}" Foreground="MediumSlateBlue" Canvas.Left="65" Canvas.Top="52" Height="24" Width="101"/>
+            <Label Content="Home Page" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Canvas.Left="10" Canvas.Top="10"/>
+            <Separator Height="2" Canvas.Left="10" Canvas.Top="45" Width="182" Background="MediumSlateBlue" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <TextBox x:Name="txtAddress" TextWrapping="Wrap" Text="Attn: AM Forms 300 State Street, #96020, Southlake, TX 76092" Width="424" Height="25" Padding="5,5,5,5" UseLayoutRounding="True" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" HorizontalAlignment="Left" Canvas.Left="10" Canvas.Top="54" VerticalAlignment="Bottom">
+                <TextBox.SelectionBrush>
+                    <SolidColorBrush Color="#4CFFFFFF" Opacity="1"/>
+                </TextBox.SelectionBrush>
+            </TextBox>
+            <Label Content="Notes" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Canvas.Left="10" Canvas.Top="81" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Controls:ToggleSwitch x:Name="tglFormCodeCAPS" Height="22" Width="50" BorderThickness1="5" IsOn="True" Canvas.Left="10" Canvas.Top="126" MouseLeftButtonDown="tglFormCodeCAPS_MouseLeftButtonDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Separator Height="2" Canvas.Left="10" Canvas.Top="116" Width="182" Background="MediumSlateBlue" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Copy all on clear" Background="{x:Null}" Foreground="MediumSlateBlue" Canvas.Left="65" Canvas.Top="126" Height="24" Width="101" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Button x:Name="btnUpdateAddress" Content="Update" Canvas.Left="439" Canvas.Top="54" Height="25" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="White" Click="btnUpdateAddress_Click"/>
+            <Button x:Name="btnRevertAddress" Content="Revert" Canvas.Left="487" Canvas.Top="54" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="White" Click="btnRevertAddress_Click"/>
+
 
         </Canvas>
 

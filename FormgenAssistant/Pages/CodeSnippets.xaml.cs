@@ -55,6 +55,7 @@ namespace FormgenAssistant.Pages
                     Background = new SolidColorBrush() {Color = Color.FromArgb(255, 32, 25, 56)},
                     Foreground = new SolidColorBrush() {Color = Color.FromArgb(255, 255, 255, 255)},
                     BorderBrush = new SolidColorBrush() {Color = Colors.MediumSlateBlue},
+                    SelectionBrush = new SolidColorBrush() { Color = Color.FromArgb(76, 255, 255, 255)},
                     ToolTip = input,
                     MinWidth = 75
                 };

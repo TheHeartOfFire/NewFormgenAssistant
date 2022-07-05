@@ -14,20 +14,21 @@ namespace FormgenAssistant
     /// </summary>
     public partial class MainWindow : Window
     {
-		List<UserControl> Pages = new List<UserControl>();
+        private readonly List<UserControl> _pages = new();
 
         public MainWindow()
         {
 			SavedItems.Settings.Load();
             InitializeComponent();
-			Pages.Add(HomePage);
-			Pages.Add(FileNameGen);
-			Pages.Add(Settings);
-			Pages.Add(Notes);
-			Pages.Add(Prompts);
-            Pages.Add(CodeSnippets);
+			_pages.Add(HomePage);
+			_pages.Add(FileNameGen);
+			_pages.Add(Settings);
+			_pages.Add(Notes);
+			_pages.Add(Prompts);
+            _pages.Add(CodeSnippets);
 			_ = CheckForUpdates();
 		}
+        
 		private static async Task CheckForUpdates()
 		{
 			using var manager = new GithubUpdateManager("https://github.com/TheHeartOfFire/NewFormgenAssistant");
@@ -177,10 +178,11 @@ namespace FormgenAssistant
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 			CloseAllPages();
+            HomePage.txtAddress.Text = SavedItems.Settings.Instance.MailingAddress;
 			HomePage.Visibility = Visibility.Visible;
         }
 
-		private void CloseAllPages() => Pages.ForEach(Page => Page.Visibility = Visibility.Hidden);
+		private void CloseAllPages() => _pages.ForEach(Page => Page.Visibility = Visibility.Hidden);
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
