@@ -43,12 +43,12 @@ namespace FormgenAssistant.Pages
 
         private void CopyAll()
         {
-            var SB = new StringBuilder();
-            SB.AppendLine("Server: " + txtServerId.Text + "\tCompany(s): " + txtCompanies.Text);
-            SB.AppendLine("Dealership: " + txtDealer.Text);
-            SB.AppendLine("Contact: " + txtName.Text + "\tE-Mail: " + txtEmail.Text + "\tPhone: " + txtPhone.Text != "" ? txtPhone.Text + " x" + txtPhoneExt.Text : "");
-            SB.AppendLine("Notes: " + txtNotes.Text);
-            Clipboard.SetText(SB.ToString());
+            var sb = new StringBuilder();
+            sb.AppendLine("Server: " + txtServerId.Text + "\tCompany(s): " + txtCompanies.Text);
+            sb.AppendLine("Dealership: " + txtDealer.Text);
+            sb.AppendLine("Contact: " + txtName.Text + "\tE-Mail: " + txtEmail.Text + "\tPhone: " + (txtPhone.Text != "" ? txtPhone.Text + " x" + txtPhoneExt.Text : ""));
+            sb.AppendLine("Notes: " + txtNotes.Text);
+            Clipboard.SetText(sb.ToString());
         }
     }
 }
