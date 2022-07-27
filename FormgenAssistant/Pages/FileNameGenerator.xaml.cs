@@ -4,119 +4,57 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using FormgenAssistantLibrary.Interfaces.DI;
 
 namespace FormgenAssistant.Pages
 {
     /// <summary>
     /// Interaction logic for FileNameGenerator.xaml
     /// </summary>
-    public partial class FileNameGenerator : UserControl
+    public partial class FileNameGenerator : Page
     {
-        List<string> StateCodes = new List<string> { "AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","PR","RI","SC","SD","TN","TX","UT","VT","VA","VI","WA","WV","WI","WY"};
-        public FileNameGenerator()
+        private readonly IFileNameGenerator _fileNameGenerator;
+        
+        
+        public FileNameGenerator(IFileNameGenerator fileNameGenerator)
         {
+            _fileNameGenerator = fileNameGenerator;
             InitializeComponent();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            cboStates.ItemsSource = StateCodes;
+            cboStates.ItemsSource = _fileNameGenerator.StateCodes;
         }
 
         private void UpdateFormName()
         {
-            if (tglFormType.IsOn == false && tglLAW.IsOn == true)
+            switch (tglFormType.IsOn)
             {
-                txtOutput.Text = LaserLaw();
-                return;
+                case false when tglLAW.IsOn == true:
+                    txtOutput.Text = _fileNameGenerator.LaserLaw(txtCoBank.Text, txtFormName.Text, txtCode.Text, 
+                        txtDate.Text, txtOEMDealer.Text, tglFormNameTitle.IsOn!.Value, tglNewUsed.IsOn, 
+                        tglFormCodeCAPS.IsOn!.Value, tglCustom.IsOn!.Value );
+                    return;
+                case false:
+                    txtOutput.Text = _fileNameGenerator.Laser(cboStates.Text, txtCoBank.Text, tglFormNameTitle.IsOn!.Value,
+                        txtFormName.Text,txtCode.Text, txtDate.Text, txtOEMDealer.Text, tglFormCodeCAPS.IsOn!.Value,
+                        tglNewUsed.IsOn, tglCustom.IsOn!.Value, tglVM.IsOn!.Value);
+                    return;
+                case true when tglLAW.IsOn == true:
+                    txtOutput.Text = _fileNameGenerator.ImpactLaw(txtCode.Text, tglFormCodeCAPS.IsOn!.Value, txtDate.Text,
+                        txtCoBank.Text, tglFormNameTitle.IsOn!.Value, txtFormName.Text, txtOEMDealer.Text,
+                        tglNewUsed.IsOn, tglCustom.IsOn!.Value, tglVM.IsOn!.Value);
+                    return;
+                case true:
+                    txtOutput.Text = _fileNameGenerator.Impact(cboStates.Text, txtCoBank.Text, tglFormNameTitle.IsOn!.Value,
+                        txtFormName.Text, txtDate.Text, txtCode.Text,   txtOEMDealer.Text,
+                        tglFormCodeCAPS.IsOn!.Value, tglNewUsed.IsOn, tglCustom.IsOn!.Value, tglVM.IsOn!.Value);
+                    return;
             }
-            if (tglFormType.IsOn == false)
-            {
-                txtOutput.Text = Laser();
-                return;
-            }
-            if (tglFormType.IsOn == true && tglLAW.IsOn == true)
-            {
-                txtOutput.Text = ImpactLaw();
-                return;
-            }
-            if (tglFormType.IsOn == true)
-            {
-                txtOutput.Text = Impact();
-                return;
-            }
         }
 
-        private string LaserLaw()
-        {
-            string result = "LAW ";
-            result += txtCoBank.Text != "" ? txtCoBank.Text + " " : "";
-            result += tglFormNameTitle.IsOn == true ? CultureInfo.InvariantCulture.TextInfo.ToTitleCase(txtFormName.Text) : txtFormName.Text;
-            result += (txtCode.Text != "" || txtDate.Text != "") ? " [LAW " : "";
-            result += txtCode.Text != "" ? tglFormCodeCAPS.IsOn == true ? txtCode.Text.ToUpperInvariant() : txtCode.Text + " " : "";
-            result += txtDate.Text != "" ? txtDate.Text + " " : "";
-            result += (txtCode.Text != "" || txtDate.Text != "") ? "]" : "";
-            result += txtOEMDealer.Text != "" ? " (" + txtOEMDealer.Text + ")" : "";
-            result += tglNewUsed.IsOn is false ? " (SOLD)" : tglNewUsed.IsOn is true ? " (TRADE)" : "";
-            result += tglCustom.IsOn == true ? " - Custom" : "";
-            return result.Replace('/','-');
-        }
-
-        private string Laser()
-        {
-            string result = "";
-            result += cboStates.Text != "" ? cboStates.Text + " " : "";
-            result += txtCoBank.Text != "" ? txtCoBank.Text + " " : "";
-            result += tglFormNameTitle.IsOn == true ? CultureInfo.InvariantCulture.TextInfo.ToTitleCase(txtFormName.Text) : txtFormName.Text;
-
-            result += (txtCode.Text != "" || txtDate.Text != "" || txtOEMDealer.Text != "") ? " [" : "";
-            result += txtCode.Text != "" ? tglFormCodeCAPS.IsOn == true ? txtCode.Text.ToUpperInvariant() : txtCode.Text + " " : "";
-            result += ((txtCode.Text != "" || txtOEMDealer.Text != "") && txtDate.Text != "") ? " (" : "";
-            result += txtDate.Text != "" ? txtDate.Text : "";
-            result += ((txtCode.Text != "" || txtOEMDealer.Text != "") && txtDate.Text != "") ? ")" : "";
-            result += txtOEMDealer.Text != "" ? "(" + txtOEMDealer.Text + ")" : "";
-            result += (txtCode.Text != "" || txtDate.Text != "" || txtOEMDealer.Text != "") ? "]" : "";
-
-            result += tglNewUsed.IsOn is false ? " (SOLD)" : tglNewUsed.IsOn is true ? " (TRADE)" : "";
-            result += tglCustom.IsOn == true ? " - Custom" : "";
-            result += tglVM.IsOn == true ? " - VM" : "";
-            return result.Replace('/', '-');
-        }
-
-        private string ImpactLaw()
-        {
-            string result = "LAW ";
-            result += txtCode.Text != "" ? tglFormCodeCAPS.IsOn == true ? txtCode.Text.ToUpperInvariant() : txtCode.Text + " " : "";
-            result += txtDate.Text != "" ? txtDate.Text + " " : "";
-            result += txtCoBank.Text != "" ? txtCoBank.Text + " " : "";
-            result += tglFormNameTitle.IsOn == true ? CultureInfo.InvariantCulture.TextInfo.ToTitleCase(txtFormName.Text) : txtFormName.Text;
-            result += txtOEMDealer.Text != "" ? "(" + txtOEMDealer.Text + ")" : "";
-            result += tglNewUsed.IsOn is false ? "(SOLD)" : tglNewUsed.IsOn is true ? "(TRADE)" : "";
-            result += tglCustom.IsOn == true ? " - Custom" : "";
-            result += tglVM.IsOn == true ? " - VM" : "";
-            return result.Replace('/', '-');
-        }
-
-        private string Impact()
-        {
-            string result = "";
-            result += cboStates.Text != "" ? cboStates.Text + " " : "";
-            result += txtCoBank.Text != "" ? txtCoBank.Text + " " : "";
-            result += tglFormNameTitle.IsOn == true ? CultureInfo.InvariantCulture.TextInfo.ToTitleCase(txtFormName.Text) : txtFormName.Text;
-
-            result += (txtCode.Text != "" || txtDate.Text != "" || txtOEMDealer.Text != "") ? " (" : "";
-            result += txtCode.Text != "" ? tglFormCodeCAPS.IsOn == true ? txtCode.Text.ToUpperInvariant() : txtCode.Text + " " : "";
-            result += ((txtCode.Text != "" || txtOEMDealer.Text != "") && txtDate.Text != "") ? " [" : "";
-            result += txtDate.Text != "" ? txtDate.Text : "";
-            result += ((txtCode.Text != "" || txtOEMDealer.Text != "") && txtDate.Text != "") ? "]" : "";
-            result += txtOEMDealer.Text != "" ? "[" + txtOEMDealer.Text + "]" : "";
-            result += (txtCode.Text != "" || txtDate.Text != "" || txtOEMDealer.Text != "") ? ")" : "";
-
-            result += tglNewUsed.IsOn is false ? " (SOLD)" : tglNewUsed.IsOn is true ? " (TRADE)" : "";
-            result += tglCustom.IsOn == true ? " - Custom" : "";
-            result += tglVM.IsOn == true ? " - VM" : "";
-            return result.Replace('/', '-');
-        }
+        
 
         private void UpdateFormName(object sender, EventArgs e)
         {

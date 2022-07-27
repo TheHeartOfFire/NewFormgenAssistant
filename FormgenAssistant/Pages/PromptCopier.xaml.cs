@@ -1,5 +1,4 @@
-﻿using FormgenAssistant.DataTypes;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Linq;
@@ -7,21 +6,21 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
+using FormgenAssistantLibrary.DataTypes.FormgenFileStructure;
+using FormgenAssistantLibrary.Interfaces.DI;
 
 namespace FormgenAssistant.Pages
 {
     /// <summary>
     /// Interaction logic for PromptCopier.xaml
     /// </summary>
-    public partial class PromptCopier : UserControl
+    public partial class PromptCopier : Page
     {
-        private XmlDocument? _file = new ();
-        private string? _filePath;
-        private string? _backupFilePath;
-        private DotFormgen? _formFile;
-        private static readonly string DirPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\FormgenAssistant\\FormgenBackup";
-        public PromptCopier()
+        private readonly IPromptCopier _copier;
+
+        public PromptCopier(IPromptCopier copier)
         {
+            _copier = copier;
             InitializeComponent();
             lboxPrompts.Items.Clear();
         }
@@ -33,42 +32,31 @@ namespace FormgenAssistant.Pages
                 Filter = "Formgen files (*.formgen)|*.formgen"
             };
             if (dia.ShowDialog() == false) return;
-
-            _filePath = dia.FileName;
-            txtFilePath.Text = _filePath[(_filePath.LastIndexOf(@"\", StringComparison.Ordinal) + 1)..];
-            _file?.Load(_filePath);
-            ReadXML();
+            
+            txtFilePath.Text = dia.FileName[(dia.FileName.LastIndexOf(@"\", StringComparison.Ordinal) + 1)..];
+            _copier.ReadXML(dia.FileName);
             UpdatePrompts();
         }
 
-        private void ReadXML()
-        {
-            if (_file?.DocumentElement is null) return;
-
-            _formFile = new DotFormgen(_file.DocumentElement);
-
-            txtUUID.Text = _formFile.Settings.UUID;
-        }
+        
 
         private void btnUUIDGen_Click(object sender, RoutedEventArgs e)
         {
-            if (_file?.DocumentElement is null) return;
+            if (!_copier.IsLoaded()) return;
             if (MessageBox.Show(
                 "Are you sure you want to change the UUID for this form. Formgen will no longer recognize this as the same form.",
                 "Update UUID",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Warning) == MessageBoxResult.No) return;
-
-            var uuid = Guid.NewGuid().ToString();
-            txtUUID.Text = uuid;
-            _file.DocumentElement.Attributes[1].Value = uuid;
-            if (_formFile != null) _formFile.Settings.UUID = uuid;
+            
+            txtUUID.Text = _copier.RegenerateUUID();
         }
 
         // ReSharper disable once InconsistentNaming
         private void ctxtDeletePrompt(object sender, RoutedEventArgs e)
         {
-            if (_file?.DocumentElement is null) return;
+            if (!_copier.IsLoaded()) return;
+
             if (MessageBox.Show(
                 "Are you sure you want to delete " + lboxPrompts.SelectedItems.Count + "Item(s)?", 
                 "Delete", 
@@ -76,12 +64,8 @@ namespace FormgenAssistant.Pages
                 MessageBoxImage.Warning) == MessageBoxResult.No) return;
 
             foreach (var selection in lboxPrompts.SelectedItems)
-            {
-                var idx = lboxPrompts.Items.IndexOf(selection);
-
-
-                _formFile?.CodeLines.Remove(_formFile.GetPrompt(idx));
-            }
+                _copier.RemovePrompt(lboxPrompts.Items.IndexOf(selection));
+            
 
 
             UpdatePrompts();
@@ -89,24 +73,13 @@ namespace FormgenAssistant.Pages
         // ReSharper disable once InconsistentNaming
         private void ctxtClonePrompt(object sender, RoutedEventArgs e)
         {
-            if(txtFilePath.Text == string.Empty) return;
+            if(!_copier.IsLoaded()) return;
             if (lboxPrompts.SelectedIndex<0) return;
 
             foreach(var selection in lboxPrompts.SelectedItems)
             {
                 var idx = lboxPrompts.Items.IndexOf(selection);
-                var item = _formFile?.GetPrompt(idx);
-                var variable = item?.Settings?.Variable;
-
-                var prompts = _formFile?.CodeLines.Where(x => x.Settings?.Type == CodeLineSettings.CodeType.PROMPT).ToList();
-
-                if (variable != "F0")
-                    while (prompts != null && prompts.Exists(x => x.Settings?.Variable == variable))
-                        variable = CopyIncrementer(variable);
-
-                if (item == null) continue;
-                if (variable == null) continue;
-                _formFile?.ClonePrompt(item, variable, _formFile.PromptCount());
+                _copier.ClonePrompt(idx);
             }
             UpdatePrompts();
         }
@@ -114,7 +87,7 @@ namespace FormgenAssistant.Pages
         private void UpdatePrompts()
         {
             lboxPrompts.Items.Clear();
-            foreach (var line in _formFile?.CodeLines.Where(line => line.Settings is {Type: CodeLineSettings.CodeType.PROMPT})!)
+            foreach (var line in _copier.FormFile?.CodeLines.Where(line => line.Settings is {Type: CodeLineSettings.CodeType.PROMPT})!)
                 lboxPrompts.Items.Add( 
                     new Controls.PromptItem(
                         PromptDataSettings.PromptDescriptor(line.PromptData!.Settings!.Type), 
@@ -126,31 +99,11 @@ namespace FormgenAssistant.Pages
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             if (txtFilePath.Text == string.Empty) return;
-            _file = new XmlDocument();
-            _formFile = null;
 
             txtFilePath.Text = string.Empty;
             txtUUID.Text = string.Empty;
-            _filePath = string.Empty;
+            _copier.CloseFile();
             lboxPrompts.Items.Clear();
-        }
-
-        private static string CopyIncrementer(string? input)
-        {
-            if (input == null) return input ?? string.Empty;
-            
-                var index = input.Length - 1;
-                while (int.TryParse(input[index].ToString(), out _))
-                {
-                    index--;
-                }
-
-                _ = int.TryParse(input.AsSpan(index + 1), out int number);
-
-                number++;
-                var output = string.Concat(input.AsSpan(0, index + 1), number.ToString());
-                return output;
-            
         }
 
         private void lboxPrompts_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -166,13 +119,12 @@ namespace FormgenAssistant.Pages
             OpenFileDialog dia = new()
             {
                 Filter = "Backup files (*.bak)|*.bak",
-                InitialDirectory = DirPath + "\\" + _formFile?.Settings.UUID
+                InitialDirectory = _copier.BackupDirectory
             };
             if (dia.ShowDialog() == false) return;
-
-            _file?.Load(dia.FileName);
-            ReadXML();
-            if (_filePath != null) _file?.Save(_filePath);
+            _copier.ReadXML(dia.FileName);
+            
+            //if (_filePath != null) _file?.Save(_filePath);
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -185,13 +137,7 @@ namespace FormgenAssistant.Pages
                MessageBoxImage.Warning) == MessageBoxResult.No) return;
 
             //Create backup file
-            Directory.CreateDirectory(DirPath + "\\" + _formFile?.Settings.UUID);
-            _backupFilePath = DirPath + "\\" + _formFile?.Settings.UUID + "\\" + DateTime.Now.ToString("mm-dd-yyyy.hh-mm-ss") + ".bak";
-            _file?.Save(_backupFilePath);
-
-            var xml = _formFile?.GenerateXML();
-            if (xml != null) _file?.LoadXml(xml);
-            if (_filePath != null) _file?.Save(_filePath);
+           
         }
 
         private void tglPromptField_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -218,7 +164,7 @@ namespace FormgenAssistant.Pages
         private void LoadFields()
         {
             lboxPrompts.Items.Clear();
-            foreach (var field in (_formFile?.Pages ?? throw new InvalidOperationException()).SelectMany(line => line.Fields))
+            foreach (var field in (_copier.FormFile?.Pages ?? throw new InvalidOperationException()).SelectMany(line => line.Fields))
                 lboxPrompts.Items.Add(new Controls.FieldItem(field.Settings?.Type.ToString() ?? string.Empty, field.Settings?.Bold.ToString() ?? string.Empty, field.Expression ?? string.Empty));
         }
 
@@ -230,17 +176,14 @@ namespace FormgenAssistant.Pages
             foreach (var selection in lboxPrompts.SelectedItems)
             {
                 var idx = lboxPrompts.Items.IndexOf(selection);
-                var item = _formFile?.GetField(idx);
-
-                if (item?.Settings != null) item.Settings.Bold = !item.Settings.Bold;
+                _copier.ToggleBold(idx);
             }
             LoadFields();
         }
 
         private void btnUndoChanges_Click(object sender, RoutedEventArgs e)
         {
-            if (_filePath != null) _file?.Load(_filePath);
-            ReadXML();
+            _copier.ReadXML(txtFilePath.Text);
 
             if (tglPromptField.IsOn == false)
             {
@@ -265,18 +208,18 @@ namespace FormgenAssistant.Pages
 
             var recipientNicerName = dia.FileName[(dia.FileName.LastIndexOf(@"\", StringComparison.Ordinal) + 1)..];
 
-            if (_formFile != null && recipient.Pages.Count != _formFile.Pages.Count)
+            if (_copier.FormFile != null && recipient.Pages.Count != _copier.FormFile.Pages.Count)
             {
                 MessageBox.Show(
-                $"{recipientNicerName} has {recipient.Pages.Count} pages, but {txtFilePath.Text} has {_formFile.Pages.Count}. You can only copy to a form with the same number of pages.",
+                $"{recipientNicerName} has {recipient.Pages.Count} pages, but {txtFilePath.Text} has {_copier.FormFile.Pages.Count}. You can only copy to a form with the same number of pages.",
                 "Copy",
                 MessageBoxButton.OK,
                 MessageBoxImage.Error);
                 return;
             }
 
-            if (_formFile != null && MessageBox.Show(
-                    $"You're about to copy {_formFile.FieldCount()} fields, {_formFile.InitCount()} init(default) lines, {_formFile.PromptCount()} prompts and {_formFile.PostCount()} post prompt lines from {txtFilePath.Text} to {recipientNicerName}. \n" +
+            if (_copier.FormFile != null && MessageBox.Show(
+                    $"You're about to copy {_copier.FormFile.FieldCount()} fields, {_copier.FormFile.InitCount()} init(default) lines, {_copier.FormFile.PromptCount()} prompts and {_copier.FormFile.PostCount()} post prompt lines from {txtFilePath.Text} to {recipientNicerName}. \n" +
                     $"This will overwrite {recipient.FieldCount()} fields, {recipient.InitCount()} init(default) lines, {recipient.PromptCount()} prompts and {recipient.PostCount()} post prompt lines.\n" +
                     $"A backup of {recipientNicerName} will be created, do you wish to proceed?",
                     "Copy",
@@ -284,15 +227,7 @@ namespace FormgenAssistant.Pages
                     MessageBoxImage.Warning) == MessageBoxResult.No) return;
 
 
-            Directory.CreateDirectory(DirPath + "\\" + recipient.Settings.UUID);
-            _backupFilePath = DirPath + "\\" + recipient.Settings.UUID + "\\" + DateTime.Now.ToString("mm-dd-yyyy.hh-mm-ss") + ".bak";
-            _file?.Save(_backupFilePath);
-
-            if (_formFile?.Pages != null) recipient.Pages = _formFile?.Pages ?? throw new InvalidOperationException();
-            if (_formFile?.CodeLines != null) recipient.CodeLines = _formFile?.CodeLines ?? throw new InvalidOperationException();
-
-            newDoc.LoadXml(recipient.GenerateXML());
-            newDoc.Save(dia.FileName);
+            _copier.CopyTo(dia.FileName);
         }
     }
 }

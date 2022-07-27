@@ -1,17 +1,20 @@
-﻿using FormgenAssistant.SavedItems;
-using System.Text;
+﻿using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using FormgenAssistantLibrary.Interfaces.DI;
 
 namespace FormgenAssistant.Pages
 {
     /// <summary>
     /// Interaction logic for Notes.xaml
     /// </summary>
-    public partial class Notes : UserControl
+    public partial class Notes : Page
     {
-        public Notes()
+        private readonly ISettings _settings;
+        
+        public Notes(ISettings settings)
         {
+            _settings = settings;
             InitializeComponent();
         }
 
@@ -25,7 +28,7 @@ namespace FormgenAssistant.Pages
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            if(Settings.Instance.NotesCopyAll) CopyAll();
+            if(_settings.Data.NotesCopyAll) CopyAll();
             txtServerId.Text = string.Empty;
             txtCompanies.Text = string.Empty;
             txtDealer.Text = string.Empty;

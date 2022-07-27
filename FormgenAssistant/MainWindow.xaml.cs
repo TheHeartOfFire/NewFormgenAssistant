@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using FormgenAssistant.Pages;
+using FormgenAssistantLibrary.Interfaces.DI;
 
 namespace FormgenAssistant
 {
@@ -14,19 +16,33 @@ namespace FormgenAssistant
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly List<UserControl> _pages = new();
+        private readonly IUtils _utils;
+        private readonly ISettings _settings;
+        private readonly IFileNameGenerator _nameGenerator;
+        private readonly IPromptCopier _promptCopier;
+        private readonly Notes _notesPage;
+        private readonly FileNameGenerator _fileNameGenerator;
+        private readonly PromptCopier _promptCopierPage;
 
-        public MainWindow()
+        public MainWindow(IUtils utils, 
+            ISettings settings, 
+            IFileNameGenerator nameGenerator,
+            IPromptCopier promptCopier)
         {
-			SavedItems.Settings.Load();
+            _utils = utils;
+            _settings = settings;
+            _nameGenerator = nameGenerator;
+            _promptCopier = promptCopier;
+            settings.Load();
+            
             InitializeComponent();
-			_pages.Add(HomePage);
-			_pages.Add(FileNameGen);
-			_pages.Add(Settings);
-			_pages.Add(Notes);
-			_pages.Add(Prompts);
-            _pages.Add(CodeSnippets);
-			_ = CheckForUpdates();
+            ContentFrame.Content = new HomePage(_utils, _settings);
+            
+            _notesPage = new Notes(_settings);
+            _fileNameGenerator = new FileNameGenerator(_nameGenerator);
+            _promptCopierPage = new PromptCopier(_promptCopier);
+
+            _ = CheckForUpdates();
 		}
         
 		private static async Task CheckForUpdates()
@@ -176,42 +192,33 @@ namespace FormgenAssistant
 		}
 
         private void Button_Click(object sender, RoutedEventArgs e)
-        {
-			CloseAllPages();
-            HomePage.txtAddress.Text = SavedItems.Settings.Instance.MailingAddress;
-			HomePage.Visibility = Visibility.Visible;
-        }
-
-		private void CloseAllPages() => _pages.ForEach(Page => Page.Visibility = Visibility.Hidden);
+		{
+            ContentFrame.Content = new HomePage(_utils, _settings);
+		}
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-			CloseAllPages();
-			FileNameGen.Visibility = Visibility.Visible;
-		}
+            ContentFrame.Content = _fileNameGenerator;
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        }
+
+		private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-			CloseAllPages();
-			Settings.Visibility = Visibility.Visible;
-		}
-
+            ContentFrame.Content = new SettingsPage(_settings);
+        }
         private void Button_Click_4(object sender, RoutedEventArgs e)
 		{
-			CloseAllPages();
-			Notes.Visibility = Visibility.Visible;
+            ContentFrame.Content = _notesPage;
 		}
 
         private void btnPrompts_Click(object sender, RoutedEventArgs e)
 		{
-			CloseAllPages();
-			Prompts.Visibility = Visibility.Visible;
-		}
+            ContentFrame.Content = _promptCopierPage;
+        }
 
         private void BtnSnippets_OnClick(object sender, RoutedEventArgs e)
 		{
-			CloseAllPages();
-            CodeSnippets.Visibility = Visibility.Visible;
+            ContentFrame.Source = new Uri("Pages\\CodeSnippets.xaml", UriKind.RelativeOrAbsolute);
 		}
     }
 }

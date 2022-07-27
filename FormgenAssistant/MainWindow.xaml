@@ -64,11 +64,11 @@
                             <Image Height="45" Source="/Resources/settings_gear.png" Width="45" OpacityMask="Black" VerticalAlignment="Stretch"/>
                         </Button>
                     </Grid>
-                    <Pages:HomePage Visibility="Visible" x:Name="HomePage" Grid.Row="1" Grid.Column="1"/>
-                    <Pages:FileNameGenerator Visibility="Hidden" x:Name="FileNameGen" Grid.Row="1" Grid.Column="1"/>
-                    <Pages:Notes Visibility="Hidden" x:Name="Notes" Grid.Row="1" Grid.Column="1"/>
+                    <!--<Pages:HomePage Visibility="Visible" x:Name="HomePage" Grid.Row="1" Grid.Column="1"/>-->
+                    <!--<Pages:FileNameGenerator Visibility="Hidden" x:Name="FileNameGen" Grid.Row="1" Grid.Column="1"/>-->
+                    <!--<Pages:Notes Visibility="Hidden" x:Name="Notes" Grid.Row="1" Grid.Column="1"/>
                     <local:SettingsPage x:Name="Settings" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
-                    <Pages:PromptCopier x:Name="Prompts" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>
+                    <Pages:PromptCopier x:Name="Prompts" Visibility="Hidden" Grid.Row="1" Grid.Column="1"/>-->
                     <Grid x:Name="grdTitle" Grid.ColumnSpan="2">
                         <Grid.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -135,7 +135,8 @@
 			StrokeThickness="1" />
                         </Button>
                     </Grid>
-                    <Pages:CodeSnippets x:Name="CodeSnippets" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" Visibility="Hidden"/>
+                    <!--<Pages:CodeSnippets x:Name="CodeSnippets" Grid.Column="1" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" Visibility="Hidden"/>-->
+                    <Frame x:Name="ContentFrame" Grid.Column="1" Content="Frame" Grid.Row="1" NavigationUIVisibility="Hidden"/>
                 </Grid>
             </Grid>
         </Grid>

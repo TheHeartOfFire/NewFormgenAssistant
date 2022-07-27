@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<Page
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -21,11 +21,12 @@
         <TextBox x:Name="txtOutput" TextWrapping="Wrap" Background="Black" BorderBrush="MediumSlateBlue" SelectionBrush="MediumSlateBlue" Foreground="White" SelectionTextBrush="MediumSlateBlue" CaretBrush="MediumSlateBlue" IsReadOnly="True" PreviewMouseUp="txtOutput_PreviewMouseUp" PreviewMouseLeftButtonUp="txtOutput_PreviewMouseLeftButtonUp" Margin="65,0,5,5" VerticalAlignment="Bottom" Grid.Row="2" Height="55" Grid.ColumnSpan="2"/>
         <Button x:Name="Copy" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="White" Background="{x:Null}" Click="btnCopy_Click" Margin="5,0,0,35" Content="Copy" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="55" Height="25" Grid.Row="2"/>
 
-        <WrapPanel x:Name="wrpInputs" Grid.Column="1" Grid.Row="1"/>
+        <WrapPanel x:Name="wrpInputs" Grid.Column="1" Grid.Row="1" d:IsHidden="True"/>
         <TextBlock x:Name="txtDescription" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="White" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" FontStyle="Normal" Background="{x:Null}" />
         <Button x:Name="RemovePrompts" Content="-" HorizontalAlignment="Left" Margin="5,35,0,0" Grid.Row="2" VerticalAlignment="Top" Width="25" Height="25" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="White" ToolTip="Remove excess prompts from code snippet" Visibility="Collapsed" Click="RemovePrompts_Click"/>
         <Button x:Name="AddPrompts" Content="+" HorizontalAlignment="Left" Margin="32,35,0,0" Grid.Row="2" VerticalAlignment="Top" Width="26" Height="25" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="White" ToolTip="Add additional prompts to code snippet" Visibility="Collapsed" Click="AddPrompts_Click"/>
+        <StackPanel x:Name="stkInputs" Grid.Column="1" Grid.Row="1"/>
 
 
     </Grid>
-</UserControl>
+</Page>

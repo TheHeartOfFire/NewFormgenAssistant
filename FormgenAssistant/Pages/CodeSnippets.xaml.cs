@@ -5,17 +5,18 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using FormgenAssistant.DataTypes.Code;
-using FormgenAssistant.DataTypes.Code.Formulae;
-using FormgenAssistant.DataTypes.Code.Functions;
-using FormgenAssistant.Interfaces;
+using FormgenAssistantLibrary.DataTypes.Code;
+using FormgenAssistantLibrary.DataTypes.Code.Formulae;
+using FormgenAssistantLibrary.DataTypes.Code.Functions;
+using FormgenAssistantLibrary.Interfaces;
+using FormgenAssistantLibrary.Interfaces.DI;
 
 namespace FormgenAssistant.Pages
 {
     /// <summary>
     /// Interaction logic for HomePage.xaml
     /// </summary>
-    public partial class CodeSnippets : UserControl
+    public partial class CodeSnippets : Page
     {
         private readonly List<CodeBase> _snippets = new();
         public CodeSnippets()
@@ -23,8 +24,11 @@ namespace FormgenAssistant.Pages
             
             InitializeComponent();
             InitializeSnippetList();
+            stkInputs.Children.Insert(0, CreateFunctionExpander(new CityStateZIPCodeTest()));
+            
         }
-        
+
+
         private void UpdateContent()
         {
             var selectedSnippet = _snippets.FirstOrDefault(x => x.Name == ((ListBoxItem) lstSnippets.SelectedItem).Content as string);
@@ -47,25 +51,65 @@ namespace FormgenAssistant.Pages
             wrpInputs.Children.Clear();
             foreach (var input in selectedSnippet.Inputs)
             {
-                var textBox = new TextBox
-                {
-                    Text = input.Description,
-                    Margin = new Thickness(5),
-                    Padding = new Thickness(5),
-                    Background = new SolidColorBrush() {Color = Color.FromArgb(255, 32, 25, 56)},
-                    Foreground = new SolidColorBrush() {Color = Color.FromArgb(255, 255, 255, 255)},
-                    BorderBrush = new SolidColorBrush() {Color = Colors.MediumSlateBlue},
-                    SelectionBrush = new SolidColorBrush() { Color = Color.FromArgb(76, 255, 255, 255)},
-                    ToolTip = input,
-                    MinWidth = 75
-                };
-                textBox.GotFocus += (s, e) => textBox.Text = textBox.Text == input.Description ? "" : textBox.Text;
-                textBox.LostFocus += (s, e) =>
-                    textBox.Text = string.IsNullOrEmpty(textBox.Text) ? input.Description : textBox.Text;
-                textBox.TextChanged += (s, e) => UpdateOutput();
+                var textBox = CreateInputTextBox(input);
 
                 wrpInputs.Children.Add(textBox);
             }
+        }
+
+        private Expander CreateFunctionExpander(CodeBase input)
+        {
+            var stack = new StackPanel();
+
+            var expander = new Expander
+            {
+                Header = input.GetToken(),
+                Foreground = new SolidColorBrush(Colors.White),
+                BorderBrush = new SolidColorBrush(Colors.MediumSlateBlue), 
+                Content = stack,
+                IsExpanded = true
+            };
+
+            var wrap = new WrapPanel();
+            foreach (var value in input.Inputs)
+            {
+                if (value.Value is CodeBase @base)
+                {
+                    //wrap.Children.Add(CreateInputTextBox(value));
+                    wrap.Children.Add(CreateFunctionExpander(@base));
+                }
+                else
+                    wrap.Children.Add(CreateInputTextBox(value));
+            }
+
+            stack.Children.Add(wrap);
+
+            return expander;
+        }
+        
+
+        private TextBox CreateInputTextBox(CodeInput input)
+        {
+            var isCode = input.Value is CodeBase;
+            var inputValue = input.Value as CodeBase;
+            var inputDescription = isCode ? inputValue!.GetToken() : input.Value as string;
+            var textBox = new TextBox
+            {
+                Text = inputDescription,
+                Margin = new Thickness(5),
+                Padding = new Thickness(5),
+                Background = new SolidColorBrush(Color.FromArgb(255, 32, 25, 56)),
+                Foreground = new SolidColorBrush(isCode ? Colors.Red : Colors.White),
+                BorderBrush = new SolidColorBrush(Colors.MediumSlateBlue),
+                SelectionBrush = new SolidColorBrush(Color.FromArgb(76, 255, 255, 255)),
+                ToolTip = input,
+                MinWidth = 75
+            };
+            textBox.GotFocus += (s, e) => textBox.Text = textBox.Text == inputDescription ? "" : textBox.Text;
+            textBox.LostFocus += (s, e) =>
+                textBox.Text = string.IsNullOrEmpty(textBox.Text) ? inputDescription : textBox.Text;
+            textBox.TextChanged += (s, e) => UpdateOutput();
+            return textBox;
         }
 
         private void InitializeSnippetList()
@@ -130,7 +174,7 @@ namespace FormgenAssistant.Pages
             var boxes = wrpInputs.Children;
             var inputs = (from object? box in boxes select box as TextBox into textBox where textBox is not null select textBox.Text).ToList();
             selectedSnippet.SetInputs(inputs);
-            txtOutput.Text = selectedSnippet;
+            txtOutput.Text = selectedSnippet.GetCode();
         }
 
         private void AddPrompts_Click(object sender, RoutedEventArgs e)
@@ -153,7 +197,7 @@ namespace FormgenAssistant.Pages
             if (selectedSnippet.InputCount() > snippetEx.DefaultArgCount)
                 snippetEx.RemoveExtraInputs(1);
             
-            if (selectedSnippet.InputCount() <= snippetEx.DefaultArgCount + snippetEx.ArgIncriment) 
+            if (selectedSnippet.InputCount() <= snippetEx.DefaultArgCount + snippetEx.ArgIncrement) 
                 RemovePrompts.Visibility = Visibility.Collapsed;
 
             UpdateContent();
