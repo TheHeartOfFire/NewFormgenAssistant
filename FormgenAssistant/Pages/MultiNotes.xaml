@@ -7,10 +7,34 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <TabControl TabStripPlacement="Top" HorizontalAlignment="Stretch" Background="{x:Null}" VerticalAlignment="Stretch" BorderBrush="{x:Null}" FontSize="12" >
-            <TabItem Header="Item 1">
-                <local:Notes/>
-            </TabItem>
+        <TabControl x:Name="tcContent" TabStripPlacement="Top" HorizontalAlignment="Stretch" Background="{x:Null}" VerticalAlignment="Stretch" BorderBrush="{x:Null}" FontSize="12" >
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border Name="Panel" Background="#FF0F0B1E" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="10,1,0,0" Margin="10,0">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Panel" Property="BorderBrush" Value="MediumSlateBlue" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Panel" Property="BorderBrush" Value="#FF0F0B1E" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+
+
         </TabControl>
     </Grid>
 </UserControl>
