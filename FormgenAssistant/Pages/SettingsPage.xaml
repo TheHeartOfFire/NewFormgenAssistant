@@ -18,10 +18,14 @@
             </TextBox>
             <Label Content="Notes" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Canvas.Left="10" Canvas.Top="81" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Controls:ToggleSwitch x:Name="tglFormCodeCAPS" Height="22" Width="50" BorderThickness1="5" IsOn="True" Canvas.Left="10" Canvas.Top="126" MouseLeftButtonDown="tglFormCodeCAPS_MouseLeftButtonDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <Separator Height="2" Canvas.Left="10" Canvas.Top="116" Width="182" Background="MediumSlateBlue" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Separator Height="2" Canvas.Left="10" Canvas.Top="116" Width="146" Background="MediumSlateBlue" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Label Content="Copy all on clear" Background="{x:Null}" Foreground="MediumSlateBlue" Canvas.Left="65" Canvas.Top="126" Height="24" Width="101" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Button x:Name="btnUpdateAddress" Content="Update" Canvas.Left="439" Canvas.Top="54" Height="25" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="White" Click="btnUpdateAddress_Click"/>
             <Button x:Name="btnRevertAddress" Content="Revert" Canvas.Left="487" Canvas.Top="54" Height="25" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="White" Click="btnRevertAddress_Click"/>
+            <Label Content="Templates" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Canvas.Left="10" Canvas.Top="170" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Controls:ToggleSwitch x:Name="tglSelectOnTemplateAdded" Height="22" Width="50" BorderThickness1="5" IsOn="True" Canvas.Left="10" Canvas.Top="212" HorizontalAlignment="Center" VerticalAlignment="Top" MouseLeftButtonDown="tglSelectOnTemplateAdded_MouseLeftButtonDown"/>
+            <Separator Height="2" Canvas.Left="10" Canvas.Top="201" Width="245" Background="MediumSlateBlue" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Select new template after adding it." Background="{x:Null}" Foreground="MediumSlateBlue" Canvas.Left="65" Canvas.Top="210" Height="24" Width="198" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
 
         </Canvas>

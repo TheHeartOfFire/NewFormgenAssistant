@@ -1,0 +1,35 @@
+﻿<Window xmlns:Controls="clr-namespace:FormgenAssistant.Controls"  x:Class="FormgenAssistant.Dialogues.NewTemplateDialogue"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:FormgenAssistant.Dialogues"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="800"
+      Title="NewTemplateDialogue"
+        Background="#FF201938">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="183"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="100"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBox x:Name="txtTemplate" TextWrapping="WrapWithOverflow"  Padding="5,5,5,5" UseLayoutRounding="True" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" Grid.ColumnSpan="3">
+            <TextBox.SelectionBrush>
+                <SolidColorBrush Color="#4CFFFFFF" Opacity="1"/>
+            </TextBox.SelectionBrush>
+        </TextBox>
+        <Controls:NewTextBox x:Name="txtVarCount" Grid.Row="1" Width="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="" />
+        <Label Grid.Column="0" Grid.Row="1" Content="Variables" Foreground="{DynamicResource WindowBorderBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="30" />
+        <Controls:NewTextBox x:Name="txtName" Grid.Row="1" VerticalAlignment="Bottom" Text="" Grid.Column="1" Margin="90,0,90,0" />
+        <Label Grid.Column="1" Grid.Row="1" Content="Name" Foreground="{DynamicResource WindowBorderBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="30" />
+        <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="30" Height="50" Grid.Row="1" Click="btnSave_Click" Grid.Column="1" Margin="0,0,10,0"/>
+        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="30" Height="50" Grid.Row="1" Grid.Column="2" Padding="1,1,1,1" Margin="5,0,0,0" Click="btnCancel_Click"/>
+    </Grid>
+</Window>

@@ -36,5 +36,13 @@ namespace FormgenAssistant
             Settings.MailingAddress = txtAddress.Text;
             Settings.Save();
         }
+
+        private void tglSelectOnTemplateAdded_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (tglSelectOnTemplateAdded.IsOn is null) return;
+
+            Settings.SelectNewTemplate = (bool)tglSelectOnTemplateAdded.IsOn;
+            Settings.Save();
+        }
     }
 }
