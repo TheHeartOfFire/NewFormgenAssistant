@@ -59,6 +59,7 @@
             </TextBox.SelectionBrush>
         </TextBox>
         <Label x:Name="lblAddress" Content="Mailing Address" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="419" Foreground="White" Grid.Row="1"/>
+        <Controls:ToggleSwitch x:Name="tglTest" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Height="45" Width="104" MouseLeftButtonDown="tglTest_MouseLeftButtonDown"/>
 
     </Grid>
 </UserControl>

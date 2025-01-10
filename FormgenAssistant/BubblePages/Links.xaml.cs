@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace FormgenAssistant.BubblePages;
+/// <summary>
+/// Interaction logic for Links.xaml
+/// </summary>
+public partial class Links : UserControl
+{
+    public Links()
+    {
+        InitializeComponent();
+    }
+    private static void OpenLink(string path) =>
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = path,
+                UseShellExecute = true
+            });
+
+    private void btnFormgen_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "\\NewFormGen.lnk");
+
+    private void btnCST_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\AmpsSupport\\CSTLoader.exe");
+
+    private void btnWorkday_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Properties.Resources.Workday);
+
+    private void btnClientInfoReport_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Properties.Resources.ClientInfoReport);
+
+    private void btnFormsTracker_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Properties.Resources.FormsTracker);
+
+    private void btnMyApps_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Properties.Resources.MyApps);
+
+    private void btnSF_Click(object sender, RoutedEventArgs e) =>
+            OpenLink(Properties.Resources.SalesForce);
+}

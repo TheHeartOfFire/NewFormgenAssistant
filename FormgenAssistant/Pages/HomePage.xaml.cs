@@ -12,6 +12,8 @@ namespace FormgenAssistant.Pages
     /// </summary>
     public partial class HomePage : UserControl
     {
+
+        Bubbles BubbleWindow = new();
         public HomePage()
         {
             InitializeComponent();
@@ -76,6 +78,16 @@ namespace FormgenAssistant.Pages
             
             InputManager.Current.ProcessInput(mouseDownEvent);
         }
-        
+
+        private void tglTest_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (tglTest.IsOn is null) return;
+
+            if (!(bool)tglTest.IsOn)
+                BubbleWindow.Hide();
+            else
+                BubbleWindow.Show();
+
+        }
     }
 }

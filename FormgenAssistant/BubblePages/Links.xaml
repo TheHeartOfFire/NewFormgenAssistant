@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="FormgenAssistant.BubblePages.Links"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FormgenAssistant.BubblePages"
+             mc:Ignorable="d" 
+             d:DesignWidth="50" MaxWidth="50">
+    <Grid>
+        <StackPanel MaxHeight="450" VerticalAlignment="Top">
+            <Button x:Name="btnSF" HorizontalAlignment="Stretch" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnSF_Click" Height="49">
+                <Image Source="/Resources/SalesForce.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="btnMyApps" HorizontalAlignment="Stretch" Height="57" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnMyApps_Click">
+                <DockPanel>
+                    <TextBlock Text="My Apps" DockPanel.Dock="Top" Foreground="MediumSlateBlue" TextAlignment="Center" FontSize="11"/>
+                    <Image Source ="/Resources/msft.png" DockPanel.Dock="Bottom" Stretch="Uniform"/>
+                </DockPanel>
+            </Button>
+            <Button x:Name="btnFormsTracker" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnFormsTracker_Click" Height="50">
+                <DockPanel ClipToBounds="True">
+                    <TextBlock Text="Forms Tracker" DockPanel.Dock="Top" Foreground="MediumSlateBlue" TextAlignment="Center" FontSize="7"/>
+                    <Image Source ="/Resources/excel.png" DockPanel.Dock="Bottom" Stretch="Uniform"/>
+                </DockPanel>
+            </Button>
+            <Button x:Name="btnClientInfoReport" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnClientInfoReport_Click" Height="50">
+                <DockPanel>
+                    <TextBlock Text="Client Info Report" DockPanel.Dock="Top" Foreground="MediumSlateBlue" TextAlignment="Center" FontSize="5"/>
+                    <Image Source ="/Resources/database.png" DockPanel.Dock="Bottom" Stretch="Uniform"/>
+                </DockPanel>
+            </Button>
+            <Button x:Name="btnWorkday" HorizontalAlignment="Stretch" Height="50" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnWorkday_Click">
+                <Image Source="/Resources/workday.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="btnCST" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCST_Click" Height="50">
+                <DockPanel>
+                    <TextBlock Text="CST" DockPanel.Dock="Top" Foreground="MediumSlateBlue" TextAlignment="Center"/>
+                    <Image Source ="/Resources/AMLogo.ico" DockPanel.Dock="Bottom" Stretch="Uniform"/>
+                </DockPanel>
+            </Button>
+            <Button x:Name="btnFormgen" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnFormgen_Click" Height="50" FontSize="10">
+                <DockPanel>
+                    <TextBlock Text="Formgen
+                           " DockPanel.Dock="Top" Foreground="MediumSlateBlue" TextAlignment="Center"/>
+                    <Image Source ="/Resources/AMLogo.ico" DockPanel.Dock="Bottom" Stretch="Uniform"/>
+                </DockPanel>
+            </Button>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

@@ -38,6 +38,8 @@
     <None Remove="prompt.png" />
     <None Remove="Resources\AMLogo.ico" />
     <None Remove="Resources\file.png" />
+    <None Remove="Resources\Grabber.png" />
+    <None Remove="Resources\Hyperlink.png" />
     <None Remove="Resources\IF.png" />
     <None Remove="Resources\logo-white.png" />
     <None Remove="SalesForce.png" />
@@ -63,6 +65,16 @@
     <PackageReference Include="Clowd.Squirrel" Version="2.9.40" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.39" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.Windows.Forms.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsFormsIntegration">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\WindowsFormsIntegration.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -82,10 +94,16 @@
     <Resource Include="Resources\file.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Grabber.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\home.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\GitHub-logo-White.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Hyperlink.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\IF.png">
