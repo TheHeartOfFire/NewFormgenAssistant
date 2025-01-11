@@ -8,6 +8,7 @@ namespace FormgenAssistant.SavedItems
     {
         //Serializable Properties
         public bool NotesCopyAll { get; set; }
+        public bool SelectNewTemplate { get; set; }
         public string MailingAddress { get; set; }
 
         //Singleton
