@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 using TemplateList = FormgenAssistant.SavedItems.Templates.Templates;
 
 namespace FormgenAssistant.Pages;
@@ -131,11 +132,19 @@ public partial class Templates : UserControl
 
         var variables = new List<string>();
 
+        for (int i = 0; i < TemplateList.Instance.TemplateList[selectedIndex].VariableDefaults.Count; i++)
+        {
+            var varDefault = TemplateList.Instance.TemplateList[selectedIndex].VariableDefaults[i];
+            var text = (NewTextBox)stkVariables.Children[i];
+            if (text.Text.Equals(string.Empty) )
+            ((NewTextBox)stkVariables.Children[i]).Text = varDefault;
+        }
+
         foreach (NewTextBox item in stkVariables.Children) variables.Add(item.Text);
 
         for (int i = 0; i < variables.Count; i++)
         {
-            var variable = variables[i];
+            var variable = variables[i] ?? TemplateList.Instance.TemplateList[selectedIndex].VariableDefaults[i];
             CheckForReserved(variables, i, variable);
         }
 
@@ -160,32 +169,32 @@ public partial class Templates : UserControl
             case "serverid":
             case "server":
             case "serv":
-                variables[i] = Notes.ServerId ?? variables[i];
+                variables[i] = Notes.ServerId ?? string.Empty;
                 break;
             case "companies":
             case "company":
             case "comp":
             case "co":
-                variables[i] = Notes.Companies ?? variables[i];
+                variables[i] = Notes.Companies ?? string.Empty;
                 break;
             case "dealership":
             case "dealer":
             case "dlr":
-                variables[i] = Notes.Dealership ?? variables[i];
+                variables[i] = Notes.Dealership ?? string.Empty;
                 break;
             case "contactname":
             case "name":
-                variables[i] = Notes.ContactName ?? variables[i];
+                variables[i] = Notes.ContactName ?? string.Empty;
                 break;
             case "emailaddress":
             case "email":
-                variables[i] = Notes.Email ?? variables[i];
+                variables[i] = Notes.Email ?? string.Empty;
                 break;
             case "phone":
-                variables[i] = Notes.Phone ?? variables[i];
+                variables[i] = Notes.Phone ?? string.Empty;
                 break;
             case "notes":
-                variables[i] = Notes.NotesText ?? variables[i];
+                variables[i] = Notes.NotesText ?? string.Empty;
                 break;
 
         }
@@ -225,6 +234,8 @@ public partial class Templates : UserControl
         Clipboard.SetText(txtDisplay.Text);
     }
 
-
-
+    private void btnRefresh_Click(object sender, RoutedEventArgs e)
+    {
+        UpdateDisplay();
+    }
 }

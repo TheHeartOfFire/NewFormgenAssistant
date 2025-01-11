@@ -8,7 +8,7 @@
              mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" MinWidth="748" MinHeight="400">
     <Grid Background="#FF0F0B1E" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MaxWidth="200"/>
+            <ColumnDefinition MaxWidth="250"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="grdRight" Grid.Column="1">
@@ -28,6 +28,7 @@
             <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Grid.Row="2" Click="btnAdd_Click"/>
             <Button x:Name="btnEdit" Content="Edit" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Grid.Row="2" Margin="50,0,0,0" Click="btnEdit_Click"/>
             <Button x:Name="btnRemove" Content="Remove" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Grid.Row="2" Margin="100,0,0,0" Click="btnRemove_Click"/>
+            <Button x:Name="btnRefresh" Content="Refresh" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Grid.Row="2" Margin="175,0,0,0" Click="btnRefresh_Click" />
             <StackPanel x:Name="stkVariables" Grid.Row="1" Margin="130,0,0,0" Orientation="Horizontal" />
             <Label Grid.Column="1" Grid.Row="1" Content="Variables" Foreground="{DynamicResource WindowBorderBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="30" />
 

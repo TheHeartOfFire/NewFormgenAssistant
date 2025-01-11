@@ -44,8 +44,8 @@ namespace FormgenAssistant.SavedItems.Templates
         {
             Directory.CreateDirectory(FilePath);
             if (!File.Exists(FileName)) Save();
-            Instance = JsonConvert.DeserializeObject<Templates>(File.ReadAllText(FileName)) ?? new Templates();
-
+            var json = File.ReadAllText(FileName);
+            Instance = JsonConvert.DeserializeObject<Templates>(json) ?? new Templates();
         }
 
         public static void Save()

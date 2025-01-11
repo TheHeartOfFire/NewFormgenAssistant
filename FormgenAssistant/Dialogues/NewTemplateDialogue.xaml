@@ -12,6 +12,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
+            <RowDefinition MaxHeight="50" Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -20,16 +21,20 @@
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="txtTemplate" TextWrapping="WrapWithOverflow"  Padding="5,5,5,5" UseLayoutRounding="True" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" Grid.ColumnSpan="3">
+        <TextBox x:Name="txtTemplate" TextWrapping="WrapWithOverflow"  Padding="5,5,5,5" UseLayoutRounding="True" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" Grid.ColumnSpan="3" AcceptsReturn="True" AcceptsTab="True" AutoWordSelection="True">
             <TextBox.SelectionBrush>
                 <SolidColorBrush Color="#4CFFFFFF" Opacity="1"/>
             </TextBox.SelectionBrush>
         </TextBox>
-        <Controls:NewTextBox x:Name="txtVarCount" Grid.Row="1" Width="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="" />
-        <Label Grid.Column="0" Grid.Row="1" Content="Variables" Foreground="{DynamicResource WindowBorderBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="30" />
-        <Controls:NewTextBox x:Name="txtName" Grid.Row="1" VerticalAlignment="Bottom" Text="" Grid.Column="1" Margin="90,0,90,0" />
-        <Label Grid.Column="1" Grid.Row="1" Content="Name" Foreground="{DynamicResource WindowBorderBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="30" />
-        <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="30" Height="50" Grid.Row="1" Click="btnSave_Click" Grid.Column="1" Margin="0,0,10,0"/>
-        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="30" Height="50" Grid.Row="1" Grid.Column="2" Padding="1,1,1,1" Margin="5,0,0,0" Click="btnCancel_Click"/>
+        
+        <StackPanel x:Name="stkDefaults" Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal"/>
+        
+        <Controls:NewTextBox x:Name="txtVarCount" Grid.Row="2" Width="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Text="" OnTextChanged="txtVarCount_OnTextChanged" />
+        <Label Grid.Column="0" Grid.Row="2" Content="Variables" Foreground="{DynamicResource WindowBorderBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="30" />
+        <Controls:NewTextBox x:Name="txtName" Grid.Row="2" VerticalAlignment="Bottom" Text="" Grid.Column="1" Margin="90,0,90,0" />
+        <Label Grid.Column="1" Grid.Row="2" Content="Name" Foreground="{DynamicResource WindowBorderBrush}" VerticalAlignment="Bottom" HorizontalAlignment="Left" FontSize="30" />
+        <Button x:Name="btnSave" Content="Save" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="30" Height="50" Grid.Row="2" Click="btnSave_Click" Grid.Column="1" Margin="0,0,10,0"/>
+        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="30" Height="50" Grid.Row="2" Grid.Column="2" Padding="1,1,1,1" Margin="5,0,0,0" Click="btnCancel_Click"/>
+        
     </Grid>
 </Window>
