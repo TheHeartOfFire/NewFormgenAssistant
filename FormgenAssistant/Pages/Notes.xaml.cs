@@ -10,6 +10,13 @@ namespace FormgenAssistant.Pages
     /// </summary>
     public partial class Notes : UserControl
     {
+        public static string? ServerId { get; private set; }
+        public static string? Companies { get; private set; }
+        public static string? Dealership { get; private set; }
+        public static string? ContactName { get; private set; }
+        public static string? Email { get; private set; }
+        public static string? Phone { get; private set; }
+        public static string? NotesText { get; private set; }
         public Notes()
         {
             InitializeComponent();
@@ -49,6 +56,46 @@ namespace FormgenAssistant.Pages
             sb.AppendLine("Contact: " + txtName.Text + "\tE-Mail: " + txtEmail.Text + "\tPhone: " + (txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : ""));
             sb.AppendLine("Notes: " + txtNotes.Text);
             Clipboard.SetText(sb.ToString());
+        }
+
+        private void txtServerId_OnTextChanged(object sender, System.EventArgs e)
+        {
+            Notes.ServerId = txtServerId.Text;
+        }
+
+        private void txtCompanies_OnTextChanged(object sender, System.EventArgs e)
+        {
+            Notes.Companies = txtCompanies.Text;
+        }
+
+        private void txtDealer_OnTextChanged(object sender, System.EventArgs e)
+        {
+            Notes.Dealership = txtDealer.Text;
+        }
+
+        private void txtName_OnTextChanged(object sender, System.EventArgs e)
+        {
+            Notes.ContactName = txtName.Text;
+        }
+
+        private void txtEmail_OnTextChanged(object sender, System.EventArgs e)
+        {
+            Notes.Email = txtEmail.Text;
+        }
+
+        private void txtPhone_OnTextChanged(object sender, System.EventArgs e)
+        {
+            Notes.Phone = txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : "";
+        }
+
+        private void txtPhoneExt_OnTextChanged(object sender, System.EventArgs e)
+        {
+            Notes.Phone = txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : "";
+        }
+
+        private void txtNotes_OnTextChanged(object sender, System.EventArgs e)
+        {
+            Notes.NotesText = txtNotes.Text;
         }
     }
 }

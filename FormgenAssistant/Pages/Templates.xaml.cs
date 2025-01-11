@@ -75,10 +75,48 @@ public partial class Templates : UserControl
 
     private UIElement CreateVariableTextBox()
     {
-        var box = new NewTextBox();
-        box.Width = 120;
+        var box = new NewTextBox
+        {
+            Margin = new Thickness(5, 0, 5, 0),
+            MinWidth = 120,
+            MaxWidth = 400
+            
+        };
+        GenerateContextMenu(box);
         box.OnTextChanged += Box_OnTextChanged;
         return box;
+    }
+
+    private void GenerateContextMenu(NewTextBox box)
+    {
+        var item = new MenuItem
+        {
+            Header = "Reserved Variable Names"
+        };
+
+        item.Items.Add(AddContextMenuItem(box, "Server ID#", "Notes:ServerID"));
+        item.Items.Add(AddContextMenuItem(box, "Company#(s)", "Notes:Companies"));
+        item.Items.Add(AddContextMenuItem(box, "Dealership Name", "Notes:Dealership"));
+        item.Items.Add(AddContextMenuItem(box, "Contact Name", "Notes:ContactName"));
+        item.Items.Add(AddContextMenuItem(box, "E-Mail Address", "Notes:EmailAddress"));
+        item.Items.Add(AddContextMenuItem(box, "Phone#", "Notes:Phone"));
+        item.Items.Add(AddContextMenuItem(box, "Notes", "Notes:Notes"));
+
+        box.ContextMenu ??= new();
+        box.ContextMenu.Items.Add(item);
+    }
+
+    private static MenuItem AddContextMenuItem(NewTextBox box, string header, string text)
+    {
+        var item = new MenuItem
+        {
+            Header = header
+        };
+        item.Click += (s, e) =>
+        {
+           box.Text = text;
+        };
+        return item;
     }
 
     private void Box_OnTextChanged(object? sender, EventArgs e)
@@ -95,9 +133,63 @@ public partial class Templates : UserControl
 
         foreach (NewTextBox item in stkVariables.Children) variables.Add(item.Text);
 
+        for (int i = 0; i < variables.Count; i++)
+        {
+            var variable = variables[i];
+            CheckForReserved(variables, i, variable);
+        }
+
         txtDisplay.Text = string.Format(TemplateList.Instance.TemplateList[selectedIndex].Text, variables.ToArray());
     }
 
+    private static void CheckForReserved(List<string> variables, int i, string variable)
+    {
+        if (variable.StartsWith("Notes:", StringComparison.OrdinalIgnoreCase))
+        {
+            if (variable.Length <= 7) return;
+            var reservedName = variable[6..];
+            ReplaceReserved(variables, i, reservedName);
+
+        }
+    }
+
+    private static void ReplaceReserved(List<string> variables, int i, string reservedName)
+    {
+        switch (reservedName.ToLowerInvariant())
+        {
+            case "serverid":
+            case "server":
+            case "serv":
+                variables[i] = Notes.ServerId ?? variables[i];
+                break;
+            case "companies":
+            case "company":
+            case "comp":
+            case "co":
+                variables[i] = Notes.Companies ?? variables[i];
+                break;
+            case "dealership":
+            case "dealer":
+            case "dlr":
+                variables[i] = Notes.Dealership ?? variables[i];
+                break;
+            case "contactname":
+            case "name":
+                variables[i] = Notes.ContactName ?? variables[i];
+                break;
+            case "emailaddress":
+            case "email":
+                variables[i] = Notes.Email ?? variables[i];
+                break;
+            case "phone":
+                variables[i] = Notes.Phone ?? variables[i];
+                break;
+            case "notes":
+                variables[i] = Notes.NotesText ?? variables[i];
+                break;
+
+        }
+    }
 
     private void RefreshTemplates()
     {

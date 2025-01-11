@@ -17,6 +17,7 @@ namespace FormgenAssistant
     public partial class MainWindow : Window
     {
         private readonly List<UserControl> _pages = [];
+        public static UserControl NotesPage { get; private set; }
 
         public MainWindow()
         {
@@ -30,7 +31,8 @@ namespace FormgenAssistant
 			_pages.Add(Prompts);
 			_pages.Add(CodeSnippets);
 			_pages.Add(Templates);
-			_ = CheckForUpdates();
+            NotesPage = Notes;
+            _ = CheckForUpdates();
 		}
         
 		private static async Task CheckForUpdates()

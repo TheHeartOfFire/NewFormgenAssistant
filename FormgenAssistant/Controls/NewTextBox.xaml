@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FormgenAssistant.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="50"
-             Name="Base">
+             Name="Base" ContextMenu="{Binding ContextMenu, ElementName=textBox}">
 
     <Grid PreviewMouseUp="Grid_PreviewMouseUp" MouseUp="Grid_MouseUp">
         <Line
@@ -14,7 +14,7 @@
         X2="{Binding Path=ActualWidth, ElementName=Base}" Y2="{Binding Path=ActualHeight, ElementName=Base}"
         Stroke="MediumSlateBlue"
         StrokeThickness="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
-        <TextBox x:Name="textBox" TextWrapping="NoWrap" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="MediumSlateBlue" VerticalAlignment="Stretch" Margin="0,0,0,6" FontSize="22" TextChanged="textBox_TextChanged" AcceptsReturn="True" CaretBrush="MediumSlateBlue" VerticalScrollBarVisibility="Auto"/>
+        <TextBox x:Name="textBox" TextWrapping="NoWrap" Background="#02FFFFFF" BorderBrush="{x:Null}" Foreground="MediumSlateBlue" VerticalAlignment="Stretch" Margin="0,0,0,6" FontSize="22" TextChanged="textBox_TextChanged" AcceptsReturn="True" CaretBrush="MediumSlateBlue" VerticalScrollBarVisibility="Auto" ContextMenu="{Binding ContextMenu, ElementName=Base}"/>
     </Grid>
 
 

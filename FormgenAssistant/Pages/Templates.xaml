@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
         <Grid x:Name="grdRight" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" MaxHeight="449"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="35"/>
             </Grid.RowDefinitions>
