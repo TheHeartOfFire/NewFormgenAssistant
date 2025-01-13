@@ -17,7 +17,9 @@
             <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
             <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
             <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
-            <RowDefinition Height="135*" MinHeight="135"/>
+            <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
+            <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
+            <RowDefinition Height="135*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*" MinWidth="100" />
@@ -30,7 +32,7 @@
         <Label x:Name="lblServer" Content="Server Id" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="88" Margin="5,5,0,0"/>
         <Label x:Name="lblCompany" Content="Company(s)" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="115" Grid.Column="1"/>
         <Label x:Name="lblDealer" Content="Dealership / Group" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="178" Grid.Column="2"/>
-        <Button x:Name="btnCopyAll" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Copy All" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="50" Height="25" Click="btnCopyAll_Click" Grid.Column="4" IsTabStop="False"/>
+        <Button x:Name="btnCopyAll" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Copy All" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="50" Height="25" Click="btnCopyAll_Click" Grid.Column="4" IsTabStop="False" Grid.Row="9" Margin="0,0,0,30"/>
         
         <Button x:Name="btnCopyServer" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="25,0,0,0" Background="{x:Null}" Click="btnCopyServer_Click" Grid.Row="2" IsTabStop="False">
             <Image Source="/Resources/copy.png" Stretch="Uniform"/>
@@ -58,8 +60,13 @@
         <Button x:Name="btnCopyNotes" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="72,0,0,0" Background="{x:Null}" Click="btnCopyNotes_Click" Grid.Row="6" IsTabStop="False">
             <Image Source="/Resources/copy.png" Stretch="Uniform"/>
         </Button>
-        <Button x:Name="btnClear" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Clear" VerticalAlignment="Center" HorizontalAlignment="Left" Width="50" Height="25" Click="btnClear_Click" Grid.Row="6" Grid.Column="4" IsTabStop="False"/>
-
+        <Button x:Name="btnClear" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Clear" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="50" Height="25" Click="btnClear_Click" Grid.Row="9" Grid.Column="4" IsTabStop="False"/>
+        <Button x:Name="btnCopyCase" HorizontalAlignment="Right" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="72,0,0,0" Background="{x:Null}" Click="btnCopyCase_Click" Grid.Row="6" IsTabStop="False" Grid.Column="3">
+            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+        </Button>
+        <Button x:Name="btnCopyForms" HorizontalAlignment="Right" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="72,0,0,0" Background="{x:Null}" Click="btnCopyForms_Click" Grid.Row="8" IsTabStop="False" Grid.Column="3">
+            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+        </Button>
         <Controls:NewTextBox x:Name="txtServerId" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Margin="5,5,5,5" OnTextChanged="txtServerId_OnTextChanged"/>
         <Controls:NewTextBox x:Name="txtCompanies" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" OnTextChanged="txtCompanies_OnTextChanged"/>
         <Controls:NewTextBox x:Name="txtDealer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" Margin="5,5,5,5" OnTextChanged="txtDealer_OnTextChanged"/>
@@ -67,7 +74,11 @@
         <Controls:NewTextBox x:Name="txtEmail" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.Column="2" Margin="5,5,5,5" OnTextChanged="txtEmail_OnTextChanged" />
         <Controls:NewTextBox x:Name="txtPhone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Text="" Grid.Row="4" Grid.Column="3" Margin="5,5,5,5" OnTextChanged="txtPhone_OnTextChanged"/>
         <Controls:NewTextBox x:Name="txtPhoneExt" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.Column="4" Margin="5,5,5,5" OnTextChanged="txtPhoneExt_OnTextChanged" />
-        <Controls:NewTextBox x:Name="txtNotes" VerticalAlignment="Stretch" Text="" TextWrapping="Wrap" Grid.Row="7" Margin="5,5,5,5" Grid.ColumnSpan="6" HorizontalAlignment="Stretch" OnTextChanged="txtNotes_OnTextChanged"/>
+        <Controls:NewTextBox x:Name="txtNotes" VerticalAlignment="Stretch" Text="" TextWrapping="Wrap" Grid.Row="7" Margin="5,5,5,5" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" OnTextChanged="txtNotes_OnTextChanged" Grid.RowSpan="3"/>
+        <Controls:NewTextBox x:Name="txtCaseNo"  Text="" Grid.Row="7" Grid.Column="3" Margin="5,5,5,5" Height="40" VerticalAlignment="Top" OnTextChanged="txtCaseNo_OnTextChanged"/>
+        <Label x:Name="lblCaseNo" Content="Case #" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="6" Grid.Column="3"/>
+        <Controls:NewTextBox x:Name="txtForms"  Text="" Grid.Row="9" Grid.Column="3" Margin="5,0,5,0" VerticalAlignment="Center" OnTextChanged="txtForms_OnTextChanged"/>
+        <Label x:Name="lblForms" Content="Form(s)" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="8" Grid.Column="3"/>
 
     </Grid>
 </UserControl>

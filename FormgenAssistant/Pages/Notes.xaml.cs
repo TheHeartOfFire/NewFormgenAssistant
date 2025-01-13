@@ -17,6 +17,8 @@ namespace FormgenAssistant.Pages
         public static string? Email { get; private set; }
         public static string? Phone { get; private set; }
         public static string? NotesText { get; private set; }
+        public static string? CaseText { get; private set; }
+        public static string? FormsText { get; private set; }
         public Notes()
         {
             InitializeComponent();
@@ -29,6 +31,8 @@ namespace FormgenAssistant.Pages
         private void btnCopyEmail_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtEmail.Text);
         private void btnCopyPhone_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : "");
         private void btnCopyNotes_Click(object sender, RoutedEventArgs e) =>  Clipboard.SetText(txtNotes.Text);
+        private void btnCopyCase_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtCaseNo.Text);
+        private void btnCopyForms_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtForms.Text);
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
@@ -41,6 +45,8 @@ namespace FormgenAssistant.Pages
             txtPhone.Text = string.Empty;
             txtPhoneExt.Text = string.Empty;
             txtNotes.Text = string.Empty;
+            txtCaseNo.Text = string.Empty;
+            txtForms.Text = string.Empty;
         }
 
         private void btnCopyAll_Click(object sender, RoutedEventArgs e)
@@ -54,6 +60,7 @@ namespace FormgenAssistant.Pages
             sb.AppendLine("Server: " + txtServerId.Text + "\tCompany(s): " + txtCompanies.Text);
             sb.AppendLine("Dealership: " + txtDealer.Text);
             sb.AppendLine("Contact: " + txtName.Text + "\tE-Mail: " + txtEmail.Text + "\tPhone: " + (txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : ""));
+            sb.AppendLine("Case: " + txtCaseNo.Text + "\nForms: " + txtForms.Text);
             sb.AppendLine("Notes: " + txtNotes.Text);
             Clipboard.SetText(sb.ToString());
         }
@@ -97,5 +104,16 @@ namespace FormgenAssistant.Pages
         {
             Notes.NotesText = txtNotes.Text;
         }
+
+        private void txtCaseNo_OnTextChanged(object sender, System.EventArgs e)
+        {
+            Notes.CaseText = txtCaseNo.Text;
+        }
+
+        private void txtForms_OnTextChanged(object sender, System.EventArgs e)
+        {
+            Notes.FormsText = txtForms.Text;
+        }
+
     }
 }
