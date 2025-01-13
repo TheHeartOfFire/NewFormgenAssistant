@@ -205,7 +205,7 @@ public partial class Templates : UserControl
                 break; 
             case "forms":
             case "form":
-                variables[i] = Notes.FormsText ?? string.Empty;
+                variables[i] = Notes.FormsText?.Replace("\n", "\n>") ?? string.Empty;
                 break;
 
         }
