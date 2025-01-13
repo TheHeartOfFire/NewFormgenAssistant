@@ -1,5 +1,6 @@
 ﻿using FormgenAssistant.Controls;
 using FormgenAssistant.Dialogues;
+using FormgenAssistant.SavedItems;
 using FormgenAssistant.SavedItems.Templates;
 using Microsoft.Win32;
 using System;
@@ -104,6 +105,8 @@ public partial class Templates : UserControl
         item.Items.Add(AddContextMenuItem(box, "Notes", "Notes:Notes"));
         item.Items.Add(AddContextMenuItem(box, "Case #", "Notes:CaseNumber"));
         item.Items.Add(AddContextMenuItem(box, "Forms", "Notes:Forms"));
+        item.Items.Add(AddContextMenuItem(box, "First Name", "Notes:FirstName"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mailing Address", "Notes:AMMailingAddress"));
 
         box.ContextMenu ??= new();
         box.ContextMenu.Items.Add(item);
@@ -206,6 +209,18 @@ public partial class Templates : UserControl
             case "forms":
             case "form":
                 variables[i] = Notes.FormsText?.Replace("\n", "\n>") ?? string.Empty;
+                break;
+            case "firstname":
+                if(Notes.ContactName is null)
+                {
+                    variables[i] = string.Empty;
+                    break;
+                }
+                variables[i] = (Notes.ContactName.Contains(' ') ? Notes.ContactName.Split(' ')[0] : Notes.ContactName)?? string.Empty;
+                break;
+
+            case "ammailingaddress":
+                variables[i] = Settings.Instance.MailingAddress ?? string.Empty;
                 break;
 
         }
