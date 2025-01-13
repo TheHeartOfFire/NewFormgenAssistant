@@ -117,6 +117,8 @@ namespace FormgenAssistant.Dialogues
             item.Items.Add(AddContextMenuItem(box, "E-Mail Address", "Notes:EmailAddress"));
             item.Items.Add(AddContextMenuItem(box, "Phone#", "Notes:Phone"));
             item.Items.Add(AddContextMenuItem(box, "Notes", "Notes:Notes"));
+            item.Items.Add(AddContextMenuItem(box, "Case #", "Notes:CaseNumber"));
+            item.Items.Add(AddContextMenuItem(box, "Forms", "Notes:Forms"));
 
             box.ContextMenu ??= new();
             box.ContextMenu.Items.Add(item);

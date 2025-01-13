@@ -102,6 +102,8 @@ public partial class Templates : UserControl
         item.Items.Add(AddContextMenuItem(box, "E-Mail Address", "Notes:EmailAddress"));
         item.Items.Add(AddContextMenuItem(box, "Phone#", "Notes:Phone"));
         item.Items.Add(AddContextMenuItem(box, "Notes", "Notes:Notes"));
+        item.Items.Add(AddContextMenuItem(box, "Case #", "Notes:CaseNumber"));
+        item.Items.Add(AddContextMenuItem(box, "Forms", "Notes:Forms"));
 
         box.ContextMenu ??= new();
         box.ContextMenu.Items.Add(item);
@@ -195,6 +197,15 @@ public partial class Templates : UserControl
                 break;
             case "notes":
                 variables[i] = Notes.NotesText ?? string.Empty;
+                break;
+            case "casenumber":
+            case "caseno":
+            case "case":
+                variables[i] = Notes.CaseText ?? string.Empty;
+                break; 
+            case "forms":
+            case "form":
+                variables[i] = Notes.FormsText ?? string.Empty;
                 break;
 
         }
