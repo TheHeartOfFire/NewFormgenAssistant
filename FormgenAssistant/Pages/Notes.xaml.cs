@@ -70,6 +70,7 @@ namespace FormgenAssistant.Pages
 
         private void txtServerId_OnTextChanged(object sender, System.EventArgs e)
         {
+            txtServerId.Text = txtServerId.Text.ToUpper();
             Notes.ServerId = txtServerId.Text;
         }
 
