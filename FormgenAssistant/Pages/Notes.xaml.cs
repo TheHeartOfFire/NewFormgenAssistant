@@ -19,6 +19,7 @@ namespace FormgenAssistant.Pages
         public static string? NotesText { get; private set; }
         public static string? CaseText { get; private set; }
         public static string? FormsText { get; private set; }
+        public static string? DealText { get; private set; }
         public Notes()
         {
             InitializeComponent();
@@ -33,6 +34,7 @@ namespace FormgenAssistant.Pages
         private void btnCopyNotes_Click(object sender, RoutedEventArgs e) =>  Clipboard.SetText(txtNotes.Text);
         private void btnCopyCase_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtCaseNo.Text);
         private void btnCopyForms_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtForms.Text);
+        private void btnCopyDeal_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtDeal.Text);
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
@@ -47,6 +49,7 @@ namespace FormgenAssistant.Pages
             txtNotes.Text = string.Empty;
             txtCaseNo.Text = string.Empty;
             txtForms.Text = string.Empty;
+            txtDeal.Text = string.Empty;
         }
 
         private void btnCopyAll_Click(object sender, RoutedEventArgs e)
@@ -60,7 +63,7 @@ namespace FormgenAssistant.Pages
             sb.AppendLine("Server: " + txtServerId.Text + "\tCompany(s): " + txtCompanies.Text);
             sb.AppendLine("Dealership: " + txtDealer.Text);
             sb.AppendLine("Contact: " + txtName.Text + "\tE-Mail: " + txtEmail.Text + "\tPhone: " + (txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : ""));
-            sb.AppendLine("Case: " + txtCaseNo.Text + "\nForms: " + txtForms.Text);
+            sb.AppendLine("Case: " + txtCaseNo.Text + "\nTest Deal: " + txtDeal.Text + "\nForms: " + txtForms.Text);
             sb.AppendLine("Notes: " + txtNotes.Text);
             Clipboard.SetText(sb.ToString());
         }
@@ -113,6 +116,10 @@ namespace FormgenAssistant.Pages
         private void txtForms_OnTextChanged(object sender, System.EventArgs e)
         {
             Notes.FormsText = txtForms.Text;
+        }
+        private void txtDeal_OnTextChanged(object sender, System.EventArgs e)
+        {
+            Notes.DealText = txtDeal.Text;
         }
 
     }

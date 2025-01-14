@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Pages="clr-namespace:FormgenAssistant.Pages" xmlns:local="clr-namespace:FormgenAssistant" x:Name="Background" x:Class="FormgenAssistant.MainWindow"
+        xmlns:Pages="clr-namespace:FormgenAssistant.Pages" xmlns:local="clr-namespace:FormgenAssistant" x:Name="NavBar" x:Class="FormgenAssistant.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Background="{x:Null}" Icon="/Resources/AMLogo.ico" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" MinWidth="800" MinHeight="450">
 
