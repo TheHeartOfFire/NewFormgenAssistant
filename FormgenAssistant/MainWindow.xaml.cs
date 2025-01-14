@@ -1,6 +1,5 @@
 ﻿using FormgenAssistant.Pages;
 using FormgenAssistant.SavedItems;
-using Squirrel;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -8,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
+using Velopack;
+using Velopack.Sources;
 
 namespace FormgenAssistant
 {
@@ -21,7 +22,11 @@ namespace FormgenAssistant
 
         public MainWindow()
         {
-			SavedItems.Settings.Load();
+            VelopackApp.Build()
+        .WithFirstRun(v => MessageBox.Show("Thanks for installing my application!"))
+        .Run();
+
+            SavedItems.Settings.Load();
 			SavedItems.Templates.Templates.Load();
             InitializeComponent();
 			_pages.Add(HomePage);
@@ -32,16 +37,27 @@ namespace FormgenAssistant
 			_pages.Add(CodeSnippets);
 			_pages.Add(Templates);
             NotesPage = Notes;
-            _ = CheckForUpdates();
-		}
-        
-		private static async Task CheckForUpdates()
-		{
-			using var manager = new GithubUpdateManager("https://github.com/TheHeartOfFire/NewFormgenAssistant");
-			await manager.UpdateApp();
-		}
 
-		private void btnHomePage_Click(object sender, RoutedEventArgs e)
+            _ = UpdateMyApp();
+
+        }
+        private static async Task UpdateMyApp()
+        {
+            var mgr = new UpdateManager(new GithubSource("https://github.com/TheHeartOfFire/NewFormgenAssistant", null, false));
+
+            // check for new version
+            var newVersion = await mgr.CheckForUpdatesAsync();
+            if (newVersion == null)
+                return; // no update available
+
+            // download new version
+            await mgr.DownloadUpdatesAsync(newVersion);
+
+            // install new version and restart app
+            mgr.ApplyUpdatesAndRestart(newVersion);
+        }
+
+        private void btnHomePage_Click(object sender, RoutedEventArgs e)
 		{
 			HomePage.txtAddress.Text = SavedItems.Settings.Instance.MailingAddress;
 			OpenPage(HomePage);
