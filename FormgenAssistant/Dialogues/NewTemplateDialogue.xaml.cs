@@ -132,7 +132,13 @@ namespace FormgenAssistant.Dialogues
             item.Items.Add(AddContextMenuItem(box, "Case #", "Notes:CaseNumber"));
             item.Items.Add(AddContextMenuItem(box, "Forms", "Notes:Forms"));
             item.Items.Add(AddContextMenuItem(box, "First Name", "Notes:FirstName"));
-            item.Items.Add(AddContextMenuItem(box, "A/M Mailing Address", "Notes:AMMailingAddress"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail Address", "Notes:AMMailingAddress"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail Name", "Notes:AMMailName"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail Street", "Notes:AMMailStreet"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail City", "Notes:AMMailCity"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail State", "Notes:AMMailState"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail Zip", "Notes:AMMailZip"));
+            item.Items.Add(AddContextMenuItem(box, "Form Name Generator", "Notes:FormNameGenerator"));
 
             box.ContextMenu ??= new();
             box.ContextMenu.Items.Add(item);

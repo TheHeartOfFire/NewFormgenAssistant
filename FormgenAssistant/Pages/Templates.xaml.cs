@@ -106,7 +106,13 @@ public partial class Templates : UserControl
         item.Items.Add(AddContextMenuItem(box, "Case #", "Notes:CaseNumber"));
         item.Items.Add(AddContextMenuItem(box, "Forms", "Notes:Forms"));
         item.Items.Add(AddContextMenuItem(box, "First Name", "Notes:FirstName"));
-        item.Items.Add(AddContextMenuItem(box, "A/M Mailing Address", "Notes:AMMailingAddress"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail Address", "Notes:AMMailingAddress"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail Name", "Notes:AMMailName"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail Street", "Notes:AMMailStreet"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail City", "Notes:AMMailCity"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail State", "Notes:AMMailState"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail Zip", "Notes:AMMailZip"));
+        item.Items.Add(AddContextMenuItem(box, "Form Name Generator", "Notes:FormNameGenerator"));
 
         box.ContextMenu ??= new();
         box.ContextMenu.Items.Add(item);
@@ -224,7 +230,27 @@ public partial class Templates : UserControl
                 break;
 
             case "ammailingaddress":
-                variables[i] = Settings.Instance.MailingAddress ?? string.Empty;
+                variables[i] = Settings.Instance.MailingAddress.Print() ?? string.Empty;
+                break;
+            case "ammailname":
+                variables[i] = Settings.Instance.MailingAddress.Name ?? string.Empty;
+                break;
+            case "ammailstreet":
+                variables[i] = Settings.Instance.MailingAddress.Street ?? string.Empty;
+                break;
+            case "ammailcity":
+                variables[i] = Settings.Instance.MailingAddress.City ?? string.Empty;
+                break;
+            case "ammailstate":
+                variables[i] = Settings.Instance.MailingAddress.State ?? string.Empty;
+                break;
+            case "ammailzip":
+                variables[i] = Settings.Instance.MailingAddress.PostalCode ?? string.Empty;
+                break;
+            case "formnamegenerator":
+            case "namegenerator":
+            case "namegen":
+                variables[i] = FileNameGenerator.FileName ?? string.Empty;
                 break;
 
         }
@@ -237,20 +263,6 @@ public partial class Templates : UserControl
 
         foreach (var template in TemplateList.Instance.TemplateList)
             lBoxTemplateList.Items.Add(template.Name);
-
-
-        //foreach (var template in TemplateList.Instance.TemplateList)
-        //    if (template.Type is SavedItems.Templates.Template.TemplateType.PublishComments)
-        //        lBoxTemplateList.Items.Add(template.Name);
-        //foreach (var template in TemplateList.Instance.TemplateList)
-        //    if (template.Type is SavedItems.Templates.Template.TemplateType.InternalComments)
-        //        lBoxTemplateList.Items.Add(template.Name);
-        //foreach (var template in TemplateList.Instance.TemplateList)
-        //    if (template.Type is SavedItems.Templates.Template.TemplateType.ClosureComments)
-        //        lBoxTemplateList.Items.Add(template.Name);
-        //foreach (var template in TemplateList.Instance.TemplateList)
-        //    if (template.Type is SavedItems.Templates.Template.TemplateType.Other)
-        //        lBoxTemplateList.Items.Add(template.Name);
 
     }
 

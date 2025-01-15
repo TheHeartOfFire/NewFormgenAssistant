@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Text;
 
 namespace FormgenAssistant.SavedItems
 {
@@ -9,7 +10,33 @@ namespace FormgenAssistant.SavedItems
         //Serializable Properties
         public bool NotesCopyAll { get; set; }
         public bool SelectNewTemplate { get; set; }
-        public string MailingAddress { get; set; }
+        public Address? MailingAddress { get; set; }
+
+        public class Address(string name, string address, string city, string state, string zip)
+        {
+            public string Name { get; } = name;
+            public string Street { get; } = address;
+            public string City { get; } = city;
+            public string State { get; } = state;
+            public string PostalCode { get; } = zip;
+
+            public string Print()
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine(Name);
+                sb.AppendLine(Street);
+                sb.AppendLine($"{City}, {State} {PostalCode}");
+                return sb.ToString();
+            }
+
+            public string Flat() => $"{Name} {Street} {City}, {State} {PostalCode}";
+
+            public static implicit operator string(Address mailingAddress) => new StringBuilder()
+                .AppendLine(mailingAddress.Name)
+                .AppendLine(mailingAddress.Street)
+                .AppendLine($"{mailingAddress.City}, {mailingAddress.State} {mailingAddress.PostalCode}")
+                .ToString();
+        }
 
         //Singleton
         [JsonIgnore]
@@ -27,14 +54,16 @@ namespace FormgenAssistant.SavedItems
         private static readonly Settings DefaultSettings = new()
         {
             NotesCopyAll = true,
-            MailingAddress = "Attn: AM Forms 300 State Street, #96020, Southlake, TX 76092"
+            MailingAddress = new Address("Attn: A/M Forms (Sue)", 
+                                         "131 Griffis Rd", 
+                                         "Gloversville", "NY", "12078")
         };
         private Settings() { }
         //Json stuff
         private static readonly string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\FormgenAssistant";
         private static readonly string FileName = FilePath + "\\Settings.json";
         [JsonConstructor]
-        public Settings(bool notesCopyAll, string mailingAddress)
+        public Settings(bool notesCopyAll, Address mailingAddress)
         {
             NotesCopyAll = notesCopyAll;
             MailingAddress = mailingAddress;
