@@ -34,7 +34,7 @@
 
 
         </Grid>
-        <ListBox x:Name="lBoxTemplateList" VirtualizingPanel.ScrollUnit="Pixel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Grid.Row="5" Margin="5" HorizontalContentAlignment="Stretch" SelectionChanged="lBoxTemplateList_SelectionChanged"/>
+        <ListBox x:Name="lBoxTemplateList" VirtualizingPanel.ScrollUnit="Pixel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Grid.Row="5" Margin="5" HorizontalContentAlignment="Stretch" SelectionChanged="lBoxTemplateList_SelectionChanged" IsManipulationEnabled="True"/>
         
 
     </Grid>

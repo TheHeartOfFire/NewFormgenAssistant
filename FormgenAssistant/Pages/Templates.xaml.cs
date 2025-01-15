@@ -233,11 +233,25 @@ public partial class Templates : UserControl
     private void RefreshTemplates()
     {
         lBoxTemplateList.Items.Clear();
+        TemplateList.Instance.TemplateList.Sort();
 
-        foreach(var template in TemplateList.Instance.TemplateList)
-        {
+        foreach (var template in TemplateList.Instance.TemplateList)
             lBoxTemplateList.Items.Add(template.Name);
-        }    
+
+
+        //foreach (var template in TemplateList.Instance.TemplateList)
+        //    if (template.Type is SavedItems.Templates.Template.TemplateType.PublishComments)
+        //        lBoxTemplateList.Items.Add(template.Name);
+        //foreach (var template in TemplateList.Instance.TemplateList)
+        //    if (template.Type is SavedItems.Templates.Template.TemplateType.InternalComments)
+        //        lBoxTemplateList.Items.Add(template.Name);
+        //foreach (var template in TemplateList.Instance.TemplateList)
+        //    if (template.Type is SavedItems.Templates.Template.TemplateType.ClosureComments)
+        //        lBoxTemplateList.Items.Add(template.Name);
+        //foreach (var template in TemplateList.Instance.TemplateList)
+        //    if (template.Type is SavedItems.Templates.Template.TemplateType.Other)
+        //        lBoxTemplateList.Items.Add(template.Name);
+
     }
 
     private void btnEdit_Click(object sender, RoutedEventArgs e)
