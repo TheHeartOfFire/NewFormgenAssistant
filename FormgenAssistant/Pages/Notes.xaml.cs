@@ -1,4 +1,5 @@
 ﻿using FormgenAssistant.SavedItems;
+using System.Globalization;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -70,8 +71,7 @@ namespace FormgenAssistant.Pages
 
         private void txtServerId_OnTextChanged(object sender, System.EventArgs e)
         {
-            txtServerId.Text = txtServerId.Text.ToUpper();
-            Notes.ServerId = txtServerId.Text;
+            Notes.ServerId = txtServerId.Text.ToUpper();
         }
 
         private void txtCompanies_OnTextChanged(object sender, System.EventArgs e)
@@ -86,7 +86,7 @@ namespace FormgenAssistant.Pages
 
         private void txtName_OnTextChanged(object sender, System.EventArgs e)
         {
-            Notes.ContactName = txtName.Text;
+            Notes.ContactName = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(txtName.Text.ToLowerInvariant());
         }
 
         private void txtEmail_OnTextChanged(object sender, System.EventArgs e)
@@ -123,5 +123,14 @@ namespace FormgenAssistant.Pages
             Notes.DealText = txtDeal.Text;
         }
 
+        private void txtServerId_LostFocus(object sender, RoutedEventArgs e)
+        {
+            txtServerId.Text = txtServerId.Text.ToUpperInvariant();
+        }
+
+        private void txtName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            txtName.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(txtName.Text.ToLowerInvariant());
+        }
     }
 }
