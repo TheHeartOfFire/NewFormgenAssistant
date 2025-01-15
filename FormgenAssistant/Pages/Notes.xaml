@@ -8,7 +8,6 @@
              mc:Ignorable="d" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
              d:DesignHeight="450" d:DesignWidth="900">
     <UserControl.Resources>
-        <SolidColorBrush x:Key="TabFocusBackgroundBrush" Color="#FF201740"/>
         <Style x:Key="FocusVisual">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -23,11 +22,8 @@
             <GradientStop Color="#E5E5E5" Offset="1.0"/>
         </LinearGradientBrush>
         <SolidColorBrush x:Key="TabItem.Static.Border" Color="#ACACAC"/>
-        <LinearGradientBrush x:Key="TabItem.MouseOver.Background" EndPoint="0,1" StartPoint="0,0">
-            <GradientStop Color="#ECF4FC" Offset="0.0"/>
-            <GradientStop Color="#DCECFC" Offset="1.0"/>
-        </LinearGradientBrush>
-        <SolidColorBrush x:Key="TabItem.MouseOver.Border" Color="#7EB4EA"/>
+        <SolidColorBrush x:Key="TabItem.MouseOver.Background" Color="#FF201740"/>
+        <SolidColorBrush x:Key="TabItem.MouseOver.Border"/>
         <SolidColorBrush x:Key="TabItem.Selected.Background"/>
         <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#FF7B68EE"/>
         <SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#F0F0F0"/>
@@ -309,7 +305,7 @@
                 <TabItem.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="New" Click="TabControlContextMenuNew"/>
-                        <MenuItem Header="Close" Click="TabControlContextMenuClose"/>
+                        <MenuItem Header="Close" Click="TabControlContextMenuClose" IsEnabled="False"/>
                     </ContextMenu>
                 </TabItem.ContextMenu>
                 <Grid Background="#FF0F0B1E"/>

@@ -169,54 +169,58 @@ public partial class Templates : UserControl
 
     private static void ReplaceReserved(List<string> variables, int i, string reservedName)
     {
+        if (Notes.SelectedNote is null) return;
+
         switch (reservedName.ToLowerInvariant())
         {
             case "serverid":
             case "server":
             case "serv":
-                variables[i] = Notes.ServerId ?? string.Empty;
+                variables[i] = Notes.SelectedNote.ServerId ?? string.Empty;
                 break;
             case "companies":
             case "company":
             case "comp":
             case "co":
-                variables[i] = Notes.Companies ?? string.Empty;
+                variables[i] = Notes.SelectedNote.Companies ?? string.Empty;
                 break;
             case "dealership":
             case "dealer":
             case "dlr":
-                variables[i] = Notes.Dealership ?? string.Empty;
+                variables[i] = Notes.SelectedNote.Dealership ?? string.Empty;
                 break;
             case "contactname":
             case "name":
-                variables[i] = Notes.ContactName ?? string.Empty;
+                variables[i] = Notes.SelectedNote.ContactName ?? string.Empty;
                 break;
             case "emailaddress":
             case "email":
-                variables[i] = Notes.Email ?? string.Empty;
+                variables[i] = Notes.SelectedNote.Email ?? string.Empty;
                 break;
             case "phone":
-                variables[i] = Notes.Phone ?? string.Empty;
+                variables[i] = Notes.SelectedNote.Phone ?? string.Empty;
                 break;
             case "notes":
-                variables[i] = Notes.NotesText ?? string.Empty;
+                variables[i] = Notes.SelectedNote.NotesText ?? string.Empty;
                 break;
             case "casenumber":
             case "caseno":
             case "case":
-                variables[i] = Notes.CaseText ?? string.Empty;
+                variables[i] = Notes.SelectedNote.CaseText ?? string.Empty;
                 break; 
             case "forms":
             case "form":
-                variables[i] = Notes.FormsText?.Replace("\n", "\n>") ?? string.Empty;
+                variables[i] = Notes.SelectedNote.FormsText?.Replace("\n", "\n>") ?? string.Empty;
                 break;
             case "firstname":
-                if(Notes.ContactName is null)
+                if(Notes.SelectedNote.ContactName is null)
                 {
                     variables[i] = string.Empty;
                     break;
                 }
-                variables[i] = (Notes.ContactName.Contains(' ') ? Notes.ContactName.Split(' ')[0] : Notes.ContactName)?? string.Empty;
+                variables[i] = (Notes.SelectedNote.ContactName.Contains(' ') ? 
+                    Notes.SelectedNote.ContactName.Split(' ')[0] : 
+                    Notes.SelectedNote.ContactName)?? string.Empty;
                 break;
 
             case "ammailingaddress":
