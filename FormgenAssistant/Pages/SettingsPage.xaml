@@ -11,11 +11,33 @@
         <Canvas>
             <Label Content="Home Page" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Canvas.Left="10" Canvas.Top="10"/>
             <Separator Height="2" Canvas.Left="10" Canvas.Top="45" Width="182" Background="MediumSlateBlue" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-            <TextBox x:Name="txtAddress" TextWrapping="Wrap" Text="Attn: AM Forms 300 State Street, #96020, Southlake, TX 76092" Width="424" Height="25" Padding="5,5,5,5" UseLayoutRounding="True" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" HorizontalAlignment="Left" Canvas.Left="10" Canvas.Top="54" VerticalAlignment="Bottom">
-                <TextBox.SelectionBrush>
-                    <SolidColorBrush Color="#4CFFFFFF" Opacity="1"/>
-                </TextBox.SelectionBrush>
-            </TextBox>
+            <StackPanel Width="424" Height="25" HorizontalAlignment="Left" Canvas.Left="10" Canvas.Top="54" VerticalAlignment="Bottom" Orientation="Horizontal">
+                <TextBox x:Name="txtName" TextWrapping="Wrap"  UseLayoutRounding="True" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" >
+                    <TextBox.SelectionBrush>
+                        <SolidColorBrush Color="#4CFFFFFF" Opacity="1"/>
+                    </TextBox.SelectionBrush>
+                </TextBox>
+                <TextBox x:Name="txtStreet" TextWrapping="Wrap"  UseLayoutRounding="True" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" >
+                    <TextBox.SelectionBrush>
+                        <SolidColorBrush Color="#4CFFFFFF" Opacity="1"/>
+                    </TextBox.SelectionBrush>
+                </TextBox>
+                <TextBox x:Name="txtCity" TextWrapping="Wrap"  UseLayoutRounding="True" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" >
+                    <TextBox.SelectionBrush>
+                        <SolidColorBrush Color="#4CFFFFFF" Opacity="1"/>
+                    </TextBox.SelectionBrush>
+                </TextBox>
+                <TextBox x:Name="txtState" TextWrapping="Wrap"  UseLayoutRounding="True" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" >
+                    <TextBox.SelectionBrush>
+                        <SolidColorBrush Color="#4CFFFFFF" Opacity="1"/>
+                    </TextBox.SelectionBrush>
+                </TextBox>
+                <TextBox x:Name="txtZip" TextWrapping="Wrap"  UseLayoutRounding="True" Background="#FF201938" BorderBrush="MediumSlateBlue" Foreground="White" >
+                    <TextBox.SelectionBrush>
+                        <SolidColorBrush Color="#4CFFFFFF" Opacity="1"/>
+                    </TextBox.SelectionBrush>
+                </TextBox>
+            </StackPanel>
             <Label Content="Notes" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Canvas.Left="10" Canvas.Top="81" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Controls:ToggleSwitch x:Name="tglFormCodeCAPS" Height="22" Width="50" BorderThickness1="5" IsOn="True" Canvas.Left="10" Canvas.Top="126" MouseLeftButtonDown="tglFormCodeCAPS_MouseLeftButtonDown" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Separator Height="2" Canvas.Left="10" Canvas.Top="116" Width="146" Background="MediumSlateBlue" HorizontalAlignment="Center" VerticalAlignment="Top"/>

@@ -1,7 +1,13 @@
-﻿using FormgenAssistant.SavedItems;
+﻿using FormgenAssistant.Controls;
+using FormgenAssistant.SavedItems;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace FormgenAssistant.Pages
 {
@@ -10,18 +16,44 @@ namespace FormgenAssistant.Pages
     /// </summary>
     public partial class Notes : UserControl
     {
-        public static string? ServerId { get; private set; }
-        public static string? Companies { get; private set; }
-        public static string? Dealership { get; private set; }
-        public static string? ContactName { get; private set; }
-        public static string? Email { get; private set; }
-        public static string? Phone { get; private set; }
-        public static string? NotesText { get; private set; }
-        public static string? CaseText { get; private set; }
-        public static string? FormsText { get; private set; }
+        public static NotesInfo? SelectedNote { get; set; }
+
+        private List<NotesInfo> NotesList = [];
+        public class NotesInfo(TabItem tabItem)
+        {
+            public string? ServerId { get; set; }
+            public string? Companies { get; set; }
+            public string? Dealership { get; set; }
+            public string? ContactName { get; set; }
+            public string? Email { get; set; }
+            public string? Phone { get; set; }
+            public string? NotesText { get; set; }
+            public string? CaseText { get; set; }
+            public string? FormsText { get; set; }
+            public string? DealText { get; set; }
+            public TabItem TabItem { get; set; } = tabItem;
+            public bool IsSelected => TabItem.IsSelected;
+
+            public void Clear()
+            {
+                ServerId = string.Empty;
+                Companies = string.Empty;
+                Dealership = string.Empty;
+                ContactName = string.Empty;
+                Email = string.Empty;
+                Phone = string.Empty;
+                NotesText = string.Empty;
+                CaseText = string.Empty;
+                FormsText = string.Empty;
+                DealText = string.Empty;
+            }
+        }
         public Notes()
         {
             InitializeComponent();
+            var defaultNote = new NotesInfo(tiTabItemTemplate);
+            NotesList.Add(defaultNote);
+            Notes.SelectedNote = defaultNote;
         }
 
         private void btnCopyServer_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtServerId.Text);
@@ -30,13 +62,14 @@ namespace FormgenAssistant.Pages
         private void btnCopyName_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtName.Text);
         private void btnCopyEmail_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtEmail.Text);
         private void btnCopyPhone_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : "");
-        private void btnCopyNotes_Click(object sender, RoutedEventArgs e) =>  Clipboard.SetText(txtNotes.Text);
+        private void btnCopyNotes_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtNotes.Text);
         private void btnCopyCase_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtCaseNo.Text);
         private void btnCopyForms_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtForms.Text);
+        private void btnCopyDeal_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtDeal.Text);
 
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
-            if(Settings.Instance.NotesCopyAll) CopyAll();
+            if (Settings.Instance.NotesCopyAll) CopyAll();
             txtServerId.Text = string.Empty;
             txtCompanies.Text = string.Empty;
             txtDealer.Text = string.Empty;
@@ -47,6 +80,7 @@ namespace FormgenAssistant.Pages
             txtNotes.Text = string.Empty;
             txtCaseNo.Text = string.Empty;
             txtForms.Text = string.Empty;
+            txtDeal.Text = string.Empty;
         }
 
         private void btnCopyAll_Click(object sender, RoutedEventArgs e)
@@ -60,60 +94,198 @@ namespace FormgenAssistant.Pages
             sb.AppendLine("Server: " + txtServerId.Text + "\tCompany(s): " + txtCompanies.Text);
             sb.AppendLine("Dealership: " + txtDealer.Text);
             sb.AppendLine("Contact: " + txtName.Text + "\tE-Mail: " + txtEmail.Text + "\tPhone: " + (txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : ""));
-            sb.AppendLine("Case: " + txtCaseNo.Text + "\nForms: " + txtForms.Text);
+            sb.AppendLine("Case: " + txtCaseNo.Text + "\nTest Deal: " + txtDeal.Text + "\nForms: " + txtForms.Text);
             sb.AppendLine("Notes: " + txtNotes.Text);
             Clipboard.SetText(sb.ToString());
         }
 
         private void txtServerId_OnTextChanged(object sender, System.EventArgs e)
         {
-            Notes.ServerId = txtServerId.Text;
+            var selected = GetSelected(NotesList);
+            if (selected is null || txtServerId.Text is null) return;
+
+            selected.ServerId = txtServerId.Text.ToUpper();
+            Notes.SelectedNote = selected;
         }
 
         private void txtCompanies_OnTextChanged(object sender, System.EventArgs e)
         {
-            Notes.Companies = txtCompanies.Text;
+            var selected = GetSelected(NotesList);
+            if (selected is null || txtCompanies.Text is null) return;
+
+            selected.Companies = txtCompanies.Text;
+            Notes.SelectedNote = selected;
         }
 
         private void txtDealer_OnTextChanged(object sender, System.EventArgs e)
         {
-            Notes.Dealership = txtDealer.Text;
+            var selected = GetSelected(NotesList);
+            if (selected is null || txtDealer.Text is null) return;
+
+            selected.Dealership = txtDealer.Text;
+            Notes.SelectedNote = selected;
         }
 
         private void txtName_OnTextChanged(object sender, System.EventArgs e)
         {
-            Notes.ContactName = txtName.Text;
+            var selected = GetSelected(NotesList);
+            if (selected is null || txtName.Text is null) return;
+
+            selected.ContactName = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(txtName.Text.ToLowerInvariant());
+            Notes.SelectedNote = selected;
         }
 
         private void txtEmail_OnTextChanged(object sender, System.EventArgs e)
         {
-            Notes.Email = txtEmail.Text;
+            var selected = GetSelected(NotesList);
+            if (selected is null || txtEmail.Text is null) return;
+
+            selected.Email = txtEmail.Text;
+            Notes.SelectedNote = selected;
         }
 
         private void txtPhone_OnTextChanged(object sender, System.EventArgs e)
         {
-            Notes.Phone = txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : "";
+            var selected = GetSelected(NotesList);
+            if (selected is null || txtPhone.Text is null) return;
+
+            selected.Phone = txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : ""; ;
+            Notes.SelectedNote = selected;
         }
 
         private void txtPhoneExt_OnTextChanged(object sender, System.EventArgs e)
         {
-            Notes.Phone = txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : "";
+            var selected = GetSelected(NotesList);
+            if (selected is null || txtPhoneExt.Text is null) return;
+
+            selected.Phone = txtPhone.Text != "" ? txtPhone.Text + (txtPhoneExt.Text != "" ? " x" + txtPhoneExt.Text : "") : "";
+            Notes.SelectedNote = selected;
         }
 
         private void txtNotes_OnTextChanged(object sender, System.EventArgs e)
         {
-            Notes.NotesText = txtNotes.Text;
+            var selected = GetSelected(NotesList);
+            if (selected is null || txtNotes.Text is null) return;
+
+            selected.NotesText = txtNotes.Text;
+            Notes.SelectedNote = selected;
         }
 
         private void txtCaseNo_OnTextChanged(object sender, System.EventArgs e)
         {
-            Notes.CaseText = txtCaseNo.Text;
+            var source = (TextBox)sender;
+            var selected = GetSelected(NotesList);
+            if (selected is null) return;
+
+            var note = selected;
+            note.TabItem.Header = string.IsNullOrEmpty(source.Text) ? "No Case#" : txtCaseNo.Text;
+
+            if (string.IsNullOrEmpty(source.Text)) return;
+
+            selected.CaseText = source.Text;
+            Notes.SelectedNote = selected;
         }
 
         private void txtForms_OnTextChanged(object sender, System.EventArgs e)
         {
-            Notes.FormsText = txtForms.Text;
+            var selected = GetSelected(NotesList);
+            if (selected is null || txtForms.Text is null) return;
+
+            selected.FormsText = txtForms.Text;
+            Notes.SelectedNote = selected;
+        }
+        private void txtDeal_OnTextChanged(object sender, System.EventArgs e)
+        {
+            var selected = GetSelected(NotesList);
+            if (selected is null || txtDeal.Text is null) return;
+
+            selected.DealText = txtDeal.Text;
+            Notes.SelectedNote = selected;
         }
 
+        private void txtServerId_LostFocus(object sender, RoutedEventArgs e)
+        {
+            txtServerId.Text = txtServerId.Text.ToUpperInvariant();
+        }
+
+        private void txtName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            txtName.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(txtName.Text.ToLowerInvariant());
+        }
+
+        private void btnNameGen_Click(object sender, RoutedEventArgs e)
+        {
+            txtForms.Text += FileNameGenerator.FileName;
+        }
+
+        private void TabControlContextMenuNew(object sender, RoutedEventArgs e)
+        {
+            var template = NotesList[0].TabItem;
+
+            NotesInfo newNote = new(template.Clone());
+
+            NotesList.Add(newNote);
+            tcTabs.Items.Add(newNote.TabItem);
+            tcTabs.SelectedItem = newNote.TabItem;
+            ToggleClose();
+        }
+
+        private void TabControlContextMenuClose(object sender, RoutedEventArgs e)
+        {
+            var selected = GetSelected(NotesList);
+            if (selected is null) return;
+
+            tcTabs.Items.Remove(selected.TabItem);
+            NotesList.Remove(selected);
+            NotesList[0].TabItem.IsSelected = true;
+            ToggleClose();
+        }
+
+        private void SwitchNotes(NotesInfo info)
+        {
+            txtServerId.Text = info.ServerId ?? string.Empty;
+            txtCompanies.Text = info.Companies ?? string.Empty;
+            txtDealer.Text = info.Dealership ?? string.Empty;
+            txtName.Text = info.ContactName ?? string.Empty;
+            txtEmail.Text = info.Email ?? string.Empty;
+            txtPhone.Text = info.Phone ?? string.Empty;
+            txtNotes.Text = info.NotesText ?? string.Empty;
+            txtCaseNo.Text = info.CaseText ?? string.Empty;
+            txtForms.Text = info.FormsText ?? string.Empty;
+            txtDeal.Text = info.DealText ?? string.Empty;
+
+            Notes.SelectedNote = info;
+        }
+
+        private void tcTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selected = GetSelected(NotesList);
+            if (selected is null) return;
+
+            SwitchNotes(selected);
+        }
+
+        private static NotesInfo? GetSelected(List<NotesInfo> notes)
+        {
+            foreach (var note in notes)
+                if (note.IsSelected)
+                    return note;
+
+            return null;
+        }
+
+        private void ToggleClose()
+        {
+            TabItem item = (TabItem)tcTabs.Items[0];
+            MenuItem menu = (MenuItem)item.ContextMenu.Items[1];
+            if (tcTabs.Items.Count > 1)
+            {
+                menu.IsEnabled = true;
+            }
+            else
+            {
+                menu.IsEnabled = false;
+            }
+        }
     }
 }

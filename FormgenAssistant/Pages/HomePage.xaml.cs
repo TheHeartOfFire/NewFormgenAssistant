@@ -16,7 +16,8 @@ namespace FormgenAssistant.Pages
         {
             InitializeComponent();
             AddVersionNumber();
-            txtAddress.Text = SavedItems.Settings.Instance.MailingAddress;
+            if (SavedItems.Settings.Instance.MailingAddress is null) return;
+            txtAddress.Text = SavedItems.Settings.Instance.MailingAddress.Flat();
         }
         private void AddVersionNumber()
         {

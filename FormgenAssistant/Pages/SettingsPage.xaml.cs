@@ -13,8 +13,15 @@ namespace FormgenAssistant
         private static readonly Settings Settings = Settings.Instance;
         public SettingsPage()
         {
-            InitializeComponent();
-            txtAddress.Text = Settings.MailingAddress;
+            InitializeComponent(); 
+            
+            if (Settings.MailingAddress is null) return;
+
+            txtName.Text = Settings.MailingAddress.Name;
+            txtStreet.Text = Settings.MailingAddress.Street;
+            txtCity.Text = Settings.MailingAddress.City;
+            txtState.Text = Settings.MailingAddress.State;
+            txtZip.Text = Settings.MailingAddress.PostalCode;
 
         }
         
@@ -28,12 +35,18 @@ namespace FormgenAssistant
 
         private void btnRevertAddress_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            txtAddress.Text = Settings.MailingAddress;
+            if(Settings.MailingAddress is null) return;
+
+            txtName.Text = Settings.MailingAddress.Name;
+            txtStreet.Text = Settings.MailingAddress.Street;
+            txtCity.Text = Settings.MailingAddress.City;
+            txtState.Text = Settings.MailingAddress.State;
+            txtZip.Text = Settings.MailingAddress.PostalCode;
         }
 
         private void btnUpdateAddress_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Settings.MailingAddress = txtAddress.Text;
+            Settings.MailingAddress = new(txtName.Text, txtStreet.Text, txtCity.Text, txtState.Text, txtZip.Text);
             Settings.Save();
         }
 

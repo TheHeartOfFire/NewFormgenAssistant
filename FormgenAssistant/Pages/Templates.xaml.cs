@@ -106,7 +106,13 @@ public partial class Templates : UserControl
         item.Items.Add(AddContextMenuItem(box, "Case #", "Notes:CaseNumber"));
         item.Items.Add(AddContextMenuItem(box, "Forms", "Notes:Forms"));
         item.Items.Add(AddContextMenuItem(box, "First Name", "Notes:FirstName"));
-        item.Items.Add(AddContextMenuItem(box, "A/M Mailing Address", "Notes:AMMailingAddress"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail Address", "Notes:AMMailingAddress"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail Name", "Notes:AMMailName"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail Street", "Notes:AMMailStreet"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail City", "Notes:AMMailCity"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail State", "Notes:AMMailState"));
+        item.Items.Add(AddContextMenuItem(box, "A/M Mail Zip", "Notes:AMMailZip"));
+        item.Items.Add(AddContextMenuItem(box, "Form Name Generator", "Notes:FormNameGenerator"));
 
         box.ContextMenu ??= new();
         box.ContextMenu.Items.Add(item);
@@ -169,58 +175,82 @@ public partial class Templates : UserControl
 
     private static void ReplaceReserved(List<string> variables, int i, string reservedName)
     {
+        if (Notes.SelectedNote is null) return;
+
         switch (reservedName.ToLowerInvariant())
         {
             case "serverid":
             case "server":
             case "serv":
-                variables[i] = Notes.ServerId ?? string.Empty;
+                variables[i] = Notes.SelectedNote.ServerId ?? string.Empty;
                 break;
             case "companies":
             case "company":
             case "comp":
             case "co":
-                variables[i] = Notes.Companies ?? string.Empty;
+                variables[i] = Notes.SelectedNote.Companies ?? string.Empty;
                 break;
             case "dealership":
             case "dealer":
             case "dlr":
-                variables[i] = Notes.Dealership ?? string.Empty;
+                variables[i] = Notes.SelectedNote.Dealership ?? string.Empty;
                 break;
             case "contactname":
             case "name":
-                variables[i] = Notes.ContactName ?? string.Empty;
+                variables[i] = Notes.SelectedNote.ContactName ?? string.Empty;
                 break;
             case "emailaddress":
             case "email":
-                variables[i] = Notes.Email ?? string.Empty;
+                variables[i] = Notes.SelectedNote.Email ?? string.Empty;
                 break;
             case "phone":
-                variables[i] = Notes.Phone ?? string.Empty;
+                variables[i] = Notes.SelectedNote.Phone ?? string.Empty;
                 break;
             case "notes":
-                variables[i] = Notes.NotesText ?? string.Empty;
+                variables[i] = Notes.SelectedNote.NotesText ?? string.Empty;
                 break;
             case "casenumber":
             case "caseno":
             case "case":
-                variables[i] = Notes.CaseText ?? string.Empty;
+                variables[i] = Notes.SelectedNote.CaseText ?? string.Empty;
                 break; 
             case "forms":
             case "form":
-                variables[i] = Notes.FormsText?.Replace("\n", "\n>") ?? string.Empty;
+                variables[i] = Notes.SelectedNote.FormsText?.Replace("\n", "\n>") ?? string.Empty;
                 break;
             case "firstname":
-                if(Notes.ContactName is null)
+                if(Notes.SelectedNote.ContactName is null)
                 {
                     variables[i] = string.Empty;
                     break;
                 }
-                variables[i] = (Notes.ContactName.Contains(' ') ? Notes.ContactName.Split(' ')[0] : Notes.ContactName)?? string.Empty;
+                variables[i] = (Notes.SelectedNote.ContactName.Contains(' ') ? 
+                    Notes.SelectedNote.ContactName.Split(' ')[0] : 
+                    Notes.SelectedNote.ContactName)?? string.Empty;
                 break;
 
             case "ammailingaddress":
-                variables[i] = Settings.Instance.MailingAddress ?? string.Empty;
+                variables[i] = Settings.Instance.MailingAddress.Print() ?? string.Empty;
+                break;
+            case "ammailname":
+                variables[i] = Settings.Instance.MailingAddress.Name ?? string.Empty;
+                break;
+            case "ammailstreet":
+                variables[i] = Settings.Instance.MailingAddress.Street ?? string.Empty;
+                break;
+            case "ammailcity":
+                variables[i] = Settings.Instance.MailingAddress.City ?? string.Empty;
+                break;
+            case "ammailstate":
+                variables[i] = Settings.Instance.MailingAddress.State ?? string.Empty;
+                break;
+            case "ammailzip":
+                variables[i] = Settings.Instance.MailingAddress.PostalCode ?? string.Empty;
+                break;
+            case "formnamegenerator":
+            case "namegenerator":
+            case "namegen":
+                variables[i] = FileNameGenerator.FileName ?? string.Empty;
                 break;
 
         }
@@ -229,11 +259,11 @@ public partial class Templates : UserControl
     private void RefreshTemplates()
     {
         lBoxTemplateList.Items.Clear();
+        TemplateList.Instance.TemplateList.Sort();
 
-        foreach(var template in TemplateList.Instance.TemplateList)
-        {
+        foreach (var template in TemplateList.Instance.TemplateList)
             lBoxTemplateList.Items.Add(template.Name);
-        }    
+
     }
 
     private void btnEdit_Click(object sender, RoutedEventArgs e)

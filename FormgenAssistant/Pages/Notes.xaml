@@ -6,79 +6,310 @@
              xmlns:local="clr-namespace:FormgenAssistant.Pages"
              xmlns:Controls="clr-namespace:FormgenAssistant.Controls" x:Class="FormgenAssistant.Pages.Notes"
              mc:Ignorable="d" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-             d:DesignHeight="400" d:DesignWidth="800">
-    
-    <Grid Background="#FF0F0B1E">
+             d:DesignHeight="450" d:DesignWidth="900">
+    <UserControl.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <LinearGradientBrush x:Key="TabItem.Static.Background" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#F0F0F0" Offset="0.0"/>
+            <GradientStop Color="#E5E5E5" Offset="1.0"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="TabItem.Static.Border" Color="#ACACAC"/>
+        <SolidColorBrush x:Key="TabItem.MouseOver.Background" Color="#FF201740"/>
+        <SolidColorBrush x:Key="TabItem.MouseOver.Border"/>
+        <SolidColorBrush x:Key="TabItem.Selected.Background"/>
+        <SolidColorBrush x:Key="TabItem.Selected.Border" Color="#FF7B68EE"/>
+        <SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#F0F0F0"/>
+        <SolidColorBrush x:Key="TabItem.Disabled.Border" Color="#D9D9D9"/>
+        <Style x:Key="TabItemStyle1" TargetType="{x:Type TabItem}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Background" Value="{StaticResource TabItem.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource TabItem.Static.Border}"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="6,2,6,2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+                            <Border x:Name="mainBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,1,0" Margin="0">
+                                <Border x:Name="innerBorder" Background="{StaticResource TabItem.Selected.Background}" BorderBrush="{StaticResource TabItem.Selected.Border}" BorderThickness="1,1,1,0" Margin="-1" Opacity="0"/>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                            
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Mode=Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+                                <Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="-2,-2,0,-2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="-2,0,-2,-2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="0,-2,-2,-2"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=Self}}" Value="false"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Mode=Self}}" Value="true"/>
+                                    <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Panel.ZIndex" Value="1"/>
+                                <Setter Property="Margin" Value="-2,-2,-2,0"/>
+                                <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                                <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+                                <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid >
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" MaxHeight="30" MinHeight="30"/>
             <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
-            <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
-            <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
-            <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
-            <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
-            <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
-            <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
-            <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
-            <RowDefinition Height="135*" />
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100*" MinWidth="100" />
-            <ColumnDefinition Width="125*" MinWidth="125"/>
-            <ColumnDefinition Width="150*" MinWidth="150"/>
-            <ColumnDefinition Width="125*" MinWidth="125"/>
-            <ColumnDefinition Width="50*"  MinWidth="50"/>
-        </Grid.ColumnDefinitions>
+        <Grid Background="#FF0F0B1E" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" MaxHeight="30" MinHeight="30"/>
+                <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
+                <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
+                <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
+                <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
+                <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
+                <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
+                <RowDefinition Height="50" MaxHeight="50" MinHeight="50"/>
+                <RowDefinition Height="25" MaxHeight="25" MinHeight="25"/>
+                <RowDefinition Height="135*" />
+                <RowDefinition Height="30" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="125"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="200*" MinWidth="200"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="120*" MinWidth="120"/>
+                <ColumnDefinition Width="110"/>
+            </Grid.ColumnDefinitions>
 
-        <Label x:Name="lblServer" Content="Server Id" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="88" Margin="5,5,0,0"/>
-        <Label x:Name="lblCompany" Content="Company(s)" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="115" Grid.Column="1"/>
-        <Label x:Name="lblDealer" Content="Dealership / Group" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="178" Grid.Column="2"/>
-        <Button x:Name="btnCopyAll" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Copy All" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="50" Height="25" Click="btnCopyAll_Click" Grid.Column="4" IsTabStop="False" Grid.Row="9" Margin="0,0,0,30"/>
-        
-        <Button x:Name="btnCopyServer" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="25,0,0,0" Background="{x:Null}" Click="btnCopyServer_Click" Grid.Row="2" IsTabStop="False">
-            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
-        </Button>
-        <Button x:Name="btnCopyCompanies" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyCompanies_Click" Grid.Row="2" Grid.Column="1" Margin="25,0,0,0" IsTabStop="False">
-            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
-        </Button>
-        <Button x:Name="btnCopyDealer" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyDealer_Click" Grid.Row="2" Grid.Column="2" Margin="25,0,0,0" IsTabStop="False">
-            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
-        </Button>
-        <Label x:Name="lblName" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Width="63" Grid.Row="3"/>
-        <Label x:Name="lblEmail" Content="E-Mail" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="66" Grid.Row="3" Grid.Column="2"/>
-        <Label x:Name="lblPhone" Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="66" Grid.Row="3" Grid.Column="3"/>
-        <Label x:Name="lblExt" Content="Ext." HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="40" Grid.Row="3" Grid.Column="4"/>
-        <Button x:Name="btnCopyName" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="25,0,0,0" Background="{x:Null}" Click="btnCopyName_Click" Grid.Row="5" IsTabStop="False">
-            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
-        </Button>
-        <Button x:Name="btnCopyEmail" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyEmail_Click" Grid.Row="5" Grid.Column="2" Margin="25,0,0,0" IsTabStop="False">
-            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
-        </Button>
-        <Button x:Name="btnCopyPhone" HorizontalAlignment="Left" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="25,0,0,0" Background="{x:Null}" Click="btnCopyPhone_Click" Grid.Row="5" Grid.Column="3" IsTabStop="False">
-            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
-        </Button>
-        <Label x:Name="lblNotes" Content="Notes" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Width="62" Grid.Row="6"/>
-        <Button x:Name="btnCopyNotes" HorizontalAlignment="Left" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="72,0,0,0" Background="{x:Null}" Click="btnCopyNotes_Click" Grid.Row="6" IsTabStop="False">
-            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
-        </Button>
-        <Button x:Name="btnClear" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Clear" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="50" Height="25" Click="btnClear_Click" Grid.Row="9" Grid.Column="4" IsTabStop="False"/>
-        <Button x:Name="btnCopyCase" HorizontalAlignment="Right" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="72,0,0,0" Background="{x:Null}" Click="btnCopyCase_Click" Grid.Row="6" IsTabStop="False" Grid.Column="3">
-            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
-        </Button>
-        <Button x:Name="btnCopyForms" HorizontalAlignment="Right" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="72,0,0,0" Background="{x:Null}" Click="btnCopyForms_Click" Grid.Row="8" IsTabStop="False" Grid.Column="3">
-            <Image Source="/Resources/copy.png" Stretch="Uniform"/>
-        </Button>
-        <Controls:NewTextBox x:Name="txtServerId" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Margin="5,5,5,5" OnTextChanged="txtServerId_OnTextChanged"/>
-        <Controls:NewTextBox x:Name="txtCompanies" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" OnTextChanged="txtCompanies_OnTextChanged"/>
-        <Controls:NewTextBox x:Name="txtDealer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" Margin="5,5,5,5" OnTextChanged="txtDealer_OnTextChanged"/>
-        <Controls:NewTextBox x:Name="txtName" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.ColumnSpan="2" Margin="5,5,5,5" OnTextChanged="txtName_OnTextChanged"/>
-        <Controls:NewTextBox x:Name="txtEmail" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.Column="2" Margin="5,5,5,5" OnTextChanged="txtEmail_OnTextChanged" />
-        <Controls:NewTextBox x:Name="txtPhone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Text="" Grid.Row="4" Grid.Column="3" Margin="5,5,5,5" OnTextChanged="txtPhone_OnTextChanged"/>
-        <Controls:NewTextBox x:Name="txtPhoneExt" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.Column="4" Margin="5,5,5,5" OnTextChanged="txtPhoneExt_OnTextChanged" />
-        <Controls:NewTextBox x:Name="txtNotes" VerticalAlignment="Stretch" Text="" TextWrapping="Wrap" Grid.Row="7" Margin="5,5,5,5" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" OnTextChanged="txtNotes_OnTextChanged" Grid.RowSpan="3"/>
-        <Controls:NewTextBox x:Name="txtCaseNo"  Text="" Grid.Row="7" Grid.Column="3" Margin="5,5,5,5" Height="40" VerticalAlignment="Top" OnTextChanged="txtCaseNo_OnTextChanged"/>
-        <Label x:Name="lblCaseNo" Content="Case #" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="6" Grid.Column="3"/>
-        <Controls:NewTextBox x:Name="txtForms"  Text="" Grid.Row="9" Grid.Column="3" Margin="5,0,5,0" VerticalAlignment="Center" OnTextChanged="txtForms_OnTextChanged"/>
-        <Label x:Name="lblForms" Content="Form(s)" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="8" Grid.Column="3"/>
+            <Label x:Name="lblServer" Content="Server Id" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="88" Margin="5,5,0,0"/>
+            <Label x:Name="lblCompany" Content="Company(s)" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="115" Grid.Column="1"/>
+            <Label x:Name="lblDealer" Content="Dealership / Group" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="178" Grid.Column="2"/>
+            <Button x:Name="btnCopyAll" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Copy All" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="50" Height="25" Click="btnCopyAll_Click" Grid.Column="5" IsTabStop="False" Grid.Row="10" Margin="0,0,0,2"/>
 
+            <Button x:Name="btnCopyServer" HorizontalAlignment="Right" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyServer_Click" IsTabStop="False" Margin="0,0,5,0">
+                <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="btnCopyCompanies" HorizontalAlignment="Right" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyCompanies_Click" Grid.Row="0" Grid.Column="1" IsTabStop="False" Margin="0,0,5,0">
+                <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="btnCopyDealer" HorizontalAlignment="Right" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyDealer_Click" Grid.Row="0" Grid.Column="2" IsTabStop="False">
+                <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+            </Button>
+            <Label x:Name="lblName" Content="Name" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Width="63" Grid.Row="3"/>
+            <Label x:Name="lblEmail" Content="E-Mail" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="66" Grid.Row="3" Grid.Column="2"/>
+            <Label x:Name="lblPhone" Content="Phone" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="66" Grid.Row="3" Grid.Column="3"/>
+            <Label x:Name="lblExt" Content="Ext." HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Height="37" Width="40" Grid.Row="3" Grid.Column="5"/>
+            <Button x:Name="btnCopyName" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyName_Click" Grid.Row="3" IsTabStop="False" HorizontalAlignment="Right" Margin="0,0,5,0">
+                <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="btnCopyEmail" HorizontalAlignment="Right" Height="26" VerticalAlignment="Top" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyEmail_Click" Grid.Row="3" Grid.Column="2" IsTabStop="False" Margin="0,0,5,0">
+                <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="btnCopyPhone" HorizontalAlignment="Right" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Background="{x:Null}" Click="btnCopyPhone_Click" Grid.Row="3" Grid.Column="3" IsTabStop="False" Margin="0,0,5,0">
+                <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+            </Button>
+            <Label x:Name="lblNotes" Content="Notes" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Width="62" Grid.Row="6"/>
+            <Button x:Name="btnCopyNotes" HorizontalAlignment="Right" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="0,0,5,0" Background="{x:Null}" Click="btnCopyNotes_Click" Grid.Row="6" IsTabStop="False">
+                <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="btnClear" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Clear" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="50" Height="25" Click="btnClear_Click" Grid.Row="10" Grid.Column="5" IsTabStop="False" Margin="0,0,0,2"/>
+            <Button x:Name="btnCopyCase" HorizontalAlignment="Right" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="0,0,5,0" Background="{x:Null}" Click="btnCopyCase_Click" Grid.Row="6" IsTabStop="False" Grid.Column="3">
+                <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="btnCopyForms" HorizontalAlignment="Right" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="0,0,5,0" Background="{x:Null}" Click="btnCopyForms_Click" Grid.Row="8" IsTabStop="False" Grid.Column="3">
+                <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+            </Button>
+            <Button x:Name="btnCopyDeal" HorizontalAlignment="Right" Height="26" VerticalAlignment="Center" Width="24" BorderBrush="{x:Null}" Foreground="{x:Null}" BorderThickness="3" Margin="72,0,0,0" Background="{x:Null}" Click="btnCopyDeal_Click" Grid.Row="6" IsTabStop="False" Grid.Column="4">
+                <Image Source="/Resources/copy.png" Stretch="Uniform"/>
+            </Button>
+            <Controls:NewTextBox x:Name="txtServerId" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Margin="5,5,5,5" OnTextChanged="txtServerId_OnTextChanged" LostFocus="txtServerId_LostFocus"/>
+            <Controls:NewTextBox x:Name="txtCompanies" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="5,5,5,5" OnTextChanged="txtCompanies_OnTextChanged"/>
+            <Controls:NewTextBox x:Name="txtDealer" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="4" Margin="5,5,5,5" OnTextChanged="txtDealer_OnTextChanged"/>
+            <Controls:NewTextBox x:Name="txtName" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.ColumnSpan="2" Margin="5,5,5,5" OnTextChanged="txtName_OnTextChanged" LostFocus="txtName_LostFocus"/>
+            <Controls:NewTextBox x:Name="txtEmail" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.Column="2" Margin="5,5,5,5" OnTextChanged="txtEmail_OnTextChanged" />
+            <Controls:NewTextBox x:Name="txtPhone" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Text="" Grid.Row="4" Grid.Column="3" Margin="5,5,5,5" OnTextChanged="txtPhone_OnTextChanged" Grid.ColumnSpan="2"/>
+            <Controls:NewTextBox x:Name="txtPhoneExt" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.Column="5" Margin="5,5,5,5" OnTextChanged="txtPhoneExt_OnTextChanged" />
+            <Controls:NewTextBox x:Name="txtNotes" VerticalAlignment="Stretch" Text="" TextWrapping="Wrap" Grid.Row="7" Margin="5,5,5,0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" OnTextChanged="txtNotes_OnTextChanged" Grid.RowSpan="3"/>
+            <Controls:NewTextBox x:Name="txtCaseNo"  Text="" Grid.Row="7" Grid.Column="3" Margin="5,5,5,5" Height="40" VerticalAlignment="Top" OnTextChanged="txtCaseNo_OnTextChanged" Grid.ColumnSpan="1"/>
+            <Label x:Name="lblCaseNo" Content="Test Deal" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="6" Grid.Column="4"/>
+            <Controls:NewTextBox x:Name="txtDeal"  Text="" Grid.Row="7" Grid.Column="4" Margin="5,5,5,5" Height="40" VerticalAlignment="Top" OnTextChanged="txtCaseNo_OnTextChanged" Grid.ColumnSpan="2"/>
+            <Label x:Name="lblDeal" Content="Case #" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="6" Grid.Column="3"/>
+            <Controls:NewTextBox x:Name="txtForms"  Text="" Grid.Row="9" Grid.Column="3" Margin="5,0,5,0" VerticalAlignment="Center" OnTextChanged="txtForms_OnTextChanged" Grid.ColumnSpan="3"/>
+            <Label x:Name="lblForms" Content="Form(s)" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="8" Grid.Column="3"/>
+            <Button x:Name="btnNameGen" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Name Gen" VerticalAlignment="Center" HorizontalAlignment="Left" Height="25" Click="btnNameGen_Click" Grid.Row="8" Grid.Column="4" IsTabStop="False"/>
+
+        </Grid>
+        <TabControl Name="tcTabs" Grid.Row="0" Background="#FF0F0B1E" BorderBrush="#FF0F0B1E" SelectionChanged="tcTabs_SelectionChanged">
+            <TabItem Name="tiTabItemTemplate" Style="{DynamicResource TabItemStyle1}" Header="No Case#" Background="#FF0F0B1E" BorderBrush="#FF0F0B1E" Foreground="MediumSlateBlue">
+                <TabItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="New" Click="TabControlContextMenuNew"/>
+                        <MenuItem Header="Close" Click="TabControlContextMenuClose" IsEnabled="False"/>
+                    </ContextMenu>
+                </TabItem.ContextMenu>
+                <Grid Background="#FF0F0B1E"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </UserControl>

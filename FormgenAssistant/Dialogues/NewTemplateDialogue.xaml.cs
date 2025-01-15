@@ -26,11 +26,21 @@ namespace FormgenAssistant.Dialogues
         public NewTemplateDialogue()
         {
             InitializeComponent();
+            
+            foreach (var option in Enum.GetValues<Template.TemplateType>())
+            {
+                cboType.Items.Add(option);
+            }
+            cboType.SelectedValue = SavedItems.Templates.Template.TemplateType.Other;
             txtName.Focus();
         }
         public NewTemplateDialogue(Template template)
         {
             InitializeComponent();
+            foreach (var option in Enum.GetValues<Template.TemplateType>())
+            {
+                cboType.Items.Add(option);
+            }
             NewTemplate = template;
 
             txtName.Text = template.Name;
@@ -43,6 +53,7 @@ namespace FormgenAssistant.Dialogues
                 control.Text = item;
                 stkDefaults.Children.Add(control);
             }
+            cboType.SelectedValue = template.Type;
             txtName.Focus();
         }
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -58,6 +69,7 @@ namespace FormgenAssistant.Dialogues
             }
 
             NewTemplate = new(txtName.Text, txtTemplate.Text, txtVarCount.Text != string.Empty ? ushort.Parse(txtVarCount.Text) : (ushort)0, defaults);
+            NewTemplate.Type = (Template.TemplateType)cboType.SelectedValue;
             DialogResult = true;
             Close();
         }
@@ -96,8 +108,8 @@ namespace FormgenAssistant.Dialogues
         {
             var box = new NewTextBox
             {
-                MaxWidth = 120,
-                MinWidth = 50
+                MinWidth = 50,
+                Margin = new Thickness(5,0,5, 0)
             };
             GenerateContextMenu(box);
             return box;
@@ -120,7 +132,13 @@ namespace FormgenAssistant.Dialogues
             item.Items.Add(AddContextMenuItem(box, "Case #", "Notes:CaseNumber"));
             item.Items.Add(AddContextMenuItem(box, "Forms", "Notes:Forms"));
             item.Items.Add(AddContextMenuItem(box, "First Name", "Notes:FirstName"));
-            item.Items.Add(AddContextMenuItem(box, "A/M Mailing Address", "Notes:AMMailingAddress"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail Address", "Notes:AMMailingAddress"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail Name", "Notes:AMMailName"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail Street", "Notes:AMMailStreet"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail City", "Notes:AMMailCity"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail State", "Notes:AMMailState"));
+            item.Items.Add(AddContextMenuItem(box, "A/M Mail Zip", "Notes:AMMailZip"));
+            item.Items.Add(AddContextMenuItem(box, "Form Name Generator", "Notes:FormNameGenerator"));
 
             box.ContextMenu ??= new();
             box.ContextMenu.Items.Add(item);
