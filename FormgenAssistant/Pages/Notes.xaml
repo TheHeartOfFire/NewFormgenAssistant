@@ -86,6 +86,7 @@
         <Label x:Name="lblDeal" Content="Case #" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="6" Grid.Column="3"/>
         <Controls:NewTextBox x:Name="txtForms"  Text="" Grid.Row="9" Grid.Column="3" Margin="5,0,5,0" VerticalAlignment="Center" OnTextChanged="txtForms_OnTextChanged" Grid.ColumnSpan="3"/>
         <Label x:Name="lblForms" Content="Form(s)" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="8" Grid.Column="3"/>
+        <Button x:Name="btnNameGen" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Name Gen" VerticalAlignment="Center" HorizontalAlignment="Left" Height="25" Click="btnNameGen_Click" Grid.Row="8" Grid.Column="4" IsTabStop="False"/>
 
     </Grid>
 </UserControl>

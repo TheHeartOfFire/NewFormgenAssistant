@@ -132,5 +132,10 @@ namespace FormgenAssistant.Pages
         {
             txtName.Text = CultureInfo.InvariantCulture.TextInfo.ToTitleCase(txtName.Text.ToLowerInvariant());
         }
+
+        private void btnNameGen_Click(object sender, RoutedEventArgs e)
+        {
+            txtForms.Text += FileNameGenerator.FileName;
+        }
     }
 }

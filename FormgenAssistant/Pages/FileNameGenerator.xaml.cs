@@ -12,6 +12,7 @@ namespace FormgenAssistant.Pages
     /// </summary>
     public partial class FileNameGenerator : UserControl
     {
+        public static string? FileName { get; private set; }
         readonly IReadOnlyList<string> StateCodes = ["AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","PR","RI","SC","SD","TN","TX","UT","VT","VA","VI","WA","WV","WI","WY"];
         public FileNameGenerator()
         {
@@ -25,26 +26,30 @@ namespace FormgenAssistant.Pages
 
         private void UpdateFormName()
         {
-            if (tglFormType.IsOn == false && tglLAW.IsOn == true)
+            while (true)
             {
-                txtOutput.Text = LaserLaw();
-                return;
+                if (tglFormType.IsOn == false && tglLAW.IsOn == true)
+                {
+                    txtOutput.Text = LaserLaw();
+                    break;
+                }
+                if (tglFormType.IsOn == false)
+                {
+                    txtOutput.Text = Laser();
+                    break;
+                }
+                if (tglFormType.IsOn == true && tglLAW.IsOn == true)
+                {
+                    txtOutput.Text = ImpactLaw();
+                    break;
+                }
+                if (tglFormType.IsOn == true)
+                {
+                    txtOutput.Text = Impact();
+                    break;
+                }
             }
-            if (tglFormType.IsOn == false)
-            {
-                txtOutput.Text = Laser();
-                return;
-            }
-            if (tglFormType.IsOn == true && tglLAW.IsOn == true)
-            {
-                txtOutput.Text = ImpactLaw();
-                return;
-            }
-            if (tglFormType.IsOn == true)
-            {
-                txtOutput.Text = Impact();
-                return;
-            }
+            FileName = txtOutput.Text;
         }
 
         private string LaserLaw()
