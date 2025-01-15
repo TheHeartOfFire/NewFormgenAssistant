@@ -1,5 +1,7 @@
 ﻿using FormgenAssistant.SavedItems;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,9 +23,52 @@ namespace FormgenAssistant.Pages
         public static string? CaseText { get; private set; }
         public static string? FormsText { get; private set; }
         public static string? DealText { get; private set; }
+        private List<NotesInfo> NotesList = [];
+        private struct NotesInfo
+        {
+            public string ServerId { get; set; }
+            public string Companies { get; set; }
+            public string Dealership { get; set; }
+            public string ContactName { get; set; }
+            public string Email { get; set; }
+            public string Phone { get; set; }
+            public string NotesText { get; set; }
+            public string CaseText { get; set; }
+            public string FormsText { get; set; }
+            public string DealText { get; set; }
+            public TabItem TabItem { get; set; }
+
+            public void Clear()
+            {
+                ServerId = string.Empty;
+                Companies = string.Empty;
+                Dealership = string.Empty;
+                ContactName = string.Empty;
+                Email = string.Empty;
+                Phone = string.Empty;
+                NotesText = string.Empty;
+                CaseText = string.Empty;
+                FormsText = string.Empty;
+                DealText = string.Empty;
+            }
+        }
         public Notes()
         {
             InitializeComponent();
+            NotesList.Add(new()
+            {
+                ServerId = txtServerId.Text,
+                Companies = txtCompanies.Text,
+                Dealership = txtDealer.Text,
+                ContactName = txtName.Text,
+                Email = txtEmail.Text,
+                Phone = txtPhone.Text,
+                NotesText = txtNotes.Text,
+                CaseText = txtCaseNo.Text,
+                FormsText = txtForms.Text,
+                DealText = txtDeal.Text,
+                TabItem = tiTabItemTemplate
+            });
         }
 
         private void btnCopyServer_Click(object sender, RoutedEventArgs e) => Clipboard.SetText(txtServerId.Text);
@@ -111,6 +156,14 @@ namespace FormgenAssistant.Pages
 
         private void txtCaseNo_OnTextChanged(object sender, System.EventArgs e)
         {
+            if (tcTabs is not null && tcTabs.SelectedItem is not null)
+            {
+                var selectedTab = tcTabs.SelectedItem as TabItem;
+                if (selectedTab is not null)
+                {
+                    selectedTab.Header = txtCaseNo.Text.Equals(string.Empty) ? "No Case#": txtCaseNo.Text;
+                }
+            }
             Notes.CaseText = txtCaseNo.Text;
         }
 
@@ -136,6 +189,96 @@ namespace FormgenAssistant.Pages
         private void btnNameGen_Click(object sender, RoutedEventArgs e)
         {
             txtForms.Text += FileNameGenerator.FileName;
+        }
+
+        private void TabControlContextMenuNew(object sender, RoutedEventArgs e)
+        {
+            var template = NotesList[0].TabItem;
+
+            NotesInfo newNote = new()
+            {
+                ServerId = txtServerId.Text,
+                Companies = txtCompanies.Text,
+                Dealership = txtDealer.Text,
+                ContactName = txtName.Text,
+                Email = txtEmail.Text,
+                Phone = txtPhone.Text,
+                NotesText = txtNotes.Text,
+                CaseText = txtCaseNo.Text,
+                FormsText = txtForms.Text,
+                DealText = txtDeal.Text,
+                TabItem = template.Clone()
+            };
+
+            NotesList.Add(newNote);
+            tcTabs.Items.Add(newNote.TabItem);
+            tcTabs.SelectedItem = newNote.TabItem;
+            SwitchNotes(newNote);
+
+        }
+
+        private void TabControlContextMenuClose(object sender, RoutedEventArgs e)
+        {
+            var selected = (TabItem)tcTabs.SelectedItem;
+
+            if (selected is null) return;
+
+            foreach (var note in NotesList)
+            {
+                if (note.TabItem is null ||
+                    note.TabItem.Header is null) continue;
+
+                if (note.TabItem.Equals(selected))
+                {
+                    return;
+                }
+            }
+
+        }
+
+        private void SwitchNotes(NotesInfo info)
+        {
+            txtServerId.Text = info.ServerId;
+            txtCompanies.Text = info.Companies;
+            txtDealer.Text = info.Dealership;
+            txtName.Text = info.ContactName;
+            txtEmail.Text = info.Email;
+            txtPhone.Text = info.Phone;
+            txtNotes.Text = info.NotesText;
+            txtCaseNo.Text = info.CaseText;
+            txtForms.Text = info.FormsText;
+            txtDeal.Text = info.DealText;
+            UpdateAll(info);
+        }
+
+        private void tcTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selected = (TabItem)tcTabs.SelectedItem;
+            if (selected is null) return;
+            foreach (var note in NotesList)
+            {
+                if (note.TabItem is null ||
+                    note.TabItem.Header is null) continue;
+                if (note.TabItem.Equals(selected)) //TODO: improve this comparison method
+                {
+                    SwitchNotes(note);
+                    return;
+                }
+            }
+        }
+
+        private static void UpdateAll(NotesInfo info)
+        {
+            CaseText = info.CaseText;
+            Companies = info.Companies;
+            ContactName = info.ContactName;
+            DealText = info.DealText;
+            Dealership = info.Dealership;
+            Email = info.Email;
+            FormsText = info.FormsText;
+            NotesText = info.NotesText;
+            Phone = info.Phone;
+            ServerId = info.ServerId;
         }
     }
 }
