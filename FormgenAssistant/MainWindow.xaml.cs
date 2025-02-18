@@ -18,29 +18,28 @@ namespace FormgenAssistant
     {
         private readonly IUtils _utils;
         private readonly ISettings _settings;
-        private readonly IFileNameGenerator _nameGenerator;
-        private readonly IPromptCopier _promptCopier;
         private readonly Notes _notesPage;
         private readonly FileNameGenerator _fileNameGenerator;
         private readonly PromptCopier _promptCopierPage;
+        private readonly CodeSnippets _codeSnippetsPage;
 
         public MainWindow(IUtils utils, 
             ISettings settings, 
             IFileNameGenerator nameGenerator,
-            IPromptCopier promptCopier)
+            IPromptCopier promptCopier,
+            ICodeSnippetGenerator snippetGenerator)
         {
             _utils = utils;
             _settings = settings;
-            _nameGenerator = nameGenerator;
-            _promptCopier = promptCopier;
             settings.Load();
             
             InitializeComponent();
             ContentFrame.Content = new HomePage(_utils, _settings);
             
             _notesPage = new Notes(_settings);
-            _fileNameGenerator = new FileNameGenerator(_nameGenerator);
-            _promptCopierPage = new PromptCopier(_promptCopier);
+            _fileNameGenerator = new FileNameGenerator(nameGenerator);
+            _promptCopierPage = new PromptCopier(promptCopier);
+            _codeSnippetsPage = new CodeSnippets(snippetGenerator);
 
             _ = CheckForUpdates();
 		}
@@ -218,7 +217,7 @@ namespace FormgenAssistant
 
         private void BtnSnippets_OnClick(object sender, RoutedEventArgs e)
 		{
-            ContentFrame.Source = new Uri("Pages\\CodeSnippets.xaml", UriKind.RelativeOrAbsolute);
+            ContentFrame.Content = _codeSnippetsPage;
 		}
-    }
+	}
 }

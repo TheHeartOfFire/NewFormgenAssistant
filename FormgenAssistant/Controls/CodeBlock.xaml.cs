@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using FormgenAssistantLibrary.DataTypes.Code;
 
 namespace FormgenAssistant.Controls
 {
@@ -9,30 +10,17 @@ namespace FormgenAssistant.Controls
     /// </summary>
     public partial class CodeBlock : UserControl
     {
-        
-        public CodeBlock()
+        public CodeBase Code { get; set; }
+        public CodeBlock(CodeBase code)
         {
+            Code = code;
             InitializeComponent();
-            BackgroundProperty.OverrideMetadata(typeof(CodeBlock), new FrameworkPropertyMetadata(
-                new SolidColorBrush(Color.FromArgb(255, 15, 11, 30)), FrameworkPropertyMetadataOptions.AffectsRender, OnBackgroundChanged));
+            lblName.Content = code.Name;
             ForegroundProperty.OverrideMetadata(typeof(CodeBlock), new FrameworkPropertyMetadata(
                 new SolidColorBrush(Color.FromArgb(255, 255, 255, 255)), FrameworkPropertyMetadataOptions.AffectsRender, OnForegroundChanged));
-            BorderBrushProperty.OverrideMetadata(typeof(CodeBlock), new FrameworkPropertyMetadata(
-                new SolidColorBrush(Colors.MediumSlateBlue), FrameworkPropertyMetadataOptions.AffectsRender, OnBorderBrushChanged));
         }
 
-
-        private static void OnBackgroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var cBlock = (CodeBlock) d;
-
-            cBlock.OnBackgroundColorChanged(e);
-        }
-
-        private void OnBackgroundColorChanged(DependencyPropertyChangedEventArgs e)
-        {
-            grdBackground.Background = (SolidColorBrush)e.NewValue;
-        }
+        
         private static void OnForegroundChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var cBlock = (CodeBlock)d;
@@ -42,18 +30,7 @@ namespace FormgenAssistant.Controls
 
         private void OnForegroundColorChanged(DependencyPropertyChangedEventArgs e)
         {
-            Title.Foreground = (SolidColorBrush)e.NewValue;
-        }
-        private static void OnBorderBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var cBlock = (CodeBlock)d;
-
-            cBlock.OnBorderBrushColorChanged(e);
-        }
-
-        private void OnBorderBrushColorChanged(DependencyPropertyChangedEventArgs e)
-        {
-            Title.BorderBrush = (SolidColorBrush)e.NewValue;
+            lblName.Foreground = (SolidColorBrush)e.NewValue;
         }
     }
 }

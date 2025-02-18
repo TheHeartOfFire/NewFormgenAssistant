@@ -25,6 +25,7 @@ public partial class App : Application
                 services.AddTransient<ISettings, Settings>();
                 services.AddTransient<IFileNameGenerator, FileNameGenerator>();
                 services.AddTransient<IPromptCopier, PromptCopier>();
+                services.AddTransient<ICodeSnippetGenerator, CodeSnippetGenerator>();
             })
             .Build();
     }

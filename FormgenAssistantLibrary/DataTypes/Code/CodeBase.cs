@@ -3,7 +3,7 @@ using System.Text;
 
 namespace FormgenAssistantLibrary.DataTypes.Code;
 
-public abstract class CodeBase : ICodeBase
+public abstract class CodeBase
 {
     public string? Name { get; set; }
     public string? Description { get; set; }

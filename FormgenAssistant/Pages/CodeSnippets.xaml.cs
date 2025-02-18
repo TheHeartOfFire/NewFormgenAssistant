@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using FormgenAssistant.Controls;
 using FormgenAssistantLibrary.DataTypes.Code;
 using FormgenAssistantLibrary.DataTypes.Code.Formulae;
 using FormgenAssistantLibrary.DataTypes.Code.Functions;
@@ -18,10 +19,11 @@ namespace FormgenAssistant.Pages
     /// </summary>
     public partial class CodeSnippets : Page
     {
-        private readonly List<CodeBase> _snippets = new();
-        public CodeSnippets()
+        private readonly ICodeSnippetGenerator _snippetGenerator;
+        public CodeSnippets(ICodeSnippetGenerator snippetGenerator)
         {
-            
+            _snippetGenerator = snippetGenerator;
+
             InitializeComponent();
             InitializeSnippetList();
             stkInputs.Children.Insert(0, CreateFunctionExpander(new CityStateZIPCodeTest()));
@@ -31,7 +33,7 @@ namespace FormgenAssistant.Pages
 
         private void UpdateContent()
         {
-            var selectedSnippet = _snippets.FirstOrDefault(x => x.Name == ((ListBoxItem) lstSnippets.SelectedItem).Content as string);
+            var selectedSnippet = _snippetGenerator.Snippets.FirstOrDefault(x => x.Name == ((ListBoxItem) lstSnippets.SelectedItem).Content as string);
 
             AddPrompts.Visibility = Visibility.Collapsed;
             RemovePrompts.Visibility = Visibility.Collapsed;
@@ -49,10 +51,8 @@ namespace FormgenAssistant.Pages
         private void GenerateInputBoxes(CodeBase selectedSnippet)
         {
             wrpInputs.Children.Clear();
-            foreach (var input in selectedSnippet.Inputs)
+            foreach (var textBox in selectedSnippet.Inputs.Select(CreateInputTextBox))
             {
-                var textBox = CreateInputTextBox(input);
-
                 wrpInputs.Children.Add(textBox);
             }
         }
@@ -108,25 +108,16 @@ namespace FormgenAssistant.Pages
             textBox.GotFocus += (s, e) => textBox.Text = textBox.Text == inputDescription ? "" : textBox.Text;
             textBox.LostFocus += (s, e) =>
                 textBox.Text = string.IsNullOrEmpty(textBox.Text) ? inputDescription : textBox.Text;
-            textBox.TextChanged += (s, e) => UpdateOutput();
+            
+                textBox.TextChanged += (s, e) => UpdateTestOutput();
+            
             return textBox;
         }
 
         private void InitializeSnippetList()
         {
-            _snippets.Add(new CityStateZIPCode());
-            _snippets.Add(new DateConversionCode());
-            _snippets.Add(new DayAndSuffixCode());
-            _snippets.Add(new MonthNameCode());
-            _snippets.Add(new NumToTextCode());
-            _snippets.Add(new SeplistNumber());
-            _snippets.Add(new DmvCalculationCode());
-            _snippets.Add(new FuelDropdownDefaultCode());
-            _snippets.Add(new CaseCode());
-            _snippets.Add(new IfCode());
-            _snippets.Add(new SeplistCode());
 
-            foreach (var item in _snippets.Select(snippet => new ListBoxItem
+            foreach (var item in _snippetGenerator.Snippets.Select(snippet => new ListBoxItem
                      {
                          Content = snippet.Name,
                          ToolTip = snippet.Description
@@ -134,6 +125,8 @@ namespace FormgenAssistant.Pages
             {
                 lstSnippets.Items.Add(item);
             }
+
+            lstSnippets.Items.Add(new CodeBlock(new CityStateZIPCodeTest()));
         }
         private void txtOutput_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
@@ -166,7 +159,19 @@ namespace FormgenAssistant.Pages
 
         private void UpdateOutput()
         {
-            var selectedSnippet = _snippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content as string);
+            var selectedSnippet = _snippetGenerator.Snippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content as string);
+            if (selectedSnippet is null) return;
+
+            //TODO: Allow CodeBase as Input
+
+            var boxes = wrpInputs.Children;
+            var inputs = (from object? box in boxes select box as TextBox into textBox where textBox is not null select textBox.Text).ToList();
+            selectedSnippet.SetInputs(inputs);
+            txtOutput.Text = selectedSnippet.GetCode();
+        }
+        private void UpdateTestOutput()
+        {
+            var selectedSnippet = _snippetGenerator.Snippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content as string);
             if (selectedSnippet is null) return;
 
             //TODO: Allow CodeBase as Input
@@ -179,7 +184,7 @@ namespace FormgenAssistant.Pages
 
         private void AddPrompts_Click(object sender, RoutedEventArgs e)
         {
-            var selectedSnippet = _snippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content as string);
+            var selectedSnippet = _snippetGenerator.Snippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content as string);
             if (selectedSnippet is null) return;
             var snippetEx = selectedSnippet as IExtendableCode;
             snippetEx?.AddExtraInputs(1);
@@ -190,7 +195,7 @@ namespace FormgenAssistant.Pages
 
         private void RemovePrompts_Click(object sender, RoutedEventArgs e)
         {
-            var selectedSnippet = _snippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content as string);
+            var selectedSnippet = _snippetGenerator.Snippets.FirstOrDefault(x => x.Name == ((ListBoxItem)lstSnippets.SelectedItem).Content as string);
 
             if (selectedSnippet is not IExtendableCode snippetEx) return;
             

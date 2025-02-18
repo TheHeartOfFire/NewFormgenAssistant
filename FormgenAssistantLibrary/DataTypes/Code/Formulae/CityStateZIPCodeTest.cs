@@ -8,7 +8,7 @@ public class CityStateZIPCodeTest : CodeBase
     {
         Name = "City, State ZIP";
         Prefix = "CSZ";
-        Description = "Nicely format a city, state, and ZIP code.";
+        Description = "*TESTING* Nicely format a city, state, and ZIP code.";
         AddInput(new SeplistCode()
             .SetInputValue(0, "\' \'")
             .SetInputValue(1, new SeplistCode()
