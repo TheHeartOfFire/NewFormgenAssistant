@@ -22,9 +22,10 @@ namespace FormgenAssistant
 
         public MainWindow()
         {
-            VelopackApp.Build()
+                VelopackApp.Build()
         .WithFirstRun(v => MessageBox.Show("Thanks for installing my application!"))
         .Run();
+
 
             SavedItems.Settings.Load();
 			SavedItems.Templates.Templates.Load();
