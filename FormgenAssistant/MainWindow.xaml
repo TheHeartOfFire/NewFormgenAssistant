@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Pages="clr-namespace:FormgenAssistant.Pages" xmlns:local="clr-namespace:FormgenAssistant" x:Name="NavBar" x:Class="FormgenAssistant.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="575" Width="950" Background="{x:Null}" Icon="/Resources/AMLogo.ico" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" MinWidth="950" MinHeight="575">
+        Title="MainWindow" Height="575" Width="1000" Background="{x:Null}" Icon="/Resources/AMLogo.ico" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResize" MinWidth="950" MinHeight="575">
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="50" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />

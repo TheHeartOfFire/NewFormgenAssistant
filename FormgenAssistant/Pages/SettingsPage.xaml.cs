@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using FormgenAssistant.Pages;
+using System;
 
 namespace FormgenAssistant
 {
@@ -10,11 +11,14 @@ namespace FormgenAssistant
     /// </summary>
     public partial class SettingsPage : UserControl
     {
+        public event EventHandler<bool>? OnAotToggle;
+
         private static readonly Settings Settings = Settings.Instance;
+
         public SettingsPage()
         {
-            InitializeComponent(); 
-            
+            InitializeComponent();
+
             if (Settings.MailingAddress is null) return;
 
             txtName.Text = Settings.MailingAddress.Name;
@@ -22,9 +26,19 @@ namespace FormgenAssistant
             txtCity.Text = Settings.MailingAddress.City;
             txtState.Text = Settings.MailingAddress.State;
             txtZip.Text = Settings.MailingAddress.PostalCode;
-
         }
-        
+
+        private void tglAot_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (tglAot.IsOn is null) return;
+
+            bool isEnabled = (bool)tglAot.IsOn;
+            Settings.AlwaysOnTop = isEnabled;
+            Settings.Save();
+
+            OnAotToggle?.Invoke(this, isEnabled);
+        }
+
         private void tglFormCodeCAPS_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (tglFormCodeCAPS.IsOn is null) return;
@@ -35,7 +49,7 @@ namespace FormgenAssistant
 
         private void btnRevertAddress_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            if(Settings.MailingAddress is null) return;
+            if (Settings.MailingAddress is null) return;
 
             txtName.Text = Settings.MailingAddress.Name;
             txtStreet.Text = Settings.MailingAddress.Street;
