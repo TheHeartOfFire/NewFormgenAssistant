@@ -17,7 +17,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Button x:Name="btnOpen" Content="Open" HorizontalAlignment="Left" Margin="571,0,0,0" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnOpen_Click" Grid.Row="1"/>
-        <TextBox x:Name="txtFilePath" HorizontalAlignment="Left" Height="32" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="556" FontSize="18" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" IsReadOnly="True" Grid.Row="1"/>
+        <TextBox x:Name="txtFilePath" HorizontalAlignment="Left" Height="32" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="556" FontSize="18" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Grid.Row="1"/>
         <TextBox x:Name="txtUUID" HorizontalAlignment="Left" Height="32" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="350" FontSize="18" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" IsReadOnly="True" Grid.Row="3"/>
         <Label x:Name="lblUUID" Content="UUID" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Grid.Row="2"/>
         <Button x:Name="btnUUIDGen" Content="Re-Generate" HorizontalAlignment="Left" Margin="365,0,0,0" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" Click="btnUUIDGen_Click" RenderTransformOrigin="0.386,0.047" Grid.Row="3"/>

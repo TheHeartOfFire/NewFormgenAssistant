@@ -49,19 +49,19 @@ namespace FormgenAssistant.Pages
             if (dia.ShowDialog() == false) return;
 
             _filePath = dia.FileName;
-            txtFilePath.Text = _filePath[(_filePath.LastIndexOf(@"\", StringComparison.Ordinal) + 1)..];
+            txtFilePath.Text = _filePath[(_filePath.LastIndexOf(@"\", StringComparison.Ordinal) + 1)..^8];
             _file?.Load(_filePath);
             ReadXML();
             UpdatePrompts();
 
             bool isPDF = _formFile?.FormType == Format.Pdf;
 
-            if(isPDF && File.Exists(_filePath[..^7] + ".pdf"))
+            if(isPDF && File.Exists(_filePath[..^8] + ".pdf"))
             {
                 lblImageFile.Content = "PDF found";
                 hasImageFile = true;
             }
-            else if (!isPDF && File.Exists(_filePath[..^7] + ".jpg"))
+            else if (!isPDF && File.Exists(_filePath[..^8] + ".jpg"))
             {
                 lblImageFile.Content = "JPG found";
                 hasImageFile = true;
@@ -337,9 +337,13 @@ namespace FormgenAssistant.Pages
         {
             if (txtFilePath.Text == string.Empty) return;
             if (_formFile is null) return;
-            if (_file is null && _file!.Name is not null) return;
+            if (_file is null && _file!.BaseURI is not null) return;
+            var oldName = _file!.BaseURI![(_file!.BaseURI!.LastIndexOf('/') + 1)..^8];
+            var newName = txtFilePath.Text;
+            var fileDir = _file!.BaseURI!.Replace("file:///", string.Empty);
+                fileDir = fileDir[..(fileDir.LastIndexOf('/') + 1)];
             if (MessageBox.Show(
-               $"You are about to rename {_file.Name ?? "[file not found]"} to {txtFilePath.Text}. A backup will be created of your original file in case you change your mind. Do you wish to proceed?",
+               $"You are about to rename: \n\n{oldName ?? "[file not found]"} \n\nto: \n\n{txtFilePath.Text}. \n\nA backup will be created of your original file in case you change your mind. Do you wish to proceed?",
                "Save",
                MessageBoxButton.YesNo,
                MessageBoxImage.Warning) == MessageBoxResult.No) return;
@@ -350,21 +354,26 @@ namespace FormgenAssistant.Pages
             _file?.Save(_backupFilePath);
 
             _formFile!.Title = txtFilePath.Text;
-            File.Move(_file!.Name!, txtFilePath.Text);
-            if (hasImageFile)
+            var xml = _formFile?.GenerateXML();
+            if (xml != null) _file?.LoadXml(xml);
+            if (_filePath != null) _file?.Save(fileDir + oldName + ".formgen");
+
+            File.Move(fileDir + oldName + ".formgen", fileDir + newName + ".formgen");
+            if (hasImageFile && renameImage)
             {
                 if (_formFile.FormType == Format.Pdf)
                 {
-                    File.Move(_file!.Name![..^7] + ".pdf", txtFilePath.Text[..^7] + ".pdf");
+                    File.Move(fileDir + oldName + ".pdf", fileDir + newName + ".pdf");
                 }
                 else
                 {
-                    File.Move(_file!.Name![..^7] + ".jpg", txtFilePath.Text[..^7] + ".jpg");
+                    File.Move(fileDir + oldName + ".jpg", fileDir + newName + ".jpg");
                 }
             }
-            var xml = _formFile?.GenerateXML();
-            if (xml != null) _file?.LoadXml(xml);
-            if (_filePath != null) _file?.Save(_filePath);
+
+            _file?.Load(fileDir + newName + ".formgen");
+            ReadXML();
+            UpdatePrompts();
         }
 
         private void tglRenameImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
