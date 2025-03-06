@@ -48,6 +48,10 @@
             <Controls:ToggleSwitch x:Name="tglSelectOnTemplateAdded" Height="22" Width="50" BorderThickness1="5" IsOn="True" Canvas.Left="10" Canvas.Top="212" HorizontalAlignment="Center" VerticalAlignment="Top" MouseLeftButtonDown="tglSelectOnTemplateAdded_MouseLeftButtonDown"/>
             <Separator Height="2" Canvas.Left="10" Canvas.Top="201" Width="245" Background="MediumSlateBlue" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Label Content="Select new template after adding it." Background="{x:Null}" Foreground="MediumSlateBlue" Canvas.Left="65" Canvas.Top="210" Height="24" Width="198" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Always On Top" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Canvas.Left="10" Canvas.Top="248" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Controls:ToggleSwitch x:Name="tglAot" Height="22" Width="50" BorderThickness1="5" IsOn="True" Canvas.Left="10" Canvas.Top="290" HorizontalAlignment="Center" VerticalAlignment="Top" MouseLeftButtonDown="tglAot_MouseLeftButtonDown"/>
+            <Separator Height="2" Canvas.Left="10" Canvas.Top="281" Width="245" Background="MediumSlateBlue" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label Content="Force this application to remain in the foreground when not active" Background="{x:Null}" Foreground="MediumSlateBlue" Canvas.Left="65" Canvas.Top="288" Height="24" Width="381" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
 
         </Canvas>
