@@ -7,12 +7,24 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Xml;
+using static FormgenAssistant.DataTypes.DotFormgen;
 
 namespace FormgenAssistant.Pages
 {
     /// <summary>
     /// Interaction logic for PromptCopier.xaml
     /// </summary>
+    /// 
+    /*
+     * Change .formgen File Name
+     * change Form name in .formgen file
+     * check .formgen file if form is PDF or Impact
+     * if PDF, look for identically named .pdf file and rename it
+     * if impact, look for identically named .jpg file and rename it
+     * include toggle for including pdf/jpg file renaming
+     * include display for if associated image was found
+    */
+
     public partial class PromptCopier : UserControl
     {
         private XmlDocument? _file = new ();
@@ -20,6 +32,8 @@ namespace FormgenAssistant.Pages
         private string? _backupFilePath;
         private DotFormgen? _formFile;
         private static readonly string DirPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\FormgenAssistant\\FormgenBackup";
+        private bool hasImageFile = false;
+        private bool renameImage = false;
         public PromptCopier()
         {
             InitializeComponent();
@@ -35,10 +49,30 @@ namespace FormgenAssistant.Pages
             if (dia.ShowDialog() == false) return;
 
             _filePath = dia.FileName;
-            txtFilePath.Text = _filePath[(_filePath.LastIndexOf(@"\", StringComparison.Ordinal) + 1)..];
+            txtFilePath.Text = _filePath[(_filePath.LastIndexOf(@"\", StringComparison.Ordinal) + 1)..^8];
             _file?.Load(_filePath);
             ReadXML();
             UpdatePrompts();
+
+            bool isPDF = _formFile?.FormType == Format.Pdf;
+
+            if(isPDF && File.Exists(_filePath[..^8] + ".pdf"))
+            {
+                lblImageFile.Content = "PDF found";
+                hasImageFile = true;
+            }
+            else if (!isPDF && File.Exists(_filePath[..^8] + ".jpg"))
+            {
+                lblImageFile.Content = "JPG found";
+                hasImageFile = true;
+            }
+            else
+            {
+                lblImageFile.Content = "No associated image found";
+                hasImageFile = false;
+            }
+            lblRenameImage.Visibility = hasImageFile ? Visibility.Visible : Visibility.Hidden;
+            tglRenameImage.Visibility = hasImageFile ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void ReadXML()
@@ -133,6 +167,10 @@ namespace FormgenAssistant.Pages
             txtUUID.Text = string.Empty;
             _filePath = string.Empty;
             lboxPrompts.Items.Clear();
+            lblImageFile.Content = "Load File";
+            hasImageFile = false;
+            lblRenameImage.Visibility = Visibility.Hidden;
+            tglRenameImage.Visibility = Visibility.Hidden;
         }
 
         private static string CopyIncrementer(string? input)
@@ -293,6 +331,54 @@ namespace FormgenAssistant.Pages
 
             newDoc.LoadXml(recipient.GenerateXML());
             newDoc.Save(dia.FileName);
+        }
+
+        private void btnRename_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtFilePath.Text == string.Empty) return;
+            if (_formFile is null) return;
+            if (_file is null && _file!.BaseURI is not null) return;
+            var oldName = _file!.BaseURI![(_file!.BaseURI!.LastIndexOf('/') + 1)..^8];
+            var newName = txtFilePath.Text;
+            var fileDir = _file!.BaseURI!.Replace("file:///", string.Empty);
+                fileDir = fileDir[..(fileDir.LastIndexOf('/') + 1)];
+            if (MessageBox.Show(
+               $"You are about to rename: \n\n{oldName ?? "[file not found]"} \n\nto: \n\n{txtFilePath.Text}. \n\nA backup will be created of your original file in case you change your mind. Do you wish to proceed?",
+               "Save",
+               MessageBoxButton.YesNo,
+               MessageBoxImage.Warning) == MessageBoxResult.No) return;
+
+            //Create backup file
+            Directory.CreateDirectory(DirPath + "\\" + _formFile?.Settings.UUID);
+            _backupFilePath = DirPath + "\\" + _formFile?.Settings.UUID + "\\" + DateTime.Now.ToString("mm-dd-yyyy.hh-mm-ss") + ".bak";
+            _file?.Save(_backupFilePath);
+
+            _formFile!.Title = txtFilePath.Text;
+            var xml = _formFile?.GenerateXML();
+            if (xml != null) _file?.LoadXml(xml);
+            if (_filePath != null) _file?.Save(fileDir + oldName + ".formgen");
+
+            File.Move(fileDir + oldName + ".formgen", fileDir + newName + ".formgen");
+            if (hasImageFile && renameImage)
+            {
+                if (_formFile.FormType == Format.Pdf)
+                {
+                    File.Move(fileDir + oldName + ".pdf", fileDir + newName + ".pdf");
+                }
+                else
+                {
+                    File.Move(fileDir + oldName + ".jpg", fileDir + newName + ".jpg");
+                }
+            }
+
+            _file?.Load(fileDir + newName + ".formgen");
+            ReadXML();
+            UpdatePrompts();
+        }
+
+        private void tglRenameImage_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            renameImage = tglRenameImage.IsOn.HasValue ? tglRenameImage.IsOn.Value : false;
         }
     }
 }
