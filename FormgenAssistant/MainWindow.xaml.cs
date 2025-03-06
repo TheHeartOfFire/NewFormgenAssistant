@@ -18,7 +18,7 @@ namespace FormgenAssistant
     public partial class MainWindow : Window
     {
         private readonly List<UserControl> _pages = [];
-        public static UserControl NotesPage { get; private set; }
+        public static UserControl? NotesPage { get; private set; }
 
         public MainWindow()
         {
@@ -37,8 +37,10 @@ namespace FormgenAssistant
 			_pages.Add(CodeSnippets);
 			_pages.Add(Templates);
             NotesPage = Notes;
-
+            Topmost = SavedItems.Settings.Instance.AlwaysOnTop;
             _ = UpdateMyApp();
+
+            Settings.OnAotToggle += (sender, isOn) => Topmost = isOn;
 
         }
         private static async Task UpdateMyApp()

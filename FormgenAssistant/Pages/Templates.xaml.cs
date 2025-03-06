@@ -113,6 +113,7 @@ public partial class Templates : UserControl
         item.Items.Add(AddContextMenuItem(box, "A/M Mail State", "Notes:AMMailState"));
         item.Items.Add(AddContextMenuItem(box, "A/M Mail Zip", "Notes:AMMailZip"));
         item.Items.Add(AddContextMenuItem(box, "Form Name Generator", "Notes:FormNameGenerator"));
+        item.Items.Add(AddContextMenuItem(box, "Deal #", "Notes:DealNumber"));
 
         box.ContextMenu ??= new();
         box.ContextMenu.Items.Add(item);
@@ -252,7 +253,14 @@ public partial class Templates : UserControl
             case "namegen":
                 variables[i] = FileNameGenerator.FileName ?? string.Empty;
                 break;
-
+            case "dealnumber":
+            case "dealno":
+            case "deal":
+                variables[i] = Notes.SelectedNote.DealText ?? string.Empty;
+                break;
+            default:
+                variables[i] = string.Empty;
+                break;
         }
     }
 

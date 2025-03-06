@@ -293,7 +293,7 @@
             <Controls:NewTextBox x:Name="txtNotes" VerticalAlignment="Stretch" Text="" TextWrapping="Wrap" Grid.Row="7" Margin="5,5,5,0" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" OnTextChanged="txtNotes_OnTextChanged" Grid.RowSpan="3"/>
             <Controls:NewTextBox x:Name="txtCaseNo"  Text="" Grid.Row="7" Grid.Column="3" Margin="5,5,5,5" Height="40" VerticalAlignment="Top" OnTextChanged="txtCaseNo_OnTextChanged" Grid.ColumnSpan="1"/>
             <Label x:Name="lblCaseNo" Content="Test Deal" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="6" Grid.Column="4"/>
-            <Controls:NewTextBox x:Name="txtDeal"  Text="" Grid.Row="7" Grid.Column="4" Margin="5,5,5,5" Height="40" VerticalAlignment="Top" OnTextChanged="txtCaseNo_OnTextChanged" Grid.ColumnSpan="2"/>
+            <Controls:NewTextBox x:Name="txtDeal"  Text="" Grid.Row="7" Grid.Column="4" Margin="5,5,5,5" Height="40" VerticalAlignment="Top" OnTextChanged="txtDeal_OnTextChanged" Grid.ColumnSpan="2"/>
             <Label x:Name="lblDeal" Content="Case #" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="6" Grid.Column="3"/>
             <Controls:NewTextBox x:Name="txtForms"  Text="" Grid.Row="9" Grid.Column="3" Margin="5,0,5,0" VerticalAlignment="Center" OnTextChanged="txtForms_OnTextChanged" Grid.ColumnSpan="3"/>
             <Label x:Name="lblForms" Content="Form(s)" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="8" Grid.Column="3"/>
