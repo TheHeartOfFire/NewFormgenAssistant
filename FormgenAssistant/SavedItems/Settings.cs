@@ -10,6 +10,7 @@ namespace FormgenAssistant.SavedItems
         //Serializable Properties
         public bool NotesCopyAll { get; set; }
         public bool SelectNewTemplate { get; set; }
+        public bool AlwaysOnTop { get; set; }
         public Address? MailingAddress { get; set; }
 
         public class Address(string name, string address, string city, string state, string zip)
@@ -53,6 +54,7 @@ namespace FormgenAssistant.SavedItems
         [JsonIgnore]
         private static readonly Settings DefaultSettings = new()
         {
+            AlwaysOnTop = false,
             NotesCopyAll = true,
             MailingAddress = new Address("Attn: A/M Forms (Sue)", 
                                          "131 Griffis Rd", 
@@ -63,8 +65,9 @@ namespace FormgenAssistant.SavedItems
         private static readonly string FilePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\FormgenAssistant";
         private static readonly string FileName = FilePath + "\\Settings.json";
         [JsonConstructor]
-        public Settings(bool notesCopyAll, Address mailingAddress)
+        public Settings(bool notesCopyAll, bool alwaysOnTop, Address mailingAddress)
         {
+            AlwaysOnTop = alwaysOnTop;
             NotesCopyAll = notesCopyAll;
             MailingAddress = mailingAddress;
         }
