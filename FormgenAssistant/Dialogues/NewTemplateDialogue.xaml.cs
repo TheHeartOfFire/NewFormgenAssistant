@@ -139,6 +139,7 @@ namespace FormgenAssistant.Dialogues
             item.Items.Add(AddContextMenuItem(box, "A/M Mail State", "Notes:AMMailState"));
             item.Items.Add(AddContextMenuItem(box, "A/M Mail Zip", "Notes:AMMailZip"));
             item.Items.Add(AddContextMenuItem(box, "Form Name Generator", "Notes:FormNameGenerator"));
+            item.Items.Add(AddContextMenuItem(box, "Deal #", "Notes:DealNumber"));
 
             box.ContextMenu ??= new();
             box.ContextMenu.Items.Add(item);

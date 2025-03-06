@@ -3,6 +3,7 @@ using FormgenAssistant.SavedItems;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -232,12 +233,11 @@ namespace FormgenAssistant.Pages
 
         private void TabControlContextMenuClose(object sender, RoutedEventArgs e)
         {
-            var tab = ((MenuItem)sender).Parent;
             var selected = GetSelected(NotesList);
             if (selected is null) return;
 
-            tcTabs.Items.Remove(tab);
-            NotesList.RemoveAll(x => x.TabItem == tab);
+            tcTabs.Items.Remove(selected.TabItem);
+            NotesList.RemoveAll(x => x.TabItem == selected.TabItem);
             NotesList[0].TabItem.IsSelected = true;
             ToggleClose();
         }
@@ -255,7 +255,7 @@ namespace FormgenAssistant.Pages
             txtDeal.Text = info.DealText ?? string.Empty;
             var phone = info.Phone?.Split('x');
             txtPhone.Text = phone is not null ? phone[0] : string.Empty;
-            txtPhoneExt.Text = phone is not null ? phone[1] : string.Empty;
+            txtPhoneExt.Text = phone is not null && phone.Length > 1 ? phone[1] : string.Empty;
 
             Notes.SelectedNote = info;
         }

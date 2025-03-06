@@ -89,7 +89,7 @@ public partial class Templates : UserControl
         return box;
     }
 
-    private void GenerateContextMenu(NewTextBox box)
+    private static void GenerateContextMenu(NewTextBox box)
     {
         var item = new MenuItem
         {
@@ -231,22 +231,22 @@ public partial class Templates : UserControl
                 break;
 
             case "ammailingaddress":
-                variables[i] = Settings.Instance.MailingAddress.Print() ?? string.Empty;
+                variables[i] = Settings.Instance.MailingAddress?.Print() ?? string.Empty;
                 break;
             case "ammailname":
-                variables[i] = Settings.Instance.MailingAddress.Name ?? string.Empty;
+                variables[i] = Settings.Instance.MailingAddress?.Name ?? string.Empty;
                 break;
             case "ammailstreet":
-                variables[i] = Settings.Instance.MailingAddress.Street ?? string.Empty;
+                variables[i] = Settings.Instance.MailingAddress?.Street ?? string.Empty;
                 break;
             case "ammailcity":
-                variables[i] = Settings.Instance.MailingAddress.City ?? string.Empty;
+                variables[i] = Settings.Instance.MailingAddress?.City ?? string.Empty;
                 break;
             case "ammailstate":
-                variables[i] = Settings.Instance.MailingAddress.State ?? string.Empty;
+                variables[i] = Settings.Instance.MailingAddress?.State ?? string.Empty;
                 break;
             case "ammailzip":
-                variables[i] = Settings.Instance.MailingAddress.PostalCode ?? string.Empty;
+                variables[i] = Settings.Instance.MailingAddress?.PostalCode ?? string.Empty;
                 break;
             case "formnamegenerator":
             case "namegenerator":
