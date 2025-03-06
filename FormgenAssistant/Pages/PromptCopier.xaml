@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FormgenAssistant.Pages"
              xmlns:Controls="clr-namespace:FormgenAssistant.Controls" xmlns:Collections="clr-namespace:System.Collections;assembly=System.Runtime" x:Class="FormgenAssistant.Pages.PromptCopier"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="950">
     <Grid Background="#FF0F0B1E">
         <Grid.RowDefinitions>
             <RowDefinition Height="25" MinHeight="25" MaxHeight="25"/>
@@ -46,6 +46,10 @@
             </MenuItem>
 
         </Menu>
+        <Button x:Name="btnRename" Content="Rename" Margin="721,0,0,0" VerticalAlignment="Bottom" Background="{x:Null}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" FontSize="18" Height="32" HorizontalAlignment="Left" Grid.Row="1" Click="btnRename_Click"/>
+        <Label x:Name="lblImageFile" Content="Load File" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{x:Null}" Foreground="MediumSlateBlue" Grid.Row="1" Margin="795,0,0,0" FontSize="10"/>
+        <Controls:ToggleSwitch x:Name="tglRenameImage" HorizontalAlignment="Left" Margin="870,4,0,0" VerticalAlignment="Top" Height="18" Width="45" MouseLeftButtonDown="tglRenameImage_MouseLeftButtonDown" Grid.Row="1" Visibility="Hidden"/>
+        <Label x:Name="lblRenameImage" Content="Rename Image" HorizontalAlignment="Left" VerticalAlignment="Top" Background="{x:Null}" Foreground="MediumSlateBlue" Grid.Row="1" Margin="795,0,0,0" FontSize="10" Visibility="Hidden"/>
 
     </Grid>
 </UserControl>
