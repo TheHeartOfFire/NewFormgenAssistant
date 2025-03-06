@@ -232,11 +232,12 @@ namespace FormgenAssistant.Pages
 
         private void TabControlContextMenuClose(object sender, RoutedEventArgs e)
         {
+            var tab = ((MenuItem)sender).Parent;
             var selected = GetSelected(NotesList);
             if (selected is null) return;
 
-            tcTabs.Items.Remove(selected.TabItem);
-            NotesList.Remove(selected);
+            tcTabs.Items.Remove(tab);
+            NotesList.RemoveAll(x => x.TabItem == tab);
             NotesList[0].TabItem.IsSelected = true;
             ToggleClose();
         }
@@ -248,11 +249,13 @@ namespace FormgenAssistant.Pages
             txtDealer.Text = info.Dealership ?? string.Empty;
             txtName.Text = info.ContactName ?? string.Empty;
             txtEmail.Text = info.Email ?? string.Empty;
-            txtPhone.Text = info.Phone ?? string.Empty;
             txtNotes.Text = info.NotesText ?? string.Empty;
             txtCaseNo.Text = info.CaseText ?? string.Empty;
             txtForms.Text = info.FormsText ?? string.Empty;
             txtDeal.Text = info.DealText ?? string.Empty;
+            var phone = info.Phone?.Split('x');
+            txtPhone.Text = phone is not null ? phone[0] : string.Empty;
+            txtPhoneExt.Text = phone is not null ? phone[1] : string.Empty;
 
             Notes.SelectedNote = info;
         }
