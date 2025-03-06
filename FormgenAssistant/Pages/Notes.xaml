@@ -45,7 +45,7 @@
                                 <Border x:Name="innerBorder" Background="{StaticResource TabItem.Selected.Background}" BorderBrush="{StaticResource TabItem.Selected.Border}" BorderThickness="1,1,1,0" Margin="-1" Opacity="0"/>
                             </Border>
                             <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-                            
+
                         </Grid>
                         <ControlTemplate.Triggers>
                             <MultiDataTrigger>
@@ -298,6 +298,7 @@
             <Controls:NewTextBox x:Name="txtForms"  Text="" Grid.Row="9" Grid.Column="3" Margin="5,0,5,0" VerticalAlignment="Center" OnTextChanged="txtForms_OnTextChanged" Grid.ColumnSpan="3"/>
             <Label x:Name="lblForms" Content="Form(s)" HorizontalAlignment="Left" VerticalAlignment="Center" Background="{x:Null}" Foreground="MediumSlateBlue" FontSize="20" Margin="10,0,0,0" Height="37" Grid.Row="8" Grid.Column="3"/>
             <Button x:Name="btnNameGen" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Name Gen" VerticalAlignment="Center" HorizontalAlignment="Left" Height="25" Click="btnNameGen_Click" Grid.Row="8" Grid.Column="4" IsTabStop="False"/>
+            <Button x:Name="btnLoad" Style="{DynamicResource ButtonStyle1}" BorderBrush="MediumSlateBlue" Foreground="MediumSlateBlue" Background="{x:Null}" Content="Load" VerticalAlignment="Center" HorizontalAlignment="Right" Width="50" Height="25" Click="btnLoad_Click" Grid.Row="10" Grid.Column="4" IsTabStop="False" Margin="0,0,5,0"/>
 
         </Grid>
         <TabControl Name="tcTabs" Grid.Row="0" Background="#FF0F0B1E" BorderBrush="#FF0F0B1E" SelectionChanged="tcTabs_SelectionChanged">
