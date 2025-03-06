@@ -75,7 +75,7 @@ namespace FormgenAssistant
             Settings.Save();
         }
 
-        private async Task btnUpdateFGA_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void btnUpdateFGA_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var mgr = new UpdateManager(new GithubSource("https://github.com/TheHeartOfFire/NewFormgenAssistant", null, false));
 
