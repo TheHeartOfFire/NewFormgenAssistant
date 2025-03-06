@@ -3,6 +3,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using FormgenAssistant.Pages;
 using System;
+using System.Threading.Tasks;
+using Velopack.Sources;
+using Velopack;
 
 namespace FormgenAssistant
 {
@@ -70,6 +73,22 @@ namespace FormgenAssistant
 
             Settings.SelectNewTemplate = (bool)tglSelectOnTemplateAdded.IsOn;
             Settings.Save();
+        }
+
+        private async Task btnUpdateFGA_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var mgr = new UpdateManager(new GithubSource("https://github.com/TheHeartOfFire/NewFormgenAssistant", null, false));
+
+            // check for new version
+            var newVersion = await mgr.CheckForUpdatesAsync();
+            if (newVersion == null)
+                return; // no update available
+
+            // download new version
+            await mgr.DownloadUpdatesAsync(newVersion);
+
+            // install new version and restart app
+            mgr.ApplyUpdatesAndRestart(newVersion);
         }
     }
 }
