@@ -11,6 +11,7 @@
     <AssemblyVersion>1.7.15</AssemblyVersion>
     <FileVersion>$(assemblyversion)</FileVersion>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <RootNamespace>FormgenAssistant</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
